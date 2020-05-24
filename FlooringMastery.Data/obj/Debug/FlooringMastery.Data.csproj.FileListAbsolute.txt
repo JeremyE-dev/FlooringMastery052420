@@ -1,0 +1,5 @@
+C:\Users\Jeremy\source\repos\FlooringMastery.Data\bin\Debug\FlooringMastery.Data.dll
+C:\Users\Jeremy\source\repos\FlooringMastery.Data\bin\Debug\FlooringMastery.Data.pdb
+C:\Users\Jeremy\source\repos\FlooringMastery.Data\obj\Debug\FlooringMastery.Data.csprojAssemblyReference.cache
+C:\Users\Jeremy\source\repos\FlooringMastery.Data\obj\Debug\FlooringMastery.Data.dll
+C:\Users\Jeremy\source\repos\FlooringMastery.Data\obj\Debug\FlooringMastery.Data.pdb
