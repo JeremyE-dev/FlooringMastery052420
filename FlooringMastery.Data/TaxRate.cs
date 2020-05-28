@@ -13,7 +13,7 @@ namespace FlooringMastery.Data
         public string StateAbbreviation
         {
             get { return _stateAbbreviation; }
-            set { _stateAbbreviation = StateAbbreviation; }
+            set { _stateAbbreviation = value; }
         }
         
         private string _stateName;
@@ -21,7 +21,7 @@ namespace FlooringMastery.Data
         public string StateName
         {
             get { return _stateName; }
-            set { _stateName = StateName; }
+            set { _stateName = value; }
         }
         
         private decimal _rate;
@@ -29,7 +29,7 @@ namespace FlooringMastery.Data
         public decimal Rate
         { 
             get {return _rate; } 
-            set {_rate = Rate; } 
+            set {_rate = value; } 
         }
 
 }

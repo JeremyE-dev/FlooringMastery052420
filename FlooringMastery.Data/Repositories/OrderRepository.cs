@@ -14,41 +14,37 @@ namespace FlooringMastery.Data
         public string Path
         {
             get { return _path; }
-            set { _path = Path; }
+            set { _path = value; }
         }
 
+        public List<Order> MainOrderLIst { get; set; } = new List<Order>();
 
-        private List<Order> _orderList = new List<Order>();
-
-        public List<Order> OrderList
-        { 
-            get { return _orderList; } 
-            set { _orderList = OrderList; } 
-        }
+        public List<Order> SalesDayOrderList { get; set; } = new List<Order>();
         public OrderRepository()
         {
 
-            ReadOrderFile();
+            ReadMainOrderFile();
         }
 
         public OrderRepository(string path)
         {
             _path = path;
-            ReadOrderFile();
+            ReadMainOrderFile();
         }
 
-        public void ReadOrderFile()
+        //Reads MainOrder File, places contents into the OrderList
+        public void ReadMainOrderFile()
         {
 
 
             try
             {
                 string[] rows = File.ReadAllLines(_path);
-                for (int i = 1; i < rows.Length; i++) //each row of file
+                for (int i = 1; i < rows.Length; i++)
                 {
+                    string[] columns = rows[i].Split(',');
                     Order o = new Order();
-                    string[] columns = rows[i].Split(',');//12 fields 0-11
-                    o.OrderNumber = Int32.Parse(columns[0]);
+                    o.OrderNumber = Int32.Parse(columns[0]);               
                     o.CustomerName = columns[1];
                     o.State = columns[2];
                     o.TaxRate = Decimal.Parse(columns[3]);
@@ -59,13 +55,15 @@ namespace FlooringMastery.Data
                     o.MaterialCost = Decimal.Parse(columns[8]);
                     o.LaborCost = Decimal.Parse(columns[9]);
                     o.Tax = Decimal.Parse(columns[10]);
-                    o.Total= Decimal.Parse(columns[11]);
-                    
-                    _orderList.Add(o);
+                    o.Total = Decimal.Parse(columns[11]);
+
+                    MainOrderLIst.Add(o);
 
                 }
 
+
             }
+
             catch (Exception e)
             {
                 Console.Write("There was a error the File System (ReadOrderFile), Contact IT");
@@ -75,10 +73,27 @@ namespace FlooringMastery.Data
                 System.Environment.Exit(0);
 
             }
+
+            
         }
 
+        public void printOrders()
+        {
+            foreach (var item in MainOrderLIst)
+            {
+                Console.WriteLine("{0}{1}{2}{3}{4}{5}{6}{7}{8}{9}{10}{11}"
+                    , item.OrderNumber, item.CustomerName, item.State, item.TaxRate, item.ProductType, item.Area,
+                    item.CostPerSquareFoot, item.LaborCostPerSquareFoot, item.MaterialCost, item.LaborCost, item.Tax,
+                    item.Total);
+            }
+        }
 
+        //
+        public void CreateSalesDayOrderList()
+        {
+            //each time this application is run - get the date from the system
 
+        }
 
 
 

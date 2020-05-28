@@ -7,3 +7,12 @@ C:\Users\Jeremy\source\repos\FlooringMastery\obj\Debug\FlooringMastery.UI.csproj
 C:\Users\Jeremy\source\repos\FlooringMastery\obj\Debug\FlooringMastery.UI.csproj.CopyComplete
 C:\Users\Jeremy\source\repos\FlooringMastery\obj\Debug\FlooringMastery.exe
 C:\Users\Jeremy\source\repos\FlooringMastery\obj\Debug\FlooringMastery.pdb
+C:\Users\Jeremy\source\repos\FlooringMastery052420\FlooringMastery\bin\Debug\FlooringMastery.exe.config
+C:\Users\Jeremy\source\repos\FlooringMastery052420\FlooringMastery\bin\Debug\FlooringMastery.exe
+C:\Users\Jeremy\source\repos\FlooringMastery052420\FlooringMastery\bin\Debug\FlooringMastery.pdb
+C:\Users\Jeremy\source\repos\FlooringMastery052420\FlooringMastery\bin\Debug\FlooringMastery.Data.dll
+C:\Users\Jeremy\source\repos\FlooringMastery052420\FlooringMastery\bin\Debug\FlooringMastery.Data.pdb
+C:\Users\Jeremy\source\repos\FlooringMastery052420\FlooringMastery\obj\Debug\FlooringMastery.UI.csprojAssemblyReference.cache
+C:\Users\Jeremy\source\repos\FlooringMastery052420\FlooringMastery\obj\Debug\FlooringMastery.UI.csproj.CopyComplete
+C:\Users\Jeremy\source\repos\FlooringMastery052420\FlooringMastery\obj\Debug\FlooringMastery.exe
+C:\Users\Jeremy\source\repos\FlooringMastery052420\FlooringMastery\obj\Debug\FlooringMastery.pdb

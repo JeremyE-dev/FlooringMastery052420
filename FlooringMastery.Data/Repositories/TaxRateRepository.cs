@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace FlooringMastery.Data
 {
     
-    class TaxRateRepository
+    public class TaxRateRepository
     {
         private string _path = "C:/Users/Jeremy/source/repos/FlooringMastery.Data/Taxes.txt";
 
@@ -17,13 +17,7 @@ namespace FlooringMastery.Data
             set { _path = Path; }
         }
 
-
-        private List<TaxRate> _taxRateList = new List<TaxRate>();
-
-        public List<TaxRate> TaxRateList 
-        { 
-            get {return _taxRateList; } 
-        }
+        public List<TaxRate> TaxRateList { get; } = new List<TaxRate>();
 
 
         public TaxRateRepository()
@@ -54,7 +48,7 @@ namespace FlooringMastery.Data
                     t.StateAbbreviation = columns[0];
                     t.StateName = columns[1];
                     t.Rate = Decimal.Parse(columns[2]);
-                    _taxRateList.Add(t);
+                    TaxRateList.Add(t);
 
                 }
             
@@ -76,6 +70,14 @@ namespace FlooringMastery.Data
             TaxRate result = TaxRateList.Find(x => x.StateAbbreviation.Contains(stateabbreviation));
 
             return result.Rate;
+        }
+
+        public void printTaxRates()
+        {
+            foreach (var item in TaxRateList)
+            {
+                Console.WriteLine("{0}{1}{2}", item.StateAbbreviation, item.StateName, item.Rate);
+            }
         }
     }
 

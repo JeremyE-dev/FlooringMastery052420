@@ -7,22 +7,17 @@ using System.Threading.Tasks;
 
 namespace FlooringMastery.Data
 {
-    class ProductRepository
+    public class ProductRepository
     {
         private string _path = "C:/Users/Jeremy/source/repos/FlooringMastery.Data/Products.txt";
         public string Path
         {
             get { return _path; }
-            set { _path = Path; }
+            set { _path = value; }
         }
 
-
-        List<Product> _productList = new List<Product>();
-        
-        public List<Product> ProductList
-        {
-            get { return _productList; }
-        }
+        //should this be public with privat ebacking field?
+        public List<Product> ProductList { get; set; } = new List<Product>();
 
         public ProductRepository()
         {
@@ -42,7 +37,7 @@ namespace FlooringMastery.Data
 
             try
             {
-                string[] rows = File.ReadAllLines(_path);
+                string[] rows = File.ReadAllLines(Path);
                 for (int i = 1; i < rows.Length; i++) //each row of file
                 {
                     Product p = new Product();
@@ -50,7 +45,7 @@ namespace FlooringMastery.Data
                     p.ProductType = columns[0];
                     p.CostPerSquareFoot = Decimal.Parse(columns[1]);
                     p.LaborCostPerSquareFoot = Decimal.Parse(columns[2]);
-                    _productList.Add(p);
+                    ProductList.Add(p);
 
                 }
 
@@ -62,6 +57,15 @@ namespace FlooringMastery.Data
                 Console.WriteLine("Press Any Key to Exit");
                 Console.ReadKey();
                 System.Environment.Exit(0);
+
+            }
+        }
+
+        public void printProductsList()
+        {
+            foreach (var item in ProductList)
+            {
+                Console.WriteLine("{0}, {1}, {2}", item.ProductType, item.CostPerSquareFoot, item.LaborCostPerSquareFoot);
 
             }
         }

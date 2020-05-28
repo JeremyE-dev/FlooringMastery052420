@@ -6,20 +6,20 @@ using System.Threading.Tasks;
 
 namespace FlooringMastery.Data
 {
-    class Product
+    public class Product
     {
         string _productType;
         public string ProductType 
         { 
             get { return _productType; } 
-            set { _productType = ProductType; } 
+            set { _productType = value; } 
         }
         
         decimal _costPerSquareFoot;
         public decimal CostPerSquareFoot
         {
             get { return _costPerSquareFoot; }
-            set { _costPerSquareFoot = CostPerSquareFoot; }
+            set { _costPerSquareFoot = value; }
         }
 
         decimal _laborCostPerSquareFoot;
@@ -27,7 +27,7 @@ namespace FlooringMastery.Data
         public decimal LaborCostPerSquareFoot 
         { 
             get {return _laborCostPerSquareFoot; } 
-            set {_laborCostPerSquareFoot = LaborCostPerSquareFoot; } 
+            set {_laborCostPerSquareFoot = value; } 
         }
     }
 }

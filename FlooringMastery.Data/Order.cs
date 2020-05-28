@@ -13,7 +13,17 @@ namespace FlooringMastery.Data
         public int OrderNumber
         { 
             get { return _orderNumber; } 
-            set {_orderNumber = OrderNumber; } 
+            set {_orderNumber = value; } 
+        }
+
+        DateTime _orderDate;
+
+        public DateTime OrderDate
+        {
+            get { return _orderDate; }
+
+            set { _orderDate = value; }
+
         }
 
         string _customerName;
@@ -21,15 +31,15 @@ namespace FlooringMastery.Data
         public string CustomerName 
         { 
             get { return _customerName; } 
-            set {_customerName = CustomerName; } 
+            set {_customerName = value; } 
         }
                      
-        string _state;
+        States _state;
 
-        public string State 
+        public States State 
         { 
             get {return _state ; } 
-            set {_state = State; } 
+            set {_state = value; } 
         }
 
         decimal _taxRate;
@@ -37,7 +47,7 @@ namespace FlooringMastery.Data
         public decimal TaxRate 
         { 
             get {return _taxRate; } 
-            set { _taxRate = TaxRate; } 
+            set { _taxRate = value; } 
         }
 
 
@@ -46,7 +56,7 @@ namespace FlooringMastery.Data
         public string ProductType
         {
             get { return _productType; }
-            set { _productType = ProductType; }
+            set { _productType = value; }
         }
 
         decimal _area;
@@ -54,7 +64,7 @@ namespace FlooringMastery.Data
         public decimal Area 
         { 
             get { return _area; } 
-            set { _area = Area; } 
+            set { _area = value; } 
         }
 
         decimal _costPerSquareFoot;
@@ -62,7 +72,7 @@ namespace FlooringMastery.Data
         public decimal CostPerSquareFoot 
         { 
             get { return _costPerSquareFoot; } 
-            set{ _costPerSquareFoot = CostPerSquareFoot; }
+            set{ _costPerSquareFoot = value; }
         }
         
         decimal _laborCostPerSquareFoot;
@@ -70,15 +80,15 @@ namespace FlooringMastery.Data
         public decimal LaborCostPerSquareFoot 
         { 
            get {return _laborCostPerSquareFoot; } 
-           set {_laborCostPerSquareFoot = LaborCostPerSquareFoot; } 
+           set {_laborCostPerSquareFoot = value; } 
         }
         
         decimal _materialCost;
 
         public decimal MaterialCost 
         { 
-            get { return MaterialCost; } 
-            set { _materialCost = MaterialCost; } 
+            get { return _materialCost; } 
+            set { _materialCost = value; } 
         }
 
         decimal _laborCost;
@@ -86,7 +96,7 @@ namespace FlooringMastery.Data
         public decimal LaborCost 
         { 
             get { return _laborCost; } 
-            set { _laborCost = LaborCost; } 
+            set { _laborCost = value; } 
         }
 
         decimal _tax;
@@ -94,13 +104,13 @@ namespace FlooringMastery.Data
         public decimal Tax 
         { 
             get { return _tax; }  
-            set { _tax = Tax; } 
+            set { _tax = value; } 
         }
         decimal _total;
 
         public decimal Total 
         { 
             get { return _total; }  
-            set { _total = Total; } }
+            set { _total = value; } }
     }
 }
