@@ -1,0 +1,5 @@
+C:\Users\Jeremy\source\repos\FlooringMastery052420\FlooringMastery.BLL\bin\Debug\FlooringMastery.BLL.dll
+C:\Users\Jeremy\source\repos\FlooringMastery052420\FlooringMastery.BLL\bin\Debug\FlooringMastery.BLL.pdb
+C:\Users\Jeremy\source\repos\FlooringMastery052420\FlooringMastery.BLL\obj\Debug\FlooringMastery.BLL.csprojAssemblyReference.cache
+C:\Users\Jeremy\source\repos\FlooringMastery052420\FlooringMastery.BLL\obj\Debug\FlooringMastery.BLL.dll
+C:\Users\Jeremy\source\repos\FlooringMastery052420\FlooringMastery.BLL\obj\Debug\FlooringMastery.BLL.pdb

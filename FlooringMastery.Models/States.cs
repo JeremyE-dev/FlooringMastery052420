@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FlooringMastery.Data
+namespace FlooringMastery.Models
 {
     public enum States
     {

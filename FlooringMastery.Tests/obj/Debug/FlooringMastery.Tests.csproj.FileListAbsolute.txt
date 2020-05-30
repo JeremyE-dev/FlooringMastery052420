@@ -1,0 +1,5 @@
+C:\Users\Jeremy\source\repos\FlooringMastery052420\FlooringMastery.Tests\bin\Debug\FlooringMastery.Tests.dll
+C:\Users\Jeremy\source\repos\FlooringMastery052420\FlooringMastery.Tests\bin\Debug\FlooringMastery.Tests.pdb
+C:\Users\Jeremy\source\repos\FlooringMastery052420\FlooringMastery.Tests\obj\Debug\FlooringMastery.Tests.csprojAssemblyReference.cache
+C:\Users\Jeremy\source\repos\FlooringMastery052420\FlooringMastery.Tests\obj\Debug\FlooringMastery.Tests.dll
+C:\Users\Jeremy\source\repos\FlooringMastery052420\FlooringMastery.Tests\obj\Debug\FlooringMastery.Tests.pdb

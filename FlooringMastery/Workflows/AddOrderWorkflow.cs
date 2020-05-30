@@ -1,9 +1,12 @@
 ﻿using FlooringMastery.Data;
+using FlooringMastery.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
 
 namespace FlooringMastery.Workflows
 {
@@ -18,10 +21,61 @@ namespace FlooringMastery.Workflows
 
         //takes in user input and returns an order
         //calculates 
-        
+
         //gets date from user
         //validates date
         //returns DateTime object of future Date
+
+
+
+        OrderRepository _orderRepo;
+
+        public OrderRepository OrderRepo 
+        { 
+            get {return _orderRepo; } 
+            set {_orderRepo = value; } 
+        }
+
+        ProductRepository _productRepo;
+
+        public ProductRepository ProductRepo 
+        {
+            get {return _productRepo; } 
+            set {_productRepo = value; }
+        }
+        
+        TaxRateRepository _taxRateRepo;
+
+        public TaxRateRepository TaxRateRepo
+        {
+            get {return _taxRateRepo; }
+            set { _taxRateRepo = value; } 
+        
+        }
+
+
+        Order _newOrder;
+
+        public Order NewOrder 
+        { 
+            get { return _newOrder; } 
+            set {_newOrder = value; } }
+
+
+
+        public AddOrderWorkflow()
+        {
+            
+            _productRepo = new ProductRepository();
+            _taxRateRepo = new TaxRateRepository();
+            _orderRepo = new OrderRepository();
+            _newOrder = new Order();
+
+        }
+
+        //used in: calculateMaterialCost method
+        //set by getProduct from user
+        Product productFromUser;
         public DateTime GetDateFromUser()
         {
             while (true)
@@ -168,6 +222,8 @@ namespace FlooringMastery.Workflows
 
                 }
 
+                productFromUser = productToReturn;
+
                 return productToReturn;
 
             }
@@ -187,18 +243,32 @@ namespace FlooringMastery.Workflows
                 Console.WriteLine("Please enter flooring area: ");
                 string userInput = Console.ReadLine();
                 decimal output;
-
+              
                 if (!Decimal.TryParse(userInput, out output))
                 {
                     Console.WriteLine("Invalid Entry: Area must be a decimal");
                     Console.WriteLine("press any key to continue");
                     Console.ReadKey();
-                    
+                    continue;
 
                 }
 
-                //Start Here 5/29/20
-                //validate inout is positive and over 100
+                else if (Decimal.TryParse(userInput, out output))
+                {
+                    if(output <=100)
+                    {
+                        Console.WriteLine("Invalid Entry: Area must greater than 100");
+                        Console.WriteLine("press any key to continue");
+                        Console.ReadKey();
+                        continue;
+                    }
+
+                }
+
+                else
+                {
+                    return decimal.Parse(userInput);
+                }
 
             }
 
@@ -209,29 +279,70 @@ namespace FlooringMastery.Workflows
 
         public Order CreateOrderFromInput()
         {
+            // generate new order when instantiated and save order in a field
         
-            Order newOrder = new Order();
-            newOrder.OrderDate = GetDateFromUser();
-            newOrder.CustomerName = GetNameFromUser();
-            newOrder.State = GetStateFromUser();
-            newOrder.ProductType = GetProductFromUser().ProductType;
-
-
-            Console.WriteLine();
             
-           
+            //From userinput
+            NewOrder.OrderDate = GetDateFromUser();
+            NewOrder.CustomerName = GetNameFromUser();
+            NewOrder.State = GetStateFromUser();
+            NewOrder.ProductType = GetProductFromUser().ProductType;
+            NewOrder.Area = GetAreaFromUser();
+            
+            //calculated fields
+            NewOrder.MaterialCost = CalculateMaterialCost(NewOrder);
+            NewOrder.LaborCost = CalculateLaborCost(NewOrder);
+            NewOrder.Tax = CalculateTax(NewOrder);
+            NewOrder.Total = CalculateTotal(NewOrder);
+
+            return NewOrder;         
           
-          
-            // productType - must enter a product type that is on file
-            throw new NotImplementedException();
         }
+        //material cost = Area* CostPerSquareFoot
+        public decimal CalculateMaterialCost(Order o)
+        {
+            decimal materialCost = o.Area * productFromUser.CostPerSquareFoot;
+            return materialCost;
 
-        //checks for valid input type - helper maybe put in workflow helper folder
+        }
+        //LaborCost = Area * LaborCostPerSquareFoot
+        public decimal CalculateLaborCost(Order o)
+        {
+            decimal laborCost = o.CostPerSquareFoot * productFromUser.LaborCostPerSquareFoot;
+            return laborCost;
 
-        public void ValidateUserInput()
+        }
+       
+        
+        //Tax = ((MaterialCost + LaborCost) * (TaxRate/100)) *** Tax rates stored as whole numbers
+        public decimal CalculateTax(Order o)
         {
 
+            return (CalculateMaterialCost(o) + CalculateLaborCost(o)) * (GetTaxRate(o));
+
+
         }
+
+        //get tax rate for the state given by the user 
+        public decimal GetTaxRate(Order o)
+        {
+            //state given by user i know it is a valid state because the state I am using was validated //
+            //when enetered by user
+            string state = o.State.ToString();
+            TaxRate result = TaxRateRepo.TaxRateList.Find(x => x.StateAbbreviation.Contains(state));
+            return result.Rate / 100;
+            
+        }
+
+        
+        //Total = (MaterialCost + LaborCost + Tax)
+        public decimal CalculateTotal(Order o)
+        {
+            decimal result = CalculateMaterialCost(o) + CalculateLaborCost(o) + CalculateTax(o);
+            return result;
+        }
+
+
 
         //takes in date checks if file with date exists
         //if it does not exist, a file is created
@@ -248,18 +359,26 @@ namespace FlooringMastery.Workflows
 
         }
 
+        //add one order to the mainlist (existing file)
+
         public void AddOrderToMainOrdersList()
         {
+            //add try/catch
+            
+            string path = _orderRepo.Path;
 
-        }
+            string order = NewOrder.OrderToLineInFile();
 
-        public void ValidateDate(string userinput)
-        {
-            while(true)
+         
+            using(StreamWriter writer = File.AppendText(path))
             {
-
+                writer.WriteLine(order);
+                
             }
+
         }
+
+    
 
 
         

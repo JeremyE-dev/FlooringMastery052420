@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FlooringMastery.Models;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -46,7 +47,7 @@ namespace FlooringMastery.Data
                     Order o = new Order();
                     o.OrderNumber = Int32.Parse(columns[0]);               
                     o.CustomerName = columns[1];
-                    o.State = columns[2];
+                    o.State = ConvertToStateEnum(columns[2]); //convert to enum
                     o.TaxRate = Decimal.Parse(columns[3]);
                     o.ProductType = columns[4];
                     o.Area = Decimal.Parse(columns[5]);
@@ -93,6 +94,37 @@ namespace FlooringMastery.Data
         {
             //each time this application is run - get the date from the system
 
+        }
+
+        public States ConvertToStateEnum(string s)
+        {
+            States output;
+            
+            if(String.IsNullOrEmpty(s))
+            {
+                Console.WriteLine("Error: the state field was null or empty, please contact IT");
+                Console.WriteLine("Press any key to exit");
+                Console.ReadKey();
+                Environment.Exit(0);
+
+            }
+
+            if(Enum.TryParse(s, out output))
+            {
+                return output;
+            }
+
+            else
+            {
+                Console.WriteLine("Error: could not parse state field or order, please contact IT");
+                Console.WriteLine("Press any key to exit");
+                Console.ReadKey();
+                Environment.Exit(0);
+            }
+
+            return output;
+            
+        
         }
 
 

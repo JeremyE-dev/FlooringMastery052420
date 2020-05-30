@@ -60,6 +60,10 @@
       <Project>{cc7c2f7a-3d13-475c-840a-ec7e1daf4905}</Project>
       <Name>FlooringMastery.Data</Name>
     </ProjectReference>
+    <ProjectReference Include="..\FlooringMastery.Models\FlooringMastery.Models.csproj">
+      <Project>{b672e005-944a-4db6-a1ea-e8c1eed5432b}</Project>
+      <Name>FlooringMastery.Models</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

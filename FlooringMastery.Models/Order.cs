@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FlooringMastery.Data
+namespace FlooringMastery.Models
 {
     public class Order
     {
@@ -111,6 +111,21 @@ namespace FlooringMastery.Data
         public decimal Total 
         { 
             get { return _total; }  
-            set { _total = value; } }
+            set { _total = value; }
+        }
+
+        //does not include order date because that is indicated by file name
+        public string OrderToLineInFile()
+        {
+            string result =string.Format("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11}",OrderNumber, CustomerName, State.ToString(),
+                TaxRate.ToString(), ProductType.ToString(), Area.ToString(), CostPerSquareFoot.ToString(),
+                LaborCostPerSquareFoot.ToString(), MaterialCost.ToString(), LaborCost.ToString(), 
+                Tax.ToString(), Total.ToString());
+            
+            return result;
+        }
     }
+
+
+  
 }

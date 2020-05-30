@@ -42,15 +42,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataHelpers.cs" />
-    <Compile Include="Order.cs" />
     <Compile Include="Repositories\OrderRepository.cs" />
-    <Compile Include="Product.cs" />
     <Compile Include="Repositories\ProductRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="States.cs" />
-    <Compile Include="TaxRate.cs" />
     <Compile Include="Repositories\TaxRateRepository.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\FlooringMastery.Models\FlooringMastery.Models.csproj">
+      <Project>{b672e005-944a-4db6-a1ea-e8c1eed5432b}</Project>
+      <Name>FlooringMastery.Models</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

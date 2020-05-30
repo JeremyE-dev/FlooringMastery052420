@@ -16,3 +16,5 @@ C:\Users\Jeremy\source\repos\FlooringMastery052420\FlooringMastery\obj\Debug\Flo
 C:\Users\Jeremy\source\repos\FlooringMastery052420\FlooringMastery\obj\Debug\FlooringMastery.UI.csproj.CopyComplete
 C:\Users\Jeremy\source\repos\FlooringMastery052420\FlooringMastery\obj\Debug\FlooringMastery.exe
 C:\Users\Jeremy\source\repos\FlooringMastery052420\FlooringMastery\obj\Debug\FlooringMastery.pdb
+C:\Users\Jeremy\source\repos\FlooringMastery052420\FlooringMastery\bin\Debug\FlooringMastery.Models.dll
+C:\Users\Jeremy\source\repos\FlooringMastery052420\FlooringMastery\bin\Debug\FlooringMastery.Models.pdb

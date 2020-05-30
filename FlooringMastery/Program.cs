@@ -13,20 +13,22 @@ namespace FlooringMastery.UI
     {
         static void Main(string[] args)
         {
-            ProductRepository p = new ProductRepository();
-            p.printProductsList();
+            //ProductRepository p = new ProductRepository();
+            //p.printProductsList();
 
-            Console.WriteLine();
+            //Console.WriteLine();
 
-            TaxRateRepository t = new TaxRateRepository();
-            t.printTaxRates();
+            //TaxRateRepository t = new TaxRateRepository();
+            //t.printTaxRates();
 
-            Console.WriteLine();
+            //Console.WriteLine();
 
-            OrderRepository o = new OrderRepository();
-            o.printOrders();
+            //OrderRepository o = new OrderRepository();
+            //o.printOrders();
 
-            Console.WriteLine();
+            //Console.WriteLine();
+
+
 
             
             Console.ReadLine();

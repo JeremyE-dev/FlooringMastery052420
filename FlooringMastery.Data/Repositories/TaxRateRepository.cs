@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using FlooringMastery.Models;
 
 namespace FlooringMastery.Data
 {
@@ -65,12 +66,12 @@ namespace FlooringMastery.Data
         }
 
         //returns the tax rate for the given state
-        public decimal GetTaxRateByState(string stateabbreviation)
-        {
-            TaxRate result = TaxRateList.Find(x => x.StateAbbreviation.Contains(stateabbreviation));
+        //public decimal GetTaxRateByState(string stateabbreviation)
+        //{
+        //    TaxRate result = TaxRateList.Find(x => x.StateAbbreviation.Contains(stateabbreviation));
 
-            return result.Rate;
-        }
+        //    return result.Rate;
+        //}
 
         public void printTaxRates()
         {
