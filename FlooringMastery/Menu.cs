@@ -7,15 +7,15 @@ using FlooringMastery.Workflows;
 
 namespace FlooringMastery
 {
-    class Menu
+    public static class Menu
     {
-        public void Start()
+        public static  void Start()
         {
 
             while (true)
             {
 
-            
+            Console.Clear();
             Console.WriteLine("Flooring Mastery Application");
             Console.WriteLine("------------------------------");
             Console.WriteLine("1. Display Orders");
@@ -41,8 +41,19 @@ namespace FlooringMastery
                         //* if file does not exist, display an error message return user to main menu
                         break;
                     case "2":
-                        //add order workflow
-                        break;
+                        AddOrderWorkflow workflow = new AddOrderWorkflow();
+                        if (!workflow.Execute()) 
+                        {
+                            continue;
+                        }
+
+                        else
+                        {
+                            break;
+                        }
+                        
+
+           
                     case "3":
                         //edit order workflow
                         break;

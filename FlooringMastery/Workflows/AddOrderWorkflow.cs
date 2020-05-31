@@ -12,22 +12,7 @@ namespace FlooringMastery.Workflows
 {
     class AddOrderWorkflow
     {
-        //ask user for:
-        //OrderDate
-        //CustomerName
-        //State
-        //ProductType
-        //Area
-
-        //takes in user input and returns an order
-        //calculates 
-
-        //gets date from user
-        //validates date
-        //returns DateTime object of future Date
-
-
-
+       
         OrderRepository _orderRepo;
 
         public OrderRepository OrderRepo 
@@ -76,15 +61,34 @@ namespace FlooringMastery.Workflows
         //used in: calculateMaterialCost method
         //set by getProduct from user
         Product productFromUser;
+
+        public bool Execute()
+        {
+
+
+            //this method will return false if order was not compoleted
+            if (!CreateOrderFromInput())
+            {
+                return false;
+            }
+                
+            AddOrderToMainOrdersList();
+
+            return true;
+        }
+
+
+        //works in UI
         public DateTime GetDateFromUser()
         {
             while (true)
             {
                 Console.Clear();
                 DateTime userDate;
-                DateTime Today = DateTime.Today;
+                
                 Console.WriteLine("Enter an OrderDate : ex \"5/26/2022\"");
-                Console.WriteLine("Date must Be after today: {0}", Today);
+                Console.WriteLine("Date must be after today: {0}, {1}", 
+                    DateTime.Today.DayOfWeek,DateTime.Today.ToString("MM/dd/yyyy"));
                 string userInput = Console.ReadLine();
 
                 if(!DateTime.TryParse(userInput, out userDate))
@@ -97,14 +101,17 @@ namespace FlooringMastery.Workflows
         
                 DateTime DateEntered = userDate.Date;
 
-                if(DateTime.Compare(Today, DateEntered) != 1)
+                if(DateEntered < DateTime.Today)
                 {
+
                     Console.WriteLine("Error: Date must be in the future");
-                    Console.WriteLine("Todays Date is: {0} The Date Entered is: {1}", Today, DateEntered);
+                    Console.WriteLine("Todays Date is: {0} The Date Entered is: {1}", DateTime.Today.Date.ToString("MM/dd/yyyy"), DateEntered.Date.ToString("MM/dd/yyyy"));
                     Console.WriteLine("Press any key to continue");
                     Console.ReadKey();
                     continue;
                 }
+
+             
 
                 return userDate;
 
@@ -112,15 +119,17 @@ namespace FlooringMastery.Workflows
 
         }
         
+        //works in UI
         public string GetNameFromUser()
         {
             while(true)
             {
+                Console.Clear();
                 Console.WriteLine("Enter a customer name: ");
                 string userInput = Console.ReadLine();
                 if(String.IsNullOrEmpty(userInput))
                 {
-                    Console.WriteLine("Error: That is not a valid customer name, press any key to continue");
+                    Console.WriteLine("Error: customer name cannot be blank, press any key to continue");
                     Console.ReadKey();
                     continue;
                 }
@@ -131,24 +140,29 @@ namespace FlooringMastery.Workflows
 
         }
         
+        //returns valis state, does NOT check if state is in sales areaq
         public States GetStateFromUser()
         {
             while (true)
             {
+                Console.Clear();
+
                 Console.WriteLine("Please enter a state (i.e. AL for  Alabama)");
                 string userInput = Console.ReadLine();
+                //validates is the state is in the states list
                 States state;
                 if (!Enum.TryParse(userInput, true, out state)|| !Enum.IsDefined(typeof(States), state)) // userInput = value to try, true means ignore case, state is the output value
                 {
                     Console.WriteLine("Error: That was not a valid State, press any key to continue");
                     Console.ReadKey();
                     continue;
-                }
+                } 
+              
 
                 return state;
             }
            
-   
+  
         }
 
         //TODO - -
@@ -161,10 +175,11 @@ namespace FlooringMastery.Workflows
         public Product GetProductFromUser()
         {
             ProductRepository products = new ProductRepository();
-            Product productToReturn;
+            Product productToReturn = new Product();
 
             while (true)
             {
+                Console.Clear();
                 Console.WriteLine("Please select a product type from the list below");
                 products.printProductsList();
                 Console.Write("Enter name of product here:  ");
@@ -175,7 +190,7 @@ namespace FlooringMastery.Workflows
                 //validate - not null
                 if (String.IsNullOrEmpty(userinput))
                 {
-                    Console.WriteLine("product name canot be blank");
+                    Console.WriteLine("product name cannot be blank");
                     Console.WriteLine("press any key to continue");
                     Console.ReadKey();
                     continue;
@@ -194,38 +209,26 @@ namespace FlooringMastery.Workflows
                 else
                 {
                     Console.WriteLine("you have selected {0} ", userinput);
+                  
 
-                    while (true)
+                    if (WorkflowHelper.ValidateYesNo(userinput))
                     {
+                        productToReturn = products.ProductList.Find(p => p.ProductType == userinput);
+                        productFromUser = productToReturn;
 
-                        Console.WriteLine("press Y to continue or N to select a different product");
-                        string YN = Console.ReadLine().ToLower();
+                        return productToReturn;
 
-                        if (YN == "y")
-                        {
-                            productToReturn = products.ProductList.Find(p => p.ProductType == userinput);
-                            break; //i expoect this will break out of while loop
-                        }
-
-                        else if (YN == "n")
-                        {
-                            continue;
-                        }
-
-                        else
-                        {
-                            Console.WriteLine("Invalid entry");
-                            continue;
-                        }
-
+                        //break; //i expoect this will break out of while loop
                     }
+
+                    else // if its false
+                    {
+                        continue;
+                    }       
 
                 }
 
-                productFromUser = productToReturn;
-
-                return productToReturn;
-
+              
             }
          
             // you have selected""
@@ -240,6 +243,7 @@ namespace FlooringMastery.Workflows
 
             while (true)
             {
+                Console.Clear();
                 Console.WriteLine("Please enter flooring area: ");
                 string userInput = Console.ReadLine();
                 decimal output;
@@ -265,19 +269,17 @@ namespace FlooringMastery.Workflows
 
                 }
 
-                else
-                {
-                    return decimal.Parse(userInput);
-                }
+               
+               return decimal.Parse(userInput);
+                
 
             }
 
-            // calculate square feet based on area is the same as quare feet
-            //validate order sixe over 100 square feet
+  
           
         }
 
-        public Order CreateOrderFromInput()
+        public bool CreateOrderFromInput()
         {
             // generate new order when instantiated and save order in a field
         
@@ -285,60 +287,90 @@ namespace FlooringMastery.Workflows
             //From userinput
             NewOrder.OrderDate = GetDateFromUser();
             NewOrder.CustomerName = GetNameFromUser();
-            NewOrder.State = GetStateFromUser();
+            
+            States tempState = GetStateFromUser();
+
+            if(!WorkflowHelper.ValidateStateInSalesArea(tempState))
+            {
+                Console.WriteLine("{0} is not in the sales area, press any key to return to main menu", tempState);
+                Console.ReadKey();
+                return false;
+            }
+
+            NewOrder.State = tempState;
             NewOrder.ProductType = GetProductFromUser().ProductType;
             NewOrder.Area = GetAreaFromUser();
             
             //calculated fields
-            NewOrder.MaterialCost = CalculateMaterialCost(NewOrder);
-            NewOrder.LaborCost = CalculateLaborCost(NewOrder);
-            NewOrder.Tax = CalculateTax(NewOrder);
-            NewOrder.Total = CalculateTotal(NewOrder);
+            NewOrder.MaterialCost = CalculateMaterialCost();
+            NewOrder.LaborCost = CalculateLaborCost();
+            NewOrder.Tax = CalculateTax();
+            NewOrder.Total = CalculateTotal();
 
-            return NewOrder;         
+            return true;
+               
           
         }
         //material cost = Area* CostPerSquareFoot
-        public decimal CalculateMaterialCost(Order o)
+        public decimal CalculateMaterialCost()
         {
-            decimal materialCost = o.Area * productFromUser.CostPerSquareFoot;
+            decimal materialCost = NewOrder.Area * productFromUser.CostPerSquareFoot;
             return materialCost;
 
         }
         //LaborCost = Area * LaborCostPerSquareFoot
-        public decimal CalculateLaborCost(Order o)
+        public decimal CalculateLaborCost()
         {
-            decimal laborCost = o.CostPerSquareFoot * productFromUser.LaborCostPerSquareFoot;
+            decimal laborCost = NewOrder.CostPerSquareFoot * productFromUser.LaborCostPerSquareFoot;
             return laborCost;
 
         }
        
         
         //Tax = ((MaterialCost + LaborCost) * (TaxRate/100)) *** Tax rates stored as whole numbers
-        public decimal CalculateTax(Order o)
+        public decimal CalculateTax()
         {
 
-            return (CalculateMaterialCost(o) + CalculateLaborCost(o)) * (GetTaxRate(o));
+            return (CalculateMaterialCost() + CalculateLaborCost()) * (GetTaxRate());
 
 
         }
 
         //get tax rate for the state given by the user 
-        public decimal GetTaxRate(Order o)
+        public decimal GetTaxRate()
         {
             //state given by user i know it is a valid state because the state I am using was validated //
             //when enetered by user
-            string state = o.State.ToString();
+            string state = NewOrder.State.ToString();
             TaxRate result = TaxRateRepo.TaxRateList.Find(x => x.StateAbbreviation.Contains(state));
-            return result.Rate / 100;
+
+            //fix this later 
+
+            //place in workflow helpers - and validate when state is entered
+            //also validated when state was entered, but kep here just in case
+
+            if(result == null)
+            {
+                Console.WriteLine("SWCCorp does not currently sell in {0}", state);
+                Console.WriteLine("press M to return to Main Menu or Q to quit");
+                return -1;
+            }
+
+            else
+            {
+                return result.Rate / 100;
+            }
+
+
+           
             
         }
 
         
         //Total = (MaterialCost + LaborCost + Tax)
-        public decimal CalculateTotal(Order o)
+        public decimal CalculateTotal()
         {
-            decimal result = CalculateMaterialCost(o) + CalculateLaborCost(o) + CalculateTax(o);
+            decimal result = CalculateMaterialCost() + CalculateLaborCost() + CalculateTax();
             return result;
         }
 
@@ -368,6 +400,7 @@ namespace FlooringMastery.Workflows
             string path = _orderRepo.Path;
 
             string order = NewOrder.OrderToLineInFile();
+         
 
          
             using(StreamWriter writer = File.AppendText(path))
@@ -376,11 +409,19 @@ namespace FlooringMastery.Workflows
                 
             }
 
+            Console.WriteLine(order);
+            Console.ReadLine();
+
         }
+
+
+    }
+
+
 
     
 
 
         
-    }
+    
 }

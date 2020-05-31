@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FlooringMastery.Data;
-
+using FlooringMastery.Workflows;
 
 
 namespace FlooringMastery.UI
@@ -28,10 +28,14 @@ namespace FlooringMastery.UI
 
             //Console.WriteLine();
 
+            while(true)
+            {
+                Menu.Start();
+            }
 
-
+            //Menu.Start();
             
-            Console.ReadLine();
+            //Console.ReadLine();
 
 
 

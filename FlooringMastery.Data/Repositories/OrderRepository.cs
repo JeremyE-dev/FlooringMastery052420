@@ -11,7 +11,7 @@ namespace FlooringMastery.Data
     public class OrderRepository
     {
           
-        private string _path = "C:/Users/Jeremy/source/repos/FlooringMastery.Data/Orders_06012013.txt";
+        private string _path = "C:/Users/Jeremy/source/repos/FlooringMastery052420/FlooringMastery.Data/Orders_06012013.txt";
         public string Path
         {
             get { return _path; }
