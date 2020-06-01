@@ -6,13 +6,23 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using FlooringMastery.BLL;
+using FlooringMastery.Models.Responses;
 
 namespace FlooringMastery.Workflows
 {
     class AddOrderWorkflow
     {
-       
+
+        OrderManager _manager;
+        public OrderManager Manager
+
+        {
+            get { return _manager; }
+            set { _manager = value; }
+
+        }
+
         OrderRepository _orderRepo;
 
         public OrderRepository OrderRepo 
@@ -55,6 +65,7 @@ namespace FlooringMastery.Workflows
             _taxRateRepo = new TaxRateRepository();
             _orderRepo = new OrderRepository();
             _newOrder = new Order();
+            _manager = new OrderManager();
 
         }
 
@@ -62,58 +73,49 @@ namespace FlooringMastery.Workflows
         //set by getProduct from user
         Product productFromUser;
 
-        public bool Execute()
-        {
+        //public bool Execute()
+        //{
 
 
-            //this method will return false if order was not compoleted
-            if (!CreateOrderFromInput())
-            {
-                return false;
-            }
+        //    //this method will return false if order was not compoleted
+        //    if (!CreateOrderFromInput())
+        //    {
+        //        return false;
+        //    }
                 
-            AddOrderToMainOrdersList();
+        //    AddOrderToMainOrdersList();
 
-            return true;
-        }
+        //    return true;
+        //}
 
 
-        //works in UI
-        public DateTime GetDateFromUser()
+        //function: get a date from the user, validate it and return it
+        public void GetDateFromUser()
         {
             while (true)
             {
-                Console.Clear();
-                DateTime userDate;
+                Console.Clear();      
                 
                 Console.WriteLine("Enter an OrderDate : ex \"5/26/2022\"");
                 Console.WriteLine("Date must be after today: {0}, {1}", 
                     DateTime.Today.DayOfWeek,DateTime.Today.ToString("MM/dd/yyyy"));
                 string userInput = Console.ReadLine();
+                Response response = Manager.validateDate(userInput);
 
-                if(!DateTime.TryParse(userInput, out userDate))
+                if(Manager.validateDate(userInput).Success == false)
+                    
                 {
-                    Console.WriteLine("Error: that was not a valid date");
-                    Console.WriteLine("Press any key to continue");
-                    Console.ReadKey();
-                    continue;
-                }
-        
-                DateTime DateEntered = userDate.Date;
-
-                if(DateEntered < DateTime.Today)
-                {
-
-                    Console.WriteLine("Error: Date must be in the future");
-                    Console.WriteLine("Todays Date is: {0} The Date Entered is: {1}", DateTime.Today.Date.ToString("MM/dd/yyyy"), DateEntered.Date.ToString("MM/dd/yyyy"));
+                    Console.WriteLine(response.Message);
                     Console.WriteLine("Press any key to continue");
                     Console.ReadKey();
                     continue;
                 }
 
-             
-
-                return userDate;
+                else
+                {
+                    return;
+                }
+          
 
             }
 
@@ -279,38 +281,38 @@ namespace FlooringMastery.Workflows
           
         }
 
-        public bool CreateOrderFromInput()
-        {
-            // generate new order when instantiated and save order in a field
+        //public bool CreateOrderFromInput()
+        //{
+        //    // generate new order when instantiated and save order in a field
         
             
-            //From userinput
-            NewOrder.OrderDate = GetDateFromUser();
-            NewOrder.CustomerName = GetNameFromUser();
+        //    //From userinput
+        //    NewOrder.OrderDate = GetDateFromUser();
+        //    NewOrder.CustomerName = GetNameFromUser();
             
-            States tempState = GetStateFromUser();
+        //    States tempState = GetStateFromUser();
 
-            if(!WorkflowHelper.ValidateStateInSalesArea(tempState))
-            {
-                Console.WriteLine("{0} is not in the sales area, press any key to return to main menu", tempState);
-                Console.ReadKey();
-                return false;
-            }
+        //    if(!WorkflowHelper.ValidateStateInSalesArea(tempState))
+        //    {
+        //        Console.WriteLine("{0} is not in the sales area, press any key to return to main menu", tempState);
+        //        Console.ReadKey();
+        //        return false;
+        //    }
 
-            NewOrder.State = tempState;
-            NewOrder.ProductType = GetProductFromUser().ProductType;
-            NewOrder.Area = GetAreaFromUser();
+        //    NewOrder.State = tempState;
+        //    NewOrder.ProductType = GetProductFromUser().ProductType;
+        //    NewOrder.Area = GetAreaFromUser();
             
-            //calculated fields
-            NewOrder.MaterialCost = CalculateMaterialCost();
-            NewOrder.LaborCost = CalculateLaborCost();
-            NewOrder.Tax = CalculateTax();
-            NewOrder.Total = CalculateTotal();
+        //    //calculated fields
+        //    NewOrder.MaterialCost = CalculateMaterialCost();
+        //    NewOrder.LaborCost = CalculateLaborCost();
+        //    NewOrder.Tax = CalculateTax();
+        //    NewOrder.Total = CalculateTotal();
 
-            return true;
+        //    return true;
                
           
-        }
+        //}
         //material cost = Area* CostPerSquareFoot
         public decimal CalculateMaterialCost()
         {
@@ -359,10 +361,7 @@ namespace FlooringMastery.Workflows
             else
             {
                 return result.Rate / 100;
-            }
-
-
-           
+            }  
             
         }
 

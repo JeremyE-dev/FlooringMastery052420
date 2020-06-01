@@ -56,6 +56,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\FlooringMastery.BLL\FlooringMastery.BLL.csproj">
+      <Project>{0bf8fa26-0a3a-4a5d-9ab5-3529709fa044}</Project>
+      <Name>FlooringMastery.BLL</Name>
+    </ProjectReference>
     <ProjectReference Include="..\FlooringMastery.Data\FlooringMastery.Data.csproj">
       <Project>{cc7c2f7a-3d13-475c-840a-ec7e1daf4905}</Project>
       <Name>FlooringMastery.Data</Name>
