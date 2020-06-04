@@ -18,3 +18,5 @@ C:\Users\Jeremy\source\repos\FlooringMastery052420\FlooringMastery\obj\Debug\Flo
 C:\Users\Jeremy\source\repos\FlooringMastery052420\FlooringMastery\obj\Debug\FlooringMastery.pdb
 C:\Users\Jeremy\source\repos\FlooringMastery052420\FlooringMastery\bin\Debug\FlooringMastery.Models.dll
 C:\Users\Jeremy\source\repos\FlooringMastery052420\FlooringMastery\bin\Debug\FlooringMastery.Models.pdb
+C:\Users\Jeremy\source\repos\FlooringMastery052420\FlooringMastery\bin\Debug\FlooringMastery.BLL.dll
+C:\Users\Jeremy\source\repos\FlooringMastery052420\FlooringMastery\bin\Debug\FlooringMastery.BLL.pdb

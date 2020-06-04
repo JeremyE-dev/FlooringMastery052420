@@ -28,12 +28,12 @@ namespace FlooringMastery.UI
 
             //Console.WriteLine();
 
-            while(true)
-            {
-                Menu.Start();
-            }
+            //while(true)
+            //{
+            //    Menu.Start();
+            //}
 
-            //Menu.Start();
+            Menu.Start();
             
             //Console.ReadLine();
 

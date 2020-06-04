@@ -42,17 +42,8 @@ namespace FlooringMastery
                         break;
                     case "2":
                         AddOrderWorkflow workflow = new AddOrderWorkflow();
-                        if (!workflow.Execute()) 
-                        {
-                            continue;
-                        }
-
-                        else
-                        {
-                            break;
-                        }
-                        
-
+                        workflow.Execute();
+                        break;
            
                     case "3":
                         //edit order workflow

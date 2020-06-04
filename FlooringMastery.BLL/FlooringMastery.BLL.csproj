@@ -45,6 +45,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\FlooringMastery.Data\FlooringMastery.Data.csproj">
+      <Project>{CC7C2F7A-3D13-475C-840A-EC7E1DAF4905}</Project>
+      <Name>FlooringMastery.Data</Name>
+    </ProjectReference>
     <ProjectReference Include="..\FlooringMastery.Models\FlooringMastery.Models.csproj">
       <Project>{B672E005-944A-4DB6-A1EA-E8C1EED5432B}</Project>
       <Name>FlooringMastery.Models</Name>

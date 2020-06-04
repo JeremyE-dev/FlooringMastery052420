@@ -50,6 +50,13 @@ namespace FlooringMastery.Models
             set { _taxRate = value; } 
         }
 
+        Product _product;
+
+        public Product Product
+        {
+            get { return _product; }
+            set { _product = value; }
+        }
 
         string _productType;
 
