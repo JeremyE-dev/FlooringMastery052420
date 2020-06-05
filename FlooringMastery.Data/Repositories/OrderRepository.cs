@@ -8,39 +8,53 @@ using System.Threading.Tasks;
 
 namespace FlooringMastery.Data
 {
+    
+    //This is a repo that contains all orders in One file No all orders that exist in the Folder
     public class OrderRepository
     {
-          
-        private string _path = "C:/Users/Jeremy/source/repos/FlooringMastery052420/FlooringMastery.Data/Orders_06012013.txt";
-        public string Path
+         //The FOLDER where all orders are located
+         //The specific file is entered 
+        private string _folderpath = "C:/Users/Jeremy/source/repos/FlooringMastery052420/FlooringMastery.Data/AllOrders/";
+        public string FolderPath
         {
-            get { return _path; }
-            set { _path = value; }
+            get { return _folderpath; }
+            set { _folderpath = value; }
         }
 
-        public List<Order> MainOrderLIst { get; set; } = new List<Order>();
+        //public List<Order> MainOrderLIst { get; set; } = new List<Order>();
 
+        
         public List<Order> SalesDayOrderList { get; set; } = new List<Order>();
-        public OrderRepository()
+
+        //List that contains all orders in a given file
+
+        // medthod that takes in a filename and writes all orders in that filename to a list
+        
+        //This is an order repository for a specific date
+        //public OrderRepository(string fileName)
+        //{
+
+        //    ReadOrderByDate(fileName);
+        //}
+
+        //public OrderRepository(string path)
+        //{
+        //    _folderpath = path;
+        //    ReadMainOrderFile();
+        //}
+
+        //Reads list of orders in a given file,
+        //converts each order into an order object
+        //places each order object in SalesDayOrderList
+        public void ReadOrderByDate(string fileName)
         {
 
-            ReadMainOrderFile();
-        }
 
-        public OrderRepository(string path)
-        {
-            _path = path;
-            ReadMainOrderFile();
-        }
-
-        //Reads MainOrder File, places contents into the OrderList
-        public void ReadMainOrderFile()
-        {
-
-
+            //this will read one file and add the order to the 
+            //SalesDayOrderList
             try
             {
-                string[] rows = File.ReadAllLines(_path);
+                string[] rows = File.ReadAllLines(_folderpath + fileName);
                 for (int i = 1; i < rows.Length; i++)
                 {
                     string[] columns = rows[i].Split(',');
@@ -58,7 +72,7 @@ namespace FlooringMastery.Data
                     o.Tax = Decimal.Parse(columns[10]);
                     o.Total = Decimal.Parse(columns[11]);
 
-                    MainOrderLIst.Add(o);
+                    SalesDayOrderList.Add(o);
 
                 }
 
@@ -80,7 +94,7 @@ namespace FlooringMastery.Data
 
         public void printOrders()
         {
-            foreach (var item in MainOrderLIst)
+            foreach (var item in SalesDayOrderList)
             {
                 Console.WriteLine("{0}{1}{2}{3}{4}{5}{6}{7}{8}{9}{10}{11}"
                     , item.OrderNumber, item.CustomerName, item.State, item.TaxRate, item.ProductType, item.Area,

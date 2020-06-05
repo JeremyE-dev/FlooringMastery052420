@@ -48,10 +48,8 @@ namespace FlooringMastery.Workflows
             Manager.CalculateTax();
             Manager.CalculateTotal();
             Manager.DisplayOrderInformation();
-            
-
-
-
+            Manager.ConfirmOrder();
+            Manager.WriteOrderToFile();
         }
 
         //function: get a date from the user, validate it and return it
@@ -150,7 +148,8 @@ namespace FlooringMastery.Workflows
                 else
                 {
                     Console.WriteLine(response.Message);
-                    Console.ReadLine();
+                    Console.WriteLine("Press any key to continue");
+                    Console.ReadKey();
                     return;
                 }          
                
@@ -167,7 +166,7 @@ namespace FlooringMastery.Workflows
             // will need to test that this does not return a Null product object
         public void GetProductFromUser()
         {
-                       
+
             while (true)
             {
                 Console.Clear();
@@ -191,35 +190,29 @@ namespace FlooringMastery.Workflows
                 else
                 {
 
-                    Console.WriteLine(response.Message);
+                    //Console.WriteLine(response.Message);
                     Console.WriteLine("press any key to continue");
                     Console.ReadKey();
+                    if(Manager.ConfirmProduct())
+                    {
+
+                        Console.WriteLine("Product Choice {0} has been saved", userInput);
+                        Console.ReadLine();
+                        return;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Press Any Key To Select a new product");
+                        Console.ReadKey();
+                        continue;
+                    }
                 }
-                
-                Console.WriteLine("you have selected {0} ", userInput);
-
-
-
-
-                if (!WorkflowHelper.ValidateYesNo(userInput))
-                {
-                    Console.WriteLine("Press Any Key To Select a new product");
-                    Console.ReadKey();
-                    continue;
-                }
-
-                else // if its false (i.e. No, the product is correct)
-                {
-                    Console.WriteLine("Product Choice {0} has been saved", userInput);
-                    Console.ReadLine();
-                    return;
-                }
-
-
 
             }
-   
+
         }
+
+    
 
         public void GetAreaFromUser()
         {
@@ -243,6 +236,9 @@ namespace FlooringMastery.Workflows
 
                 else 
                 {
+                    Console.WriteLine(response.Message);
+                    Console.WriteLine("press any key to continue");
+                    Console.ReadKey();
                     return;
 
                 }
@@ -251,39 +247,7 @@ namespace FlooringMastery.Workflows
           
         }
 
-        //public bool CreateOrderFromInput()
-        //{
-        //    // generate new order when instantiated and save order in a field
-        
-            
-        //    //From userinput
-        //    NewOrder.OrderDate = GetDateFromUser();
-        //    NewOrder.CustomerName = GetNameFromUser();
-            
-        //    States tempState = GetStateFromUser();
 
-        //    if(!WorkflowHelper.ValidateStateInSalesArea(tempState))
-        //    {
-        //        Console.WriteLine("{0} is not in the sales area, press any key to return to main menu", tempState);
-        //        Console.ReadKey();
-        //        return false;
-        //    }
-
-        //    NewOrder.State = tempState;
-        //    NewOrder.ProductType = GetProductFromUser().ProductType;
-        //    NewOrder.Area = GetAreaFromUser();
-            
-        //    //calculated fields
-        //    NewOrder.MaterialCost = CalculateMaterialCost();
-        //    NewOrder.LaborCost = CalculateLaborCost();
-        //    NewOrder.Tax = CalculateTax();
-        //    NewOrder.Total = CalculateTotal();
-
-        //    return true;
-               
-          
-        //}
-       
        
        
         //public bool CreateFileWithDate(string date)

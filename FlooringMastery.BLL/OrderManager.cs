@@ -3,6 +3,7 @@ using FlooringMastery.Models;
 using FlooringMastery.Models.Responses;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -40,10 +41,13 @@ namespace FlooringMastery.BLL
 
         }
 
+        OrderRepository _orderRepo;
 
-
-        //once validated through the validation method, method will set order field
-
+        public OrderRepository OrderRepo 
+        {
+            get { return _orderRepo; }
+            set { _orderRepo = value; } 
+        }
 
         public OrderManager()
         {
@@ -51,9 +55,10 @@ namespace FlooringMastery.BLL
             Product = new Product();
 
             _taxRateRepo = new TaxRateRepository();
+            _orderRepo = new OrderRepository();
+
 
         }
-
 
 
         //validates proper input, returns response object, sets order field if response successful
@@ -89,41 +94,10 @@ namespace FlooringMastery.BLL
                     response.Message = "Date input was in correct fromat and in the future";
                     newOrder.OrderDate = userDate; //stores userDate (in datetime format) in the new order field
                    
-
                 }
             }
 
             return response;
-
-            
-
-
-
-
-            //if it in prper format
-            //if no set response success to false
-            // set message to impropere format message
-            //return response - will stop exection until user enters correct format
-
-            //if
-            //{
-            //    //check if date is in the future
-            //    //if not set response to false
-            //    //set message to n ot in future
-            //    ///return response
-            //}
-
-
-            //if you make it this far then
-            //add the date to the order
-            //set reponse success to true
-            //set message "adding date successful"
-            //return respopnse
-
-
-
-
-
 
         }
 
@@ -195,7 +169,7 @@ namespace FlooringMastery.BLL
         }
         //validates proper input, returns response object, sets order field if response successful
         ////Checks business rule: Product must not be empty, Product must be on list, confirm user wants product
-        ///
+     
         public Response ValidateProduct(string userInput)
         {
             Response response = new Response();
@@ -222,7 +196,7 @@ namespace FlooringMastery.BLL
                 response.Success = true;
 
                 productFromUser = ProductRepo.ProductList.Find(p => p.ProductType == userInput);
-                response.Message = String.Format(" The product {0} has been found in the file", userInput);
+                response.Message = String.Format("The product {0} has been found in the file", userInput);
 
                 //sets the order product name to the order Product field
                 //does this before asking user to confirm, so if user says no, the product they said no to will 
@@ -245,8 +219,9 @@ namespace FlooringMastery.BLL
         //returns true if customer wants product, false otherwise
         public bool ConfirmProduct()
         {
-            Console.WriteLine("Please confirm  as your product (Y/N) ");
-            if(ValidateYesNo())
+            Console.WriteLine("Please confirm {0} as your product (Y/N)", newOrder.ProductType);
+            Console.ReadLine();
+            if(ValidateYesNo("Enter Y to confirm product or N to choose different product"))
             {
                 return true;
             }
@@ -259,13 +234,13 @@ namespace FlooringMastery.BLL
 
         }
 
-        public static bool ValidateYesNo()
+        public static bool ValidateYesNo(string message)
         {
 
             while (true)
             {
                 Console.Clear();
-                Console.WriteLine("press Y to continue or N to select a different product");
+                Console.WriteLine(message);
                 string YN = Console.ReadLine();
                 if (YN != "Y" && YN != "y" && YN != "N" && YN != "n")
                 {
@@ -317,7 +292,9 @@ namespace FlooringMastery.BLL
 
                 else
                 {
+                    response.Success = true;
                     newOrder.Area = output;
+                    response.Message = String.Format("The flooring area: {0} has been added to your order", newOrder.Area);
                 }
 
             }  
@@ -327,8 +304,7 @@ namespace FlooringMastery.BLL
         }
 
 
-      
-       
+            
         //Area * CostPerSquareFoot
         public void CalculateMaterialCost() 
         {
@@ -342,7 +318,8 @@ namespace FlooringMastery.BLL
         public void CalculateLaborCost() 
         {
             decimal result;
-            result = newOrder.Area * newOrder.Product.LaborCostPerSquareFoot; 
+            result = newOrder.Area * newOrder.Product.LaborCostPerSquareFoot;
+            newOrder.LaborCost = result;
         }
         public void CalculateTaxRate() 
         {
@@ -354,7 +331,7 @@ namespace FlooringMastery.BLL
         }
         public void CalculateTax() 
         { 
-            decimal result = (newOrder.MaterialCost * newOrder.LaborCost) * (newOrder.TaxRate / 100);
+            decimal result = (newOrder.MaterialCost + newOrder.LaborCost) * (newOrder.TaxRate / 100);
             newOrder.Tax = result;
         }
         public void CalculateTotal() 
@@ -371,24 +348,110 @@ namespace FlooringMastery.BLL
 
         public void DisplayOrderInformation()
         {
+            Console.Clear();
             Console.WriteLine("Here is a summary of your order");
             //just include information without the order number right now and calculate in in a separate methd/class
             // perhaps have an order number class that has a field for an order number, a methos that generates an orderNumber
             // i.e. a order number generator
             // also stores a list of order numbers, and can search the file names and extract rhe order numbers from them
             //
-            Console.WriteLine(newOrder.OrderDate.Date.ToString());
+            Console.WriteLine(newOrder.OrderDate.Date.ToString(("MM / dd / yyyy")));
             Console.WriteLine(newOrder.CustomerName);
             Console.WriteLine(newOrder.State.ToString());
             Console.WriteLine("Product: {0}", newOrder.ProductType);
-            Console.WriteLine("Materials: {0}", newOrder.MaterialCost);
-            Console.WriteLine("Labor: {0}", newOrder.LaborCost);
-            Console.WriteLine("Tax: {0}", newOrder.Tax);
-            Console.WriteLine("Total: {0}", newOrder.Total);
-            Console.WriteLine("Enter Y to confirm your order or N to cancel and return to Main Menu");
+            Console.WriteLine("Materials: {0:C}", newOrder.MaterialCost);
+            Console.WriteLine("Labor: {0:C}", newOrder.LaborCost);
+            Console.WriteLine("Tax: {0:C}", newOrder.Tax);
+            Console.WriteLine("Total: {0:C}", newOrder.Total);
+            //Console.WriteLine("Enter Y to confirm your order or N to cancel and return to Main Menu");
+            //confirm and validate
+            Console.ReadLine();
         }
+
+   
+        public bool ConfirmOrder()
+        {
+            if (ValidateYesNo("Press Y to confirm Your order or N to cancel"))
+            {
+                //write order to file
+                Console.WriteLine("Your order has been confirmed, press any key to continue to main menu");
+                Console.ReadKey();
+                return true;
+            }
+
+            else
+            {
+                Console.WriteLine("Your order will be cancelled, press any key to return to main menu");
+                Console.ReadKey();
+                return false;
+            }
+        }
+
+        public void WriteOrderToFile()
+        {
+            string filename = ConvertDateToFileName(); //returns a filename
+            string path = OrderRepo.FolderPath + filename;
+
+            //validate if this is valid path first??
+
+            string OrderAsString = newOrder.OrderToLineInFile();
+
+            if (File.Exists(path))
+            {
+                using (StreamWriter writer = File.AppendText(path))
+                {
+                    writer.WriteLine(OrderAsString);
+                }
+            }
+
+            else
+            {
+                var myFile = File.Create(path);
+                myFile.Close();  
+                
+                using (StreamWriter writer = new StreamWriter(path))
+                {
+                    writer.WriteLine("insert header here");
+                    writer.WriteLine(OrderAsString);
+                }
+            }
+
+
+
+        }
+
+        // after calling confirm order
+
+        public string ConvertDateToFileName()
+        {
+
+            string result = "Orders_" + newOrder.OrderDate.ToString("MMddyyyy") + ".txt";
+            Console.WriteLine("result");
+            return result;
+        }
+
+
+        //check if file exists in given path
+    
+        //public bool CheckIfFileExists(string filename, string path)
+        //{
+        //    if(File.Exists(path))
+        //    {
+        //        //append to file
+        //    }
+
+        //    else
+        //    {
+
+        //    }
+
+            
+
+        }
+
+      
 
 
     }
 
-}
+
