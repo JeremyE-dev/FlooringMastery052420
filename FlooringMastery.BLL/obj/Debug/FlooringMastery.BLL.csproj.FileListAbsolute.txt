@@ -8,3 +8,8 @@ C:\Users\Jeremy\source\repos\FlooringMastery052420\FlooringMastery.BLL\bin\Debug
 C:\Users\Jeremy\source\repos\FlooringMastery052420\FlooringMastery.BLL\bin\Debug\FlooringMastery.Data.pdb
 C:\Users\Jeremy\source\repos\FlooringMastery052420\FlooringMastery.BLL\bin\Debug\FlooringMastery.Models.pdb
 C:\Users\Jeremy\source\repos\FlooringMastery052420\FlooringMastery.BLL\obj\Debug\FlooringMastery.BLL.csproj.CopyComplete
+C:\Users\Jeremy\source\repos\FlooringMastery052420\FlooringMastery.BLL\bin\Debug\MoreLinq.dll
+C:\Users\Jeremy\source\repos\FlooringMastery052420\FlooringMastery.BLL\bin\Debug\System.ValueTuple.dll
+C:\Users\Jeremy\source\repos\FlooringMastery052420\FlooringMastery.BLL\bin\Debug\MoreLinq.pdb
+C:\Users\Jeremy\source\repos\FlooringMastery052420\FlooringMastery.BLL\bin\Debug\MoreLinq.xml
+C:\Users\Jeremy\source\repos\FlooringMastery052420\FlooringMastery.BLL\bin\Debug\System.ValueTuple.xml

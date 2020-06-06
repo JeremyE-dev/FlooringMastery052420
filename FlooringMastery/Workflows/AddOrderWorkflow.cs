@@ -47,9 +47,20 @@ namespace FlooringMastery.Workflows
             Manager.CalculateTaxRate();
             Manager.CalculateTax();
             Manager.CalculateTotal();
+            Manager.CalculateOrderNumber();
             Manager.DisplayOrderInformation();
-            Manager.ConfirmOrder();
-            Manager.WriteOrderToFile();
+
+            //if this is true, then wite to file, else just return to main menu
+            
+            if(Manager.ConfirmOrder())
+            {
+                Manager.WriteOrderToFile();
+            }
+            else
+            {
+                return;
+            }
+            
         }
 
         //function: get a date from the user, validate it and return it

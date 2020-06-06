@@ -1,0 +1,2 @@
+OrderNumber,CustomerName,State,TaxRate,ProductType,Area,CostPerSquareFoot,LaborCostPerSquareFoot,MaterialCost,LaborCost,Tax,Total
+1,Tom Baker,OH,6.25,Wood,300,5.15,4.75,1545.00,1425.00,185.625000,3155.625000

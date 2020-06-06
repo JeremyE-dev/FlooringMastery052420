@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MoreLinq.Extensions;
 
 namespace FlooringMastery.BLL
 {
@@ -311,6 +312,7 @@ namespace FlooringMastery.BLL
             decimal result;
             result = newOrder.Area * newOrder.Product.CostPerSquareFoot;
             newOrder.MaterialCost = result;
+            newOrder.CostPerSquareFoot = newOrder.Product.CostPerSquareFoot;
 
         }
         
@@ -320,6 +322,7 @@ namespace FlooringMastery.BLL
             decimal result;
             result = newOrder.Area * newOrder.Product.LaborCostPerSquareFoot;
             newOrder.LaborCost = result;
+            newOrder.LaborCostPerSquareFoot = newOrder.Product.LaborCostPerSquareFoot;
         }
         public void CalculateTaxRate() 
         {
@@ -339,12 +342,60 @@ namespace FlooringMastery.BLL
             decimal result = newOrder.MaterialCost + newOrder.LaborCost + newOrder.Tax;
             newOrder.Total = result;
         }
-        
+
         // once calculation are completed
         // show summary of order
         // ask user if they want to place the order
         //if yes - data will be written to the orders file - with the appropriate date
         // create a new file if it is the first order on the date;
+       
+        public void CalculateOrderNumber()
+        {
+            //does a file exist with the date entered
+            string filename = ConvertDateToFileName(); //returns a filename
+            string path = OrderRepo.FolderPath + filename;
+
+
+            if (!File.Exists(path))
+            {
+                newOrder.OrderNumber = 1;
+            }
+
+            else
+            { //if the file does exists load the file to the order repository
+                OrderRepo.ReadOrderByDate(filename); //this should load everything in that file to this list, 
+                                                     //hopefully will resolve null issue 
+                
+                
+             newOrder.OrderNumber = OrderRepo.SalesDayOrderList.MaxBy(o => o.OrderNumber).First().OrderNumber + 1;
+
+
+
+                //2.) look throug the orderList
+                //3.) return all orders in list
+                //4.) sort them in descending order
+                //5.) take the first one "i.e" highest
+                //6.) add to it
+                //7.) set newOrde.OrderNumber to that number
+            }
+
+        }
+        
+        public void setOrderNumber()
+        {
+            //finds the order with the highest order number
+            
+            int newOrderNumber = 
+            OrderRepo.SalesDayOrderList.OrderByDescending(i => i.OrderNumber).Max().OrderNumber + 1;
+            newOrder.OrderNumber = newOrderNumber;
+
+
+            // thoughts: the order repo for this order
+            //find the highest order number
+            // add 1 to it
+
+        }
+
 
         public void DisplayOrderInformation()
         {
@@ -355,7 +406,7 @@ namespace FlooringMastery.BLL
             // i.e. a order number generator
             // also stores a list of order numbers, and can search the file names and extract rhe order numbers from them
             //
-            Console.WriteLine(newOrder.OrderDate.Date.ToString(("MM / dd / yyyy")));
+            Console.WriteLine(" Order Number: {0} Order Date: {1}", newOrder.OrderNumber, newOrder.OrderDate.Date.ToString(("MM / dd / yyyy")));
             Console.WriteLine(newOrder.CustomerName);
             Console.WriteLine(newOrder.State.ToString());
             Console.WriteLine("Product: {0}", newOrder.ProductType);
@@ -367,6 +418,8 @@ namespace FlooringMastery.BLL
             //confirm and validate
             Console.ReadLine();
         }
+
+
 
    
         public bool ConfirmOrder()
@@ -390,6 +443,7 @@ namespace FlooringMastery.BLL
         public void WriteOrderToFile()
         {
             string filename = ConvertDateToFileName(); //returns a filename
+
             string path = OrderRepo.FolderPath + filename;
 
             //validate if this is valid path first??
@@ -398,6 +452,8 @@ namespace FlooringMastery.BLL
 
             if (File.Exists(path))
             {
+               
+
                 using (StreamWriter writer = File.AppendText(path))
                 {
                     writer.WriteLine(OrderAsString);
@@ -406,16 +462,20 @@ namespace FlooringMastery.BLL
 
             else
             {
+               
                 var myFile = File.Create(path);
                 myFile.Close();  
                 
                 using (StreamWriter writer = new StreamWriter(path))
                 {
-                    writer.WriteLine("insert header here");
+                    writer.WriteLine("OrderNumber,CustomerName,State,TaxRate,ProductType,Area,CostPerSquareFoot,LaborCostPerSquareFoot,MaterialCost,LaborCost,Tax,Total");
                     writer.WriteLine(OrderAsString);
                 }
             }
 
+            //after order is written Read from the file to load it to the OrderRepository
+            //places orderin OrderRepo - orderlist
+            OrderRepo.ReadOrderByDate(filename);
 
 
         }
@@ -430,22 +490,7 @@ namespace FlooringMastery.BLL
             return result;
         }
 
-
-        //check if file exists in given path
-    
-        //public bool CheckIfFileExists(string filename, string path)
-        //{
-        //    if(File.Exists(path))
-        //    {
-        //        //append to file
-        //    }
-
-        //    else
-        //    {
-
-        //    }
-
-            
+        
 
         }
 
