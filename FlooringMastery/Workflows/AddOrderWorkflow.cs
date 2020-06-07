@@ -14,8 +14,8 @@ namespace FlooringMastery.Workflows
     class AddOrderWorkflow
     {
 
-        OrderManager _manager;
-        public OrderManager Manager
+        AddOrderManager _manager;
+        public AddOrderManager Manager
 
         {
             get { return _manager; }
@@ -28,7 +28,7 @@ namespace FlooringMastery.Workflows
         public AddOrderWorkflow()
         {
             
-            _manager = new OrderManager();
+            _manager = new AddOrderManager();
 
         }
 
@@ -261,40 +261,7 @@ namespace FlooringMastery.Workflows
 
        
        
-        //public bool CreateFileWithDate(string date)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //public void AddOrderToSalesDateList()
-        //{
-
-
-        //}
-
-        ////add one order to the mainlist (existing file)
-
-        //public void AddOrderToMainOrdersList()
-        //{
-        //    //add try/catch
-            
-        //    string path = Manager.OrderRepo.Path;
-
-        //    string order = NewOrder.OrderToLineInFile();
-         
-
-         
-        //    using(StreamWriter writer = File.AppendText(path))
-        //    {
-        //        writer.WriteLine(order);
-                
-        //    }
-
-        //    Console.WriteLine(order);
-        //    Console.ReadLine();
-
-        //}
-
+        
 
     }
 

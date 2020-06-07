@@ -49,7 +49,16 @@ namespace FlooringMastery.Data
         //places each order object in SalesDayOrderList
         public void ReadOrderByDate(string fileName)
         {
+            //ex: Orders_06132020.txt
 
+
+
+            // will need to extract date from filename
+            string s = fileName.Remove(0,7);
+            string[] stringArray = s.Split('.');
+            string date = stringArray[0];
+            string formattedDate = date.Substring(0, 2) + "/" + date.Substring(2, 2) + "/" + date.Substring(4); 
+           
 
             //this will read one file and add the order to the 
             //SalesDayOrderList
@@ -60,6 +69,7 @@ namespace FlooringMastery.Data
                 {
                     string[] columns = rows[i].Split(',');
                     Order o = new Order();
+                    o.OrderDate = DateTime.Parse(formattedDate);
                     o.OrderNumber = Int32.Parse(columns[0]);               
                     o.CustomerName = columns[1];
                     o.State = ConvertToStateEnum(columns[2]); //convert to enum
@@ -97,10 +107,18 @@ namespace FlooringMastery.Data
         {
             foreach (var item in SalesDayOrderList)
             {
-                Console.WriteLine("{0}{1}{2}{3}{4}{5}{6}{7}{8}{9}{10}{11}"
-                    , item.OrderNumber, item.CustomerName, item.State, item.TaxRate, item.ProductType, item.Area,
-                    item.CostPerSquareFoot, item.LaborCostPerSquareFoot, item.MaterialCost, item.LaborCost, item.Tax,
-                    item.Total);
+                Console.WriteLine("**************************************************************");
+                Console.WriteLine("[{0}] [{1}]", item.OrderNumber, item.OrderDate.ToString("MM/dd/yyyy"));
+                Console.WriteLine("[{0}]", item.CustomerName);
+                Console.WriteLine("[{0}]", item.State);
+                Console.WriteLine("Product : [{0}]", item.ProductType);
+                Console.WriteLine("Materials : [{0:c}]", item.MaterialCost);
+                Console.WriteLine("Labor : [{0:c}]", item.LaborCost);
+                Console.WriteLine("Tax : [{0:c}]", item.Tax);
+                Console.WriteLine("Total : [{0:c}]", item.Total);
+                Console.WriteLine("**************************************************************");
+                Console.WriteLine();
+
             }
         }
 

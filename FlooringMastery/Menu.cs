@@ -16,15 +16,19 @@ namespace FlooringMastery
             {
 
             Console.Clear();
-            Console.WriteLine("Flooring Mastery Application");
-            Console.WriteLine("------------------------------");
-            Console.WriteLine("1. Display Orders");
-            Console.WriteLine("2. Add Order");
-            Console.WriteLine("3. Edit Order");
-            Console.WriteLine("4. Remove Order");
-            Console.WriteLine("\n Q to  Quit");
+            Console.WriteLine("********************************************************");
+            Console.WriteLine("* Flooring Program");
+            Console.WriteLine("*");
+            Console.WriteLine("* 1. Display Orders");
+            Console.WriteLine("* 2. Add an Order");
+            Console.WriteLine("* 3. Edit an Order");
+            Console.WriteLine("* 4. Remove an Order");
+            Console.WriteLine("* 5. Quit");
+            Console.WriteLine("*");
+            Console.WriteLine("********************************************************");
 
-            Console.Write("\n Enter Selection");
+
+            Console.Write("\n Enter Selection: ");
 
             string userinput = Console.ReadLine();
 
@@ -35,14 +39,12 @@ namespace FlooringMastery
                 {
 
                     case "1":
-                        //Display Workflow:
-                        //* query user for date
-                        //* load order.txt file for that date
-                        //* if file does not exist, display an error message return user to main menu
+                        DisplayWorkflow displayWorkflow = new DisplayWorkflow();
+                        displayWorkflow.Execute();
                         break;
                     case "2":
-                        AddOrderWorkflow workflow = new AddOrderWorkflow();
-                        workflow.Execute();
+                        AddOrderWorkflow addWorkflow = new AddOrderWorkflow();
+                        addWorkflow.Execute();
                         break;
            
                     case "3":

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using FlooringMastery.BLL;
+using FlooringMastery.Models.Responses;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,24 +10,94 @@ namespace FlooringMastery.Workflows
 {
     class DisplayWorkflow
     {
-        // the job 
-        //ask user for input, validate it, return it
+        //Query user for date
+        //load the orders.txt file for that date
+        // if the file does not exist
+        //// error message -- return to main menu
+        ///if it does exist, print all order information
+        ///
+        DisplayOrderManager _manager;
+        public DisplayOrderManager Manager
 
-        public void GetUserInput()
         {
+            get { return _manager; }
+            set { _manager = value; }
 
         }
 
-        //when user says display orders the application should 
-        // 1.) create a file with the days date in the file name and place it in the correct folder
-        // 2.) Look in the Main orders file, place all orders up to todays date into that file (or should it 
-        // 3.) the application shoudl check if the file exists before reading it, if it exists read that file, 
-        // if it does not exist create a new one
+        public DisplayWorkflow()
+        {
+            _manager = new DisplayOrderManager();
+        }
 
-        //call method to load the order text file
-        //wheer should load order be housed?
-        // create an order model in .Data
-        //create an order repo in . Data that contains a list of orders
-        //order repo will load file (read and write)
+        public void Execute()
+        {
+            GetDateFromUser();
+            ValidateAndDisplayFile();
+        }
+
+        public void GetDateFromUser()
+        {
+            while (true)
+            {
+                // clear old text from screen
+                Console.Clear();
+                //write text to ask user for input
+                Console.WriteLine("Enter an OrderDate : ex \"5/26/2022\"");
+                //Console.WriteLine("Date must be after today: {0}, {1}",
+
+                //TODO: implement using UTC and converting to timeszone
+                //DateTime.Today.DayOfWeek, DateTime.Today.ToString("MM/dd/yyyy"));
+                
+                string userInput = Console.ReadLine();
+
+                //validate user input - in BLL
+                Response response = Manager.ValidateDate(userInput);
+
+
+                //validation response object success field evaluates to false - return the message associated with that response.
+                if (!response.Success)
+
+                {
+                    Console.WriteLine(response.Message);
+                    Console.WriteLine("Press any key to continue");
+                    Console.ReadKey();
+                    continue;
+                }
+
+                // if response object success field is set to true, return the
+                // return the user input
+                else
+                {
+                    return;
+                }
+
+            }
+
+            
+
+            
+        }
+        public void ValidateAndDisplayFile()
+        {
+            Response response = Manager.CheckIfFileExists();
+
+            if(!response.Success)
+            {
+                Console.WriteLine(response.Message);
+                Console.WriteLine("Press any key to return to main menu");
+                Console.ReadKey();
+                return;
+            }
+
+            else
+            {
+                Manager.DisplayExistingFile();
+            }
+
+        }
+
+
+
     }
 }

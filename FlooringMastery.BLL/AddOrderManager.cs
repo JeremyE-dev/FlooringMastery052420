@@ -12,7 +12,9 @@ using MoreLinq.Extensions;
 namespace FlooringMastery.BLL
 {
     //will validate each field input by the user
-    public class OrderManager
+
+
+    public class AddOrderManager
     {
         private Order newOrder = new Order();
 
@@ -50,7 +52,7 @@ namespace FlooringMastery.BLL
             set { _orderRepo = value; } 
         }
 
-        public OrderManager()
+        public AddOrderManager()
         {
             _productRepo = new ProductRepository();
             Product = new Product();
@@ -220,9 +222,9 @@ namespace FlooringMastery.BLL
         //returns true if customer wants product, false otherwise
         public bool ConfirmProduct()
         {
-            Console.WriteLine("Please confirm {0} as your product (Y/N)", newOrder.ProductType);
-            Console.ReadLine();
-            if(ValidateYesNo("Enter Y to confirm product or N to choose different product"))
+            //Console.WriteLine("Please confirm {0} as your product (Y/N)", newOrder.ProductType);
+            //Console.ReadLine();
+            if(ValidateYesNo(String.Format("Enter Y to confirm  {0}  product or N to choose different product", newOrder.ProductType)))
             {
                 return true;
             }
@@ -368,15 +370,7 @@ namespace FlooringMastery.BLL
                 
                 
              newOrder.OrderNumber = OrderRepo.SalesDayOrderList.MaxBy(o => o.OrderNumber).First().OrderNumber + 1;
-
-
-
-                //2.) look throug the orderList
-                //3.) return all orders in list
-                //4.) sort them in descending order
-                //5.) take the first one "i.e" highest
-                //6.) add to it
-                //7.) set newOrde.OrderNumber to that number
+              
             }
 
         }
@@ -400,23 +394,26 @@ namespace FlooringMastery.BLL
         public void DisplayOrderInformation()
         {
             Console.Clear();
-            Console.WriteLine("Here is a summary of your order");
-            //just include information without the order number right now and calculate in in a separate methd/class
-            // perhaps have an order number class that has a field for an order number, a methos that generates an orderNumber
-            // i.e. a order number generator
-            // also stores a list of order numbers, and can search the file names and extract rhe order numbers from them
-            //
-            Console.WriteLine(" Order Number: {0} Order Date: {1}", newOrder.OrderNumber, newOrder.OrderDate.Date.ToString(("MM / dd / yyyy")));
-            Console.WriteLine(newOrder.CustomerName);
-            Console.WriteLine(newOrder.State.ToString());
-            Console.WriteLine("Product: {0}", newOrder.ProductType);
-            Console.WriteLine("Materials: {0:C}", newOrder.MaterialCost);
-            Console.WriteLine("Labor: {0:C}", newOrder.LaborCost);
-            Console.WriteLine("Tax: {0:C}", newOrder.Tax);
-            Console.WriteLine("Total: {0:C}", newOrder.Total);
-            //Console.WriteLine("Enter Y to confirm your order or N to cancel and return to Main Menu");
-            //confirm and validate
+            Console.WriteLine("ORDER SUMMARY");
+          
+
+            Console.WriteLine("**************************************************************");
+            Console.WriteLine("[{0}] [{1}]", newOrder.OrderNumber, newOrder.OrderDate.ToString("MM/dd/yyyy"));
+            Console.WriteLine("[{0}]", newOrder.CustomerName);
+            Console.WriteLine("[{0}]", newOrder.State);
+            Console.WriteLine("Product : [{0}]", newOrder.ProductType);
+            Console.WriteLine("Materials : [{0:c}]", newOrder.MaterialCost);
+            Console.WriteLine("Labor : [{0:c}]", newOrder.LaborCost);
+            Console.WriteLine("Tax : [{0:c}]", newOrder.Tax);
+            Console.WriteLine("Total : [{0:c}]", newOrder.Total);
+            Console.WriteLine("**************************************************************");
+            Console.WriteLine();
             Console.ReadLine();
+
+
+
+
+
         }
 
 
