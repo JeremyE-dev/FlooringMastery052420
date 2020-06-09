@@ -92,7 +92,7 @@ namespace FlooringMastery.Data
 
             catch (Exception e)
             {
-                Console.Write("There was a error the File System (ReadOrderFile), Contact IT");
+                Console.WriteLine("There was a error the File System (ReadOrderFile), Contact IT");
                 Console.WriteLine(e.Message);
                 Console.WriteLine("Press Any Key to Exit");
                 Console.ReadKey();

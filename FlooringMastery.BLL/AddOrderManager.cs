@@ -170,6 +170,7 @@ namespace FlooringMastery.BLL
            
             return response;
         }
+        
         //validates proper input, returns response object, sets order field if response successful
         ////Checks business rule: Product must not be empty, Product must be on list, confirm user wants product
      
@@ -409,10 +410,6 @@ namespace FlooringMastery.BLL
             Console.WriteLine("**************************************************************");
             Console.WriteLine();
             Console.ReadLine();
-
-
-
-
 
         }
 

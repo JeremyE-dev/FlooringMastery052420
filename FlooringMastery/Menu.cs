@@ -48,7 +48,8 @@ namespace FlooringMastery
                         break;
            
                     case "3":
-                        //edit order workflow
+                        EditOrderWorkflow editWorkflow = new EditOrderWorkflow();
+                        editWorkflow.Execute();
                         break;
                     case "4":
                         //remove order workflow

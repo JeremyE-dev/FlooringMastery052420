@@ -49,6 +49,7 @@
   <ItemGroup>
     <Compile Include="AddOrderManager.cs" />
     <Compile Include="DisplayOrderManager.cs" />
+    <Compile Include="EditOrderManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
