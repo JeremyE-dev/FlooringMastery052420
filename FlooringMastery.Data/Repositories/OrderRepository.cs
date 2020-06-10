@@ -51,7 +51,7 @@ namespace FlooringMastery.Data
         {
             //ex: Orders_06132020.txt
 
-
+            ProductRepository p  = new ProductRepository();
 
             // will need to extract date from filename
             string s = fileName.Remove(0,7);
@@ -82,6 +82,7 @@ namespace FlooringMastery.Data
                     o.LaborCost = Decimal.Parse(columns[9]);
                     o.Tax = Decimal.Parse(columns[10]);
                     o.Total = Decimal.Parse(columns[11]);
+                    o.Product = p.ProductList.Where(x => x.ProductType == o.ProductType).First();
 
                     SalesDayOrderList.Add(o);
 

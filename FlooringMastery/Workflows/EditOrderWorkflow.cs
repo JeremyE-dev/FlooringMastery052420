@@ -38,11 +38,34 @@ namespace FlooringMastery.Workflows
             CheckIfOrderExists();
             GetCustomerNameFromUser();
             GetStateFromUser();
+            Manager.CalculateNewTaxRate(); // sets Resets tax rate based on userinput
+            GetProductTypeFromUser();//sets newProduct and New Product Type
+            GetNewAreaFromUser();
+            Manager.CalculateNewLaborCost();
+            Manager.CalculateNewMaterialCost();
+            Manager.CalculateNewTax();
+            Manager.CalculateNewTotal();
+            
 
-            //ask for Customername and Validate
-            //ask for State and Validate
-            //ask for Product Type and Validate
-            //ask for Area and Validate
+            if (Manager.ConfirmChanges())
+            {
+                Manager.ReplaceOrder();
+                Manager.WriteOrderToFile();
+            }
+
+            else
+            {
+                return;
+            }
+
+
+            //recalculate all dependent fields
+            // Display new order details
+            //ask to confirm
+            // if yes save to file - print save message
+            //if no do not write to file and return to main menu
+
+           
 
 
         }
@@ -97,13 +120,13 @@ namespace FlooringMastery.Workflows
 
                 string userInput = Console.ReadLine();
 
-                Response response = Manager.ValidateOrderNumber(userInput);
+                Response responseA = Manager.ValidateOrderNumber(userInput);
 
                 //validation response object success field evaluates to false - return the message associated with that response.
-                if (!response.Success)
+                if (!responseA.Success)
 
                 {
-                    Console.WriteLine(response.Message);
+                    Console.WriteLine(responseA.Message);
                     Console.WriteLine("Press any key to continue");
                     Console.ReadKey();
                     continue;
@@ -113,6 +136,8 @@ namespace FlooringMastery.Workflows
                 // orderNumber is saved in the manager
                 else
                 {
+                    
+                    
                     return;
                 }
 
@@ -181,16 +206,22 @@ namespace FlooringMastery.Workflows
 
         public void GetProductTypeFromUser()
         {
+            Response response = new Response();
             Console.WriteLine("Please Enter The New ProductType or Press Enter to skip");
+            string userInput = Console.ReadLine();
+            response = Manager.ValidateProduct(userInput);
+            Console.WriteLine(response.Message);
+            Console.ReadLine();
         }
 
-        public void GetAreaFromUser()
+        public void GetNewAreaFromUser()
         {
             Response response = new Response();
             Console.WriteLine("Please Enter The New Area or Press Enter to skip");
             string userInput = Console.ReadLine();
-            response =  Manager.ValidatesCustomerName(userInput);
+            response =  Manager.ValidateArea(userInput);
             Console.WriteLine(response.Message);
+            Console.ReadLine();
         }
 
 
