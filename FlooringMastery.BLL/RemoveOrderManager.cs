@@ -10,8 +10,10 @@ using System.Threading.Tasks;
 
 namespace FlooringMastery.BLL
 {
-    public class EditOrderManager
+    public class RemoveOrderManager
     {
+
+
         OrderRepository _orderRepo;
         public OrderRepository OrderRepo
         {
@@ -22,16 +24,17 @@ namespace FlooringMastery.BLL
         Order _orderToEdit;
 
         public Order OrderToEdit
-        {   get { return _orderToEdit; }
+        {
+            get { return _orderToEdit; }
             set { _orderToEdit = value; }
         }
 
         Order _updatedOrder;
 
-        public Order UpdatedOrder 
+        public Order UpdatedOrder
         {
             get { return _updatedOrder; }
-            set {_updatedOrder = value; } 
+            set { _updatedOrder = value; }
         }
 
 
@@ -45,14 +48,16 @@ namespace FlooringMastery.BLL
 
         int _orderNumber;
 
-        public int OrderNumber {
+        public int OrderNumber
+        {
             get { return _orderNumber; }
             set { _orderNumber = value; }
         }
 
 
         string _newCustomerName;
-        public string NewCustomerName {
+        public string NewCustomerName
+        {
             get { return _newCustomerName; }
             set { _newCustomerName = value; }
         }
@@ -123,47 +128,47 @@ namespace FlooringMastery.BLL
         }
 
         decimal _newMaterialCost;
-        
-        public decimal NewMaterialCost 
-        { 
-            get {return _newMaterialCost;}
-            set {_newMaterialCost = value;}
+
+        public decimal NewMaterialCost
+        {
+            get { return _newMaterialCost; }
+            set { _newMaterialCost = value; }
         }
 
         decimal _newCostPerSquareFoot;
 
-        public decimal NewCostPerSquareFoot 
+        public decimal NewCostPerSquareFoot
         {
             get { return _newCostPerSquareFoot; }
-            set { _newCostPerSquareFoot = value; } 
+            set { _newCostPerSquareFoot = value; }
         }
-        
-        
+
+
         decimal _newLaborCost;
 
-        public decimal NewLaborCost 
+        public decimal NewLaborCost
         {
             get { return _newLaborCost; }
-            set { _newLaborCost = value; } 
+            set { _newLaborCost = value; }
         }
 
 
         decimal _newLaborCostPerSquareFoot;
 
-        public decimal NewLaborCostPerSquareFoot 
+        public decimal NewLaborCostPerSquareFoot
         {
-            get {return _newLaborCostPerSquareFoot; }
-            set { _newLaborCostPerSquareFoot = value;} 
+            get { return _newLaborCostPerSquareFoot; }
+            set { _newLaborCostPerSquareFoot = value; }
         }
-        
+
         decimal _newTaxRate;
 
-        public decimal NewTaxRate 
+        public decimal NewTaxRate
         {
-            get {return _newTaxRate; }
-            set { _newTaxRate = value; } 
+            get { return _newTaxRate; }
+            set { _newTaxRate = value; }
         }
-        
+
         decimal _newTax;
 
         public decimal NewTax
@@ -174,10 +179,10 @@ namespace FlooringMastery.BLL
 
         decimal _newTotal;
 
-        public decimal NewTotal 
+        public decimal NewTotal
         {
             get { return _newTotal; }
-            set { _newTotal = value; } 
+            set { _newTotal = value; }
         }
 
 
@@ -190,9 +195,9 @@ namespace FlooringMastery.BLL
 
 
 
-
-        public EditOrderManager()
+        public RemoveOrderManager()
         {
+
             _orderRepo = new OrderRepository();
             _orderToEdit = new Order();
             _updatedOrder = new Order();
@@ -201,8 +206,6 @@ namespace FlooringMastery.BLL
             _newProduct = new Product();
 
         }
-
-
         //Returns of date was valid, if it is saces to orderdate field
         //This field cannot be edited
         public Response ValidateDate(string userInput)
@@ -235,8 +238,8 @@ namespace FlooringMastery.BLL
         {
             int orderNumber;
             Response response = new Response();
-            
-            if (!Int32.TryParse(userInput, out orderNumber) || String.IsNullOrEmpty(userInput) )
+
+            if (!Int32.TryParse(userInput, out orderNumber) || String.IsNullOrEmpty(userInput))
             {
                 response.Success = false;
                 response.Message = "Error: Order number must be an integer and not empty";
@@ -295,13 +298,13 @@ namespace FlooringMastery.BLL
             Response response = new Response();
             var orderToFind = OrderRepo.SalesDayOrderList.Where(o => o.OrderNumber == OrderNumber);
 
-            if(!orderToFind.Any())
+            if (!orderToFind.Any())
             {
                 response.Success = false;
                 response.Message = String.Format("The order number you entered {0} was not found", OrderNumber);
                 return response;
             }
-            
+
             else
             {
                 //start here 6/10/2020
@@ -312,7 +315,7 @@ namespace FlooringMastery.BLL
             }
 
             return response;
-            
+
 
         }
 
@@ -341,14 +344,14 @@ namespace FlooringMastery.BLL
 
 
         }
-        
+
         //if left blank: will be set to the name currently in the file
         public Response ValidateState(string userInput)
         {
             Response response = new Response();
             States state;
 
-            if(String.IsNullOrEmpty(userInput))
+            if (String.IsNullOrEmpty(userInput))
             {
                 response.Success = true;
                 NewState = OrderToEdit.State;
@@ -391,7 +394,7 @@ namespace FlooringMastery.BLL
 
             return response;
         }
-        
+
         //if left blank: will be set to the name currently in the file
         public Response ValidateProduct(string userInput)
         {
@@ -428,7 +431,7 @@ namespace FlooringMastery.BLL
                 //be in that6 order field until it is replaced by the new order
                 // if user says no ( i.e. they want a different product) 
                 //the product will be set to the next product after the method is called again
-                NewProductType= productFromUser.ProductType;
+                NewProductType = productFromUser.ProductType;
                 NewProduct = productFromUser; //stores product in Order Manger to use 
 
             }
@@ -454,8 +457,8 @@ namespace FlooringMastery.BLL
                 NewArea = OrderToEdit.Area;
                 return response;
             }
-            
-            
+
+
             if (!Decimal.TryParse(userInput, out output))
             {
 
@@ -490,6 +493,7 @@ namespace FlooringMastery.BLL
 
         public void DisplayOrderInformation()
         {
+            Console.WriteLine("Order to be Removed");
             Console.WriteLine("**************************************************************");
             Console.WriteLine("[{0}] [{1}]", OrderToEdit.OrderNumber, OrderToEdit.OrderDate.ToString("MM/dd/yyyy"));
             Console.WriteLine("[{0}]", OrderToEdit.CustomerName);
@@ -504,40 +508,40 @@ namespace FlooringMastery.BLL
             Console.ReadLine();
         }
 
-        public void DisplayOrderEdits()
-        {
-            Console.WriteLine("**************************************************************");
-            Console.WriteLine("[{0}] [{1}]", OrderToEdit.OrderNumber, OrderToEdit.OrderDate.ToString("MM/dd/yyyy"));
-            Console.WriteLine("[{0}]", NewCustomerName);
-            Console.WriteLine("[{0}]", NewState);
-            Console.WriteLine("Product : [{0}]", NewProductType);
-            //Console.WriteLine("Materials : [{0:c}]", OrderToEdit.MaterialCost);
-            //Console.WriteLine("Labor : [{0:c}]", OrderToEdit.LaborCost);
-            //Console.WriteLine("Tax : [{0:c}]", OrderToEdit.Tax);
-            //Console.WriteLine("Total : [{0:c}]", OrderToEdit.Total);
-            Console.WriteLine("**************************************************************");
-            Console.WriteLine();
-            Console.ReadLine();
-        }
-        
+        //public void DisplayOrderEdits()
+        //{
+        //    Console.WriteLine("**************************************************************");
+        //    Console.WriteLine("[{0}] [{1}]", OrderToEdit.OrderNumber, OrderToEdit.OrderDate.ToString("MM/dd/yyyy"));
+        //    Console.WriteLine("[{0}]", NewCustomerName);
+        //    Console.WriteLine("[{0}]", NewState);
+        //    Console.WriteLine("Product : [{0}]", NewProductType);
+        //    //Console.WriteLine("Materials : [{0:c}]", OrderToEdit.MaterialCost);
+        //    //Console.WriteLine("Labor : [{0:c}]", OrderToEdit.LaborCost);
+        //    //Console.WriteLine("Tax : [{0:c}]", OrderToEdit.Tax);
+        //    //Console.WriteLine("Total : [{0:c}]", OrderToEdit.Total);
+        //    Console.WriteLine("**************************************************************");
+        //    Console.WriteLine();
+        //    Console.ReadLine();
+        //}
+
         public bool ConfirmChanges()
         {
-            Console.WriteLine("Summary of Edited Order");
+            //Console.WriteLine("Summary of Edited Order");
 
-            Console.WriteLine("**************************************************************");
-            Console.WriteLine("[{0}] [{1}]", OrderToEdit.OrderNumber, OrderToEdit.OrderDate.ToString("MM/dd/yyyy"));
-            Console.WriteLine("[{0}]", NewCustomerName);
-            Console.WriteLine("[{0}]", NewState);
-            Console.WriteLine("Product : [{0}]", NewProductType);
-            Console.WriteLine("Materials : [{0:c}]", NewMaterialCost);
-            Console.WriteLine("Labor : [{0:c}]", NewLaborCost);
-            Console.WriteLine("Tax : [{0:c}]", NewTax);
-            Console.WriteLine("Total : [{0:c}]", NewTotal);
-            Console.WriteLine("**************************************************************");
-            Console.WriteLine();
-            Console.ReadLine();
+            //Console.WriteLine("**************************************************************");
+            //Console.WriteLine("[{0}] [{1}]", OrderToEdit.OrderNumber, OrderToEdit.OrderDate.ToString("MM/dd/yyyy"));
+            //Console.WriteLine("[{0}]", NewCustomerName);
+            //Console.WriteLine("[{0}]", NewState);
+            //Console.WriteLine("Product : [{0}]", NewProductType);
+            //Console.WriteLine("Materials : [{0:c}]", NewMaterialCost);
+            //Console.WriteLine("Labor : [{0:c}]", NewLaborCost);
+            //Console.WriteLine("Tax : [{0:c}]", NewTax);
+            //Console.WriteLine("Total : [{0:c}]", NewTotal);
+            //Console.WriteLine("**************************************************************");
+            //Console.WriteLine();
+            //Console.ReadLine();
 
-            Console.WriteLine("Press \"Y\" to save these changes and \"N\" to return to the main menu");
+            Console.WriteLine("Press \"Y\" to Remove the order and \"N\" to return to the main menu");
             string userInput = Console.ReadLine();
 
             return ValidateYesNo(userInput);
@@ -600,38 +604,38 @@ namespace FlooringMastery.BLL
             result = NewArea * NewProduct.CostPerSquareFoot;//updated in precious calculation
             NewCostPerSquareFoot = NewProduct.CostPerSquareFoot;
             NewMaterialCost = result;
-            
+
 
         }
 
-        //Area * LaborCostPerSquareFoot
-        public void CalculateNewLaborCost()
-        {
-            decimal result;
-            result = NewArea * NewProduct.LaborCostPerSquareFoot;//updated in precious calculation
-            NewLaborCostPerSquareFoot = NewProduct.LaborCostPerSquareFoot;
-            NewLaborCost = result;
-            
-        }
-        
-        public void CalculateNewTaxRate()
-        {
-            decimal result;
-            string state = NewState.ToString();
-            TaxRate rate = TaxRateRepo.TaxRateList.Find(x => x.StateAbbreviation.Contains(state));
-            result = rate.Rate;
-            NewTaxRate = result;
-        }
-        public void CalculateNewTax()
-        {
-            decimal result = (NewMaterialCost + NewLaborCost) * (NewTaxRate / 100);
-            NewTax = result;
-        }
-        public void CalculateNewTotal()
-        {
-            decimal result = NewMaterialCost + NewLaborCost + NewTax;
-            NewTotal = result;
-        }
+        //Area* LaborCostPerSquareFoot
+        //public void CalculateNewLaborCost()
+        //{
+        //    decimal result;
+        //    result = NewArea * NewProduct.LaborCostPerSquareFoot;//updated in precious calculation
+        //    NewLaborCostPerSquareFoot = NewProduct.LaborCostPerSquareFoot;
+        //    NewLaborCost = result;
+
+        //}
+
+        //public void CalculateNewTaxRate()
+        //{
+        //    decimal result;
+        //    string state = NewState.ToString();
+        //    TaxRate rate = TaxRateRepo.TaxRateList.Find(x => x.StateAbbreviation.Contains(state));
+        //    result = rate.Rate;
+        //    NewTaxRate = result;
+        //}
+        //public void CalculateNewTax()
+        //{
+        //    decimal result = (NewMaterialCost + NewLaborCost) * (NewTaxRate / 100);
+        //    NewTax = result;
+        //}
+        //public void CalculateNewTotal()
+        //{
+        //    decimal result = NewMaterialCost + NewLaborCost + NewTax;
+        //    NewTotal = result;
+        //}
 
         public void RemoveOldOrderFromList()
         {
@@ -642,28 +646,26 @@ namespace FlooringMastery.BLL
 
 
             Console.WriteLine("Old data has been removed from list");
-            Console.ReadKey();    
-            
-            
-            
-           return;
-        }
-
-        public void AddUpdatedOrderToList()
-        {
-            OrderRepo.SalesDayOrderList.Add(UpdateOrder());
-            Console.WriteLine("New Data has been added to list");
             Console.ReadKey();
+
+
 
             return;
         }
 
-        //write orders to file from list
-        
-        public void ClearFile()
-        {
+        //public void AddUpdatedOrderToList()
+        //{
+        //    OrderRepo.SalesDayOrderList.Add(UpdateOrder());
+        //    Console.WriteLine("New Data has been added to list");
+        //    Console.ReadKey();
 
-        }
+        //    return;
+        //}
+
+        //write orders to file from list
+
+
+
 
         //Writes updatedOrderList to text file, overwrites existing information
         public void WriteListToFile()
@@ -674,7 +676,7 @@ namespace FlooringMastery.BLL
 
             //validate if this is valid path first??
 
-            string OrderAsString; 
+            string OrderAsString;
 
             if (File.Exists(path))
             {
@@ -683,19 +685,19 @@ namespace FlooringMastery.BLL
 
                 //using (StreamWriter writer = new StreamWriter(path, false)){ 
                 //writer.Write(textToAdd);
-            //old
-            //using (StreamWriter writer = File.AppendText(path))
+                //old
+                //using (StreamWriter writer = File.AppendText(path))
 
-            using (StreamWriter writer = new StreamWriter(path, false))
-            {
+                using (StreamWriter writer = new StreamWriter(path, false))
+                {
                     writer.WriteLine("OrderNumber,CustomerName,State,TaxRate,ProductType,Area,CostPerSquareFoot,LaborCostPerSquareFoot,MaterialCost,LaborCost,Tax,Total");
-                    
+
                     foreach (var order in OrderRepo.SalesDayOrderList)
                     {
                         OrderAsString = order.OrderToLineInFile();
                         writer.WriteLine(OrderAsString);
                     }
-                                   
+
                 }
             }
 
@@ -726,7 +728,7 @@ namespace FlooringMastery.BLL
         //remove from file - clear file
         //rewrite l
 
-            //Replaced with another method - To Be Deleted
+        //Replaced with another method - To Be Deleted
         public void WriteOrderToFile()
         {
             string filename = ConvertDateToFileName(); //returns a filename
@@ -775,33 +777,37 @@ namespace FlooringMastery.BLL
             return result;
         }
 
-        
-
-        
 
 
-        public Order UpdateOrder()
-        {
-            UpdatedOrder.OrderNumber = OrderToEdit.OrderNumber;//this is because it will replace that order
-            UpdatedOrder.OrderDate = OrderToEdit.OrderDate;//this field cannot be changed
-            
-            UpdatedOrder.CustomerName = NewCustomerName;
-            UpdatedOrder.State = NewState;
-            UpdatedOrder.TaxRate = NewTaxRate;
-            UpdatedOrder.Product = NewProduct;
-            UpdatedOrder.ProductType = NewProductType;
-            UpdatedOrder.CostPerSquareFoot = NewCostPerSquareFoot;
-            UpdatedOrder.LaborCostPerSquareFoot = NewCostPerSquareFoot;
-            UpdatedOrder.Area = NewArea;
-            UpdatedOrder.MaterialCost = NewMaterialCost;
-            UpdatedOrder.LaborCost = NewLaborCost;
-            UpdatedOrder.Tax = NewTax;
-            UpdatedOrder.Total = NewTotal;
 
-            return UpdatedOrder;
-            
-        }
 
-      
+
+        //public Order UpdateOrder()
+        //{
+        //    UpdatedOrder.OrderNumber = OrderToEdit.OrderNumber;//this is because it will replace that order
+        //    UpdatedOrder.OrderDate = OrderToEdit.OrderDate;//this field cannot be changed
+
+        //    UpdatedOrder.CustomerName = NewCustomerName;
+        //    UpdatedOrder.State = NewState;
+        //    UpdatedOrder.TaxRate = NewTaxRate;
+        //    UpdatedOrder.Product = NewProduct;
+        //    UpdatedOrder.ProductType = NewProductType;
+        //    UpdatedOrder.CostPerSquareFoot = NewCostPerSquareFoot;
+        //    UpdatedOrder.LaborCostPerSquareFoot = NewCostPerSquareFoot;
+        //    UpdatedOrder.Area = NewArea;
+        //    UpdatedOrder.MaterialCost = NewMaterialCost;
+        //    UpdatedOrder.LaborCost = NewLaborCost;
+        //    UpdatedOrder.Tax = NewTax;
+        //    UpdatedOrder.Total = NewTotal;
+
+        //    return UpdatedOrder;
+
+        //}
+
+
     }
-}
+        
+    }
+
+
+

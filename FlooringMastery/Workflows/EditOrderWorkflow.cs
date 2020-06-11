@@ -34,8 +34,22 @@ namespace FlooringMastery.Workflows
         public void Execute()
         {
             GetDateFromUser();
-            GetOrderNumberFromUser();
-            CheckIfOrderExists();
+            
+            if (!CheckIfFileExists())
+            {
+                return;
+            }
+
+            //checks if valid format
+            // if in wrong format ask until integer
+            //if in correct format - check that it existst
+            ValidateOrderNumberFormat();
+
+            if(!CheckIfOrderNumberExists())
+            {
+                return;
+            }
+
             GetCustomerNameFromUser();
             GetStateFromUser();
             Manager.CalculateNewTaxRate(); // sets Resets tax rate based on userinput
@@ -49,8 +63,12 @@ namespace FlooringMastery.Workflows
 
             if (Manager.ConfirmChanges())
             {
-                Manager.ReplaceOrder();
-                Manager.WriteOrderToFile();
+                Manager.RemoveOldOrderFromList();
+                Manager.AddUpdatedOrderToList(); // Expect List to be in correct state
+                Manager.WriteListToFile();//expect file to match list
+                Console.WriteLine("Your Order Has Been Updated, Press any Key To Cointinue");
+                Console.ReadKey();
+                return;
             }
 
             else
@@ -63,9 +81,7 @@ namespace FlooringMastery.Workflows
             // Display new order details
             //ask to confirm
             // if yes save to file - print save message
-            //if no do not write to file and return to main menu
-
-           
+            //if no do not write to file and return to main men     
 
 
         }
@@ -110,9 +126,11 @@ namespace FlooringMastery.Workflows
 
         }
 
-
-        public void GetOrderNumberFromUser()
+        //if ordernumber is an integer return true, esle keep asking
+        public bool ValidateOrderNumberFormat()
         {
+            
+           
             while(true)
             {
                 Console.Clear();
@@ -120,60 +138,102 @@ namespace FlooringMastery.Workflows
 
                 string userInput = Console.ReadLine();
 
-                Response responseA = Manager.ValidateOrderNumber(userInput);
+                Response response = Manager.ValidateOrderNumber(userInput);
 
-                //validation response object success field evaluates to false - return the message associated with that response.
-                if (!responseA.Success)
-
+                if(!response.Success)
                 {
-                    Console.WriteLine(responseA.Message);
-                    Console.WriteLine("Press any key to continue");
+                    Console.WriteLine(response.Message);
+                    Console.WriteLine("Press Any Key To Continue");
                     Console.ReadKey();
                     continue;
                 }
 
-                // if response object success field is set to true, return the
-                // orderNumber is saved in the manager
                 else
                 {
-                    
-                    
-                    return;
+                    Console.WriteLine(response.Message);
+                    Console.WriteLine("Press Any Key To Continue");
+                    Console.ReadKey();
+                    return response.Success;
+                }
+
+               
+
+            }
+            
+        }
+
+
+        
+
+        public bool CheckIfFileExists()
+        {
+            Response response = Manager.ValidateFile();
+            //Response orderExistsResponse = Manager.ValidateOrder();
+
+            while (true)
+            {
+
+
+                if (!response.Success)
+                {
+                    Console.WriteLine(response.Message);
+                    Console.WriteLine("Press any key to continue");
+                    Console.ReadKey();
+                    return response.Success;
+
+                }
+
+                
+
+                else
+                {
+                    Console.WriteLine(response.Message);
+                    Console.WriteLine("Press any key to continue");
+                    Console.ReadKey();
+                    //Manager.DisplayOrderInformation();
+                    break;
+                }
+            }
+
+       
+            return true;
+
+
+
+        }
+
+        public bool CheckIfOrderNumberExists()
+        {
+            
+
+            Response response = Manager.ValidateSpecificOrderExists();
+
+            while (true)
+            {
+
+
+                if (!response.Success)
+                {
+                    Console.WriteLine(response.Message);
+                    Console.WriteLine("Press any key to continue");
+                    Console.ReadKey();
+                    return response.Success;
+
                 }
 
 
-            }
-        }
 
-        public void CheckIfOrderExists()
-        {
-           Response fileExistsResponse =  Manager.ValidateFile();
-            Response orderExistsResponse = Manager.ValidateOrder();
-
-            if (!fileExistsResponse.Success)
-            {
-                Console.WriteLine(fileExistsResponse.Message);
-                Console.WriteLine("Press any key to continue");
-                Console.ReadKey();
-                return; //return to main menu?
-
+                else
+                {
+                    Console.WriteLine(response.Message);
+                    Console.WriteLine("Press any key to continue");
+                    Console.ReadKey();
+                    Manager.DisplayOrderInformation();
+                    Console.ReadLine();
+                    return response.Success;
+                }
             }
 
-            if (!orderExistsResponse.Success)
-            {
-                Console.WriteLine(orderExistsResponse.Message);
-                Console.WriteLine("Press any key to continue");
-                Console.ReadKey();
-                return; 
-
-            }
-
-            else
-            {
-                Manager.DisplayOrderInformation();
-            }
-
-            return;
 
 
 
@@ -193,12 +253,29 @@ namespace FlooringMastery.Workflows
         public void GetStateFromUser()
         {
             Response response = new Response();
-            Console.WriteLine("Please Enter The New State or Press Enter to skip");
-            string userInput = Console.ReadLine();
-            response = Manager.ValidateState(userInput);
-            Console.WriteLine(response.Message);
-            Console.ReadLine();
 
+            while (true)
+            {
+                Console.Clear();
+                Console.WriteLine("Please Enter The New State or Press Enter to skip");
+                string userInput = Console.ReadLine();
+                response = Manager.ValidateState(userInput);
+                if(!response.Success)
+                {
+                    Console.WriteLine(response.Message);
+                    Console.WriteLine("Press any key to continue");
+                    Console.ReadKey();
+                    continue;
+                }
+
+                else
+                {
+                    Console.WriteLine("Press any key to continue");
+                    Console.ReadKey();
+                    return;
+                }
+        
+            }
 
             //validation code
 

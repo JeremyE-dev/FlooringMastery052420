@@ -51,6 +51,7 @@
     <Compile Include="DisplayOrderManager.cs" />
     <Compile Include="EditOrderManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RemoveOrderManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\FlooringMastery.Data\FlooringMastery.Data.csproj">
