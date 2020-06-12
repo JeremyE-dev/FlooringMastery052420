@@ -75,12 +75,12 @@ namespace FlooringMastery.Workflows
             }
 
             
-
-            
         }
+
+        //Move to OrderRepository
         public void ValidateAndDisplayFile()
         {
-            Response response = Manager.CheckIfFileExists();
+            Response response = Manager.CheckIfOrderExists();
 
             if(!response.Success)
             {
@@ -92,7 +92,7 @@ namespace FlooringMastery.Workflows
 
             else
             {
-                Manager.DisplayExistingFile();
+                Manager.DisplayOrders();
             }
 
         }

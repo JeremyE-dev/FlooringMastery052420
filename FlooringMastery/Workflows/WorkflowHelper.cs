@@ -13,7 +13,7 @@ namespace FlooringMastery.Workflows
         public static void MenuInputValidation(string userinput, string message)
         {
             if (userinput != "1" && userinput != "2" &&
-                userinput != "3" && userinput != "4" && userinput != "Q" && userinput != "q")
+                userinput != "3" && userinput != "4" && userinput != "5")
             {
                 Console.WriteLine(message);
                 Console.ReadKey();

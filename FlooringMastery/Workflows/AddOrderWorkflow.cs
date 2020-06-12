@@ -47,14 +47,16 @@ namespace FlooringMastery.Workflows
             Manager.CalculateTaxRate();
             Manager.CalculateTax();
             Manager.CalculateTotal();
-            Manager.CalculateOrderNumber();
+            Manager.GenerateOrderNumber();
             Manager.DisplayOrderInformation();
 
             //if this is true, then wite to file, else just return to main menu
             
             if(Manager.ConfirmOrder())
             {
-                Manager.WriteOrderToFile();
+                Manager.Save();
+
+                //for 
             }
             else
             {

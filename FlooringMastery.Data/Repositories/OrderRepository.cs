@@ -1,4 +1,5 @@
 ﻿using FlooringMastery.Models;
+using FlooringMastery.Models.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -6,12 +7,13 @@ using System.Linq;
 using System.Text;
 using MoreLinq.Extensions;
 using System.Threading.Tasks;
+using FlooringMastery.Models.Responses;
 
 namespace FlooringMastery.Data
 {
     
     //This is a repo that contains all orders in One file Not all orders that exist in the Folder
-    public class OrderRepository
+    public class OrderRepository : IOrderRepository
     {
          //The FOLDER where all orders are located
          //The specific file is entered 
@@ -22,31 +24,17 @@ namespace FlooringMastery.Data
             set { _folderpath = value; }
         }
 
-        //public List<Order> MainOrderLIst { get; set; } = new List<Order>();
+        string _fileName;
 
-        
+        public string FileName
+        {
+            get { return _fileName; }
+            set { _fileName = value; }
+        }
+
         public List<Order> SalesDayOrderList { get; set; } = new List<Order>();
 
-        //List that contains all orders in a given file
 
-        // medthod that takes in a filename and writes all orders in that filename to a list
-        
-        //This is an order repository for a specific date
-        //public OrderRepository(string fileName)
-        //{
-
-        //    ReadOrderByDate(fileName);
-        //}
-
-        //public OrderRepository(string path)
-        //{
-        //    _folderpath = path;
-        //    ReadMainOrderFile();
-        //}
-
-        //Reads list of orders in a given file,
-        //converts each order into an order object
-        //places each order object in SalesDayOrderList
         public void ReadOrderByDate(string fileName)
         {
             //ex: Orders_06132020.txt
@@ -161,6 +149,140 @@ namespace FlooringMastery.Data
         
         }
 
+
+        //***METHODS HERE WERE MOVED FROM ADD ORDERMANAGER
+
+        
+        public void SaveAddedOrder(Order o)
+        {
+            //takes in date of "newOrder" and converts it to a filename
+            string filename = ConvertDateToFileName(o);
+            //constructs the complete filepath with name of file
+            string path = FolderPath + filename;
+            // converts order information so it can be written as one line to the file
+            string OrderAsString = o.OrderToLineInFile();
+
+            // if there is a file with that name already
+            // append the given line to that file
+            if (File.Exists(path))
+            {
+
+
+                using (StreamWriter writer = File.AppendText(path))
+                {
+                    writer.WriteLine(OrderAsString);
+                }
+            }
+
+            //if there is not a file with that name
+            //create a new one
+            //add header line
+            // write the order to the file
+            else
+            {
+
+                var myFile = File.Create(path);
+                myFile.Close();
+
+                using (StreamWriter writer = new StreamWriter(path))
+                {
+                    writer.WriteLine("OrderNumber,CustomerName,State,TaxRate,ProductType,Area,CostPerSquareFoot,LaborCostPerSquareFoot,MaterialCost,LaborCost,Tax,Total");
+                    writer.WriteLine(OrderAsString);
+                }
+            }
+
+            //after order is written Read from the file to load it to the OrderRepository
+            //places orderin OrderRepo - orderlist
+            //this places the new order in the order list
+            ReadOrderByDate(filename);
+
+
+
+
+        }
+
+        public string ConvertDateToFileName(Order o)
+        {
+
+            string result = "Orders_" + o.OrderDate.ToString("MMddyyyy") + ".txt";
+            Console.WriteLine("result");
+            return result;
+        }
+
+        public string ConvertDateToFileName(DateTime d)
+        {
+
+            string result = "Orders_" + d.ToString("MMddyyyy") + ".txt";
+            Console.WriteLine("result");
+            return result;
+        }
+
+
+
+        public int CalculateOrderNumber(Order o)
+        {
+            //does a file exist with the date entered
+            string filename = ConvertDateToFileName(o); //returns a filename
+            string path = FolderPath + filename;
+
+
+            if (!File.Exists(path))
+            {
+                o.OrderNumber = 1;
+            }
+
+            else
+            { //if the file does exists load the file to the order repository
+                ReadOrderByDate(filename); //this should load everything in that file to this list, 
+                                                     //hopefully will resolve null issue 
+
+
+                o.OrderNumber = SalesDayOrderList.MaxBy(x => x.OrderNumber).First().OrderNumber + 1;
+
+            }
+
+            return o.OrderNumber;
+
+
+        }
+
+        //Methods Here Have been moved from DisplayOrderManager
+        public Response CheckIfOrderGroupExists(DateTime d)
+        {
+            string fileName = ConvertDateToFileName(d);
+
+
+            string path = FolderPath + fileName;
+            Response response = new Response();
+
+            //string OrderAsString = newOrder.OrderToLineInFile();
+
+            if (!File.Exists(path))
+            {
+                response.Success = false;
+                response.Message = String.Format("Error: There were no orders for the date given: {0}", d.ToString("MM/dd/yyyy"));
+
+            }
+
+            else
+            {
+
+                response.Success = true;
+                FileName = fileName;
+                response.Message = String.Format("An order file for {0} has been found", d.ToString("MM/dd/yyyy"));
+
+            }
+
+            return response;
+        }
+
+        public void DisplayExistingFile()
+        {//1. Load the file
+            ReadOrderByDate(FileName);
+            //print all orders in the file
+            printOrders();
+            Console.ReadLine();
+        }
 
 
 

@@ -1,4 +1,5 @@
 ﻿using FlooringMastery.Data;
+using FlooringMastery.Models;
 using FlooringMastery.Models.Responses;
 using System;
 using System.Collections.Generic;
@@ -11,32 +12,32 @@ namespace FlooringMastery.BLL
 {
     public class DisplayOrderManager
     {
-        
+
         OrderRepository _orderRepo;
         public OrderRepository OrderRepo
         {
             get { return _orderRepo; }
             set { _orderRepo = value; }
         }
-        
+
         DateTime _orderDate;
-        public DateTime OrderDate 
+        public DateTime OrderDate
         {
             get { return _orderDate; }
-            set { _orderDate = value; } 
+            set { _orderDate = value; }
         }
 
         string _fileName;
 
-        public string FileName 
+        public string FileName
         {
             get { return _fileName; }
-            set { _fileName = value; } 
+            set { _fileName = value; }
         }
 
         public DisplayOrderManager()
         {
-           _orderRepo = new OrderRepository();
+            _orderRepo = new OrderRepository();
         }
 
 
@@ -61,56 +62,25 @@ namespace FlooringMastery.BLL
                 response.Success = true;
                 response.Message = "The date entered was in the valid format";
                 OrderDate = userDate;
-               
+
             }
 
             return response;
 
         }
 
-        public Response CheckIfFileExists()
+        public Response CheckIfOrderExists()
         {
-            string fileName = ConvertDateToFileName(OrderDate);
-       
-
-            string path = OrderRepo.FolderPath + fileName;
-            Response response = new Response();
-
-            //string OrderAsString = newOrder.OrderToLineInFile();
-
-            if (!File.Exists(path))
-            {
-                response.Success = false;
-                response.Message = String.Format("Error: There were no orders for the date given: {0}", OrderDate.ToString("MM/dd/yyyy"));
-                      
-            }
-
-            else
-            {
-
-                response.Success = true;
-                FileName = fileName;
-                response.Message = String.Format("An order file for {0} has been found", OrderDate);
-                
-            }
-
+            Response response = OrderRepo.CheckIfOrderGroupExists(OrderDate);
             return response;
         }
 
-        public void DisplayExistingFile()
-        {//1. Load the file
-            OrderRepo.ReadOrderByDate(FileName);
-            //print all orders in the file
-            OrderRepo.printOrders();
-            Console.ReadLine();
-        }
 
-        public string ConvertDateToFileName(DateTime date)
+        public void DisplayOrders()
         {
-
-            string result = "Orders_" + date.ToString("MMddyyyy") + ".txt";
-            Console.WriteLine();
-            return result;
+            OrderRepo.DisplayExistingFile();
         }
+
     }
+
 }

@@ -34,6 +34,7 @@ namespace FlooringMastery
 
             WorkflowHelper.MenuInputValidation(userinput, "That was not a valid entry");
 
+               
 
                 switch (userinput)
                 {
@@ -55,11 +56,12 @@ namespace FlooringMastery
                         RemoveOrderWorkflow removeWorkflow = new RemoveOrderWorkflow();
                         removeWorkflow.Execute();
                         break;
-                    case "Q":
+                    case "5" :
+                        QuitWorkflow quitWorkflow = new QuitWorkflow();
+                        quitWorkflow.Execute();
                         return;
                     
-                    case "q":
-                        return;
+                    
                 }
 
 
