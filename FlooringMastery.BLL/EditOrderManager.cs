@@ -256,63 +256,54 @@ namespace FlooringMastery.BLL
 
 
         }
-
-        public Response ValidateFile()
+        
+        //MOVED TO ORDER REPO, possibly rename, currently same name in two classes
+        public Response ValidateOrderGroup()
         {
-            string fileName = ConvertDateToFileName(OrderDate);
+            //    return OrderRepo.ValidateFile(OrderDate);
+            Response response = (OrderRepo.CheckIfOrderGroupExists(OrderDate));
 
-
-            string path = OrderRepo.FolderPath + fileName;
-            Response response = new Response();
-
-            //string OrderAsString = newOrder.OrderToLineInFile();
-
-            if (!File.Exists(path))
+            if(response.Success)
             {
-                response.Success = false;
-                response.Message = String.Format("Error: There were no orders for the date given: {0}", OrderDate.ToString("MM/dd/yyyy"));
-                return response;
-            }
-
-            else
-            {
-
-                response.Success = true;
-                FileName = fileName;
-                //loads file into OrderRepo/places orders in orderList
-                OrderRepo.ReadOrderByDate(FileName);
-                response.Message = String.Format("An order file for {0} has been found", OrderDate);
-
+                OrderRepo.ReadOrderByDate(OrderRepo.FileName);
             }
 
             return response;
+
+           
+           
         }
 
 
+
+
         //get Order from OrderRepo and store in field in this orderManager
+        //MOVed TO ORDER REPO
         public Response ValidateSpecificOrderExists()
         {
             Response response = new Response();
-            var orderToFind = OrderRepo.SalesDayOrderList.Where(o => o.OrderNumber == OrderNumber);
 
-            if(!orderToFind.Any())
+            if(OrderRepo.DoesOrderExistInList(OrderNumber))
+            {
+                response.Success = true;
+                OrderToEdit = OrderRepo.GetOrderFromList(OrderNumber);
+                response.Message = String.Format("The order you entered {0} has been located", OrderNumber);
+                Console.ReadLine();
+                return response;
+
+            }
+
+            else
             {
                 response.Success = false;
                 response.Message = String.Format("The order number you entered {0} was not found", OrderNumber);
+                Console.ReadLine();
+
                 return response;
             }
-            
-            else
-            {
-                //start here 6/10/2020
-                response.Success = true;
-                OrderToEdit = OrderRepo.SalesDayOrderList.Where(o => o.OrderNumber == OrderNumber).First();
-                response.Message = String.Format("The order you entered {0} has been located", OrderNumber);
 
-            }
+          
 
-            return response;
-            
 
         }
 
@@ -576,23 +567,14 @@ namespace FlooringMastery.BLL
             }
         }
 
-
-        public void DisplayExistingFile()
-        {//1. Load the file
-            OrderRepo.ReadOrderByDate(FileName);
-            //print all orders in the file
-            OrderRepo.printOrders();
-            Console.ReadLine();
-        }
-
-        public string ConvertDateToFileName(DateTime date)
-        {
-
-            string result = "Orders_" + date.ToString("MMddyyyy") + ".txt";
-            Console.WriteLine();
-            return result;
-        }
-
+        //MOVE TO OrderRepo
+        //public void DisplayExistingFile()
+        //{//1. Load the file
+        //    OrderRepo.ReadOrderByDate(FileName);
+        //    //print all orders in the file
+        //    OrderRepo.printOrders();
+        //    Console.ReadLine();
+        //}
 
         public void CalculateNewMaterialCost()
         {
@@ -633,139 +615,117 @@ namespace FlooringMastery.BLL
             NewTotal = result;
         }
 
-        public void RemoveOldOrderFromList()
-        {
-            //findit and remobe
-            var orderToFind = OrderRepo.SalesDayOrderList.Where(o => o.OrderNumber == OrderToEdit.OrderNumber).First();
-            OrderRepo.SalesDayOrderList.Remove(orderToFind);
-            //OrderRepo.SalesDayOrderList.Add(UpdateOrder());
+        //MOVE To Order REpo
+        //public void RemoveOldOrderFromList()
+        //{
+        //    //findit and remobe
+        //    var orderToFind = OrderRepo.SalesDayOrderList.Where(o => o.OrderNumber == OrderToEdit.OrderNumber).First();
+        //    OrderRepo.SalesDayOrderList.Remove(orderToFind);
+        //    //OrderRepo.SalesDayOrderList.Add(UpdateOrder());
 
 
-            Console.WriteLine("Old data has been removed from list");
-            Console.ReadKey();    
+        //    Console.WriteLine("Old data has been removed from list");
+        //    Console.ReadKey();    
             
             
             
-           return;
-        }
+        //   return;
+        //}
 
-        public void AddUpdatedOrderToList()
-        {
-            OrderRepo.SalesDayOrderList.Add(UpdateOrder());
-            Console.WriteLine("New Data has been added to list");
-            Console.ReadKey();
+        //Move to OrderRepo
+        //public void AddUpdatedOrderToList()
+        //{
+        //    OrderRepo.SalesDayOrderList.Add(UpdateOrder());
+        //    Console.WriteLine("New Data has been added to list");
+        //    Console.ReadKey();
 
-            return;
-        }
+        //    return;
+        //}
 
-        //write orders to file from list
-        
-        public void ClearFile()
-        {
-
-        }
+       
+     
 
         //Writes updatedOrderList to text file, overwrites existing information
-        public void WriteListToFile()
-        {
-            string filename = ConvertDateToFileName(); //returns a filename
+        //public void WriteListToFile()
+        //{
+        //    string filename = ConvertDateToFileName(); //returns a filename
 
-            string path = OrderRepo.FolderPath + filename;
+        //    string path = OrderRepo.FolderPath + filename;
 
-            //validate if this is valid path first??
+      
 
-            string OrderAsString; 
+        //    string OrderAsString; 
 
-            if (File.Exists(path))
-            {
+        //    if (File.Exists(path))
+        //    {
 
-                //write header as first line gere
+      
 
-                //using (StreamWriter writer = new StreamWriter(path, false)){ 
-                //writer.Write(textToAdd);
-            //old
-            //using (StreamWriter writer = File.AppendText(path))
-
-            using (StreamWriter writer = new StreamWriter(path, false))
-            {
-                    writer.WriteLine("OrderNumber,CustomerName,State,TaxRate,ProductType,Area,CostPerSquareFoot,LaborCostPerSquareFoot,MaterialCost,LaborCost,Tax,Total");
+        //    using (StreamWriter writer = new StreamWriter(path, false))
+        //    {
+        //            writer.WriteLine("OrderNumber,CustomerName,State,TaxRate,ProductType,Area,CostPerSquareFoot,LaborCostPerSquareFoot,MaterialCost,LaborCost,Tax,Total");
                     
-                    foreach (var order in OrderRepo.SalesDayOrderList)
-                    {
-                        OrderAsString = order.OrderToLineInFile();
-                        writer.WriteLine(OrderAsString);
-                    }
+        //            foreach (var order in OrderRepo.SalesDayOrderList)
+        //            {
+        //                OrderAsString = order.OrderToLineInFile();
+        //                writer.WriteLine(OrderAsString);
+        //            }
                                    
-                }
-            }
+        //        }
+        //    }
 
-            //else
-            //{
-
-            //    var myFile = File.Create(path);
-            //    myFile.Close();
-
-            //    using (StreamWriter writer = new StreamWriter(path))
-            //    {
-            //        writer.WriteLine("OrderNumber,CustomerName,State,TaxRate,ProductType,Area,CostPerSquareFoot,LaborCostPerSquareFoot,MaterialCost,LaborCost,Tax,Total");
-            //        writer.WriteLine(OrderAsString);
-            //    }
-            //}
-
-            //after order is written Read from the file to load it to the OrderRepository
-            //places orderin OrderRepo - orderlist
-            OrderRepo.ReadOrderByDate(filename);
+        //    //places orderin OrderRepo - orderlist
+        //    OrderRepo.ReadOrderByDate(filename);
 
 
-        }
+        //}
 
 
 
 
 
-        //remove from file - clear file
-        //rewrite l
+       
 
             //Replaced with another method - To Be Deleted
-        public void WriteOrderToFile()
-        {
-            string filename = ConvertDateToFileName(); //returns a filename
+        //public void WriteOrderToFile()
+        //{
+        //    string filename = ConvertDateToFileName(); //returns a filename
 
-            string path = OrderRepo.FolderPath + filename;
+        //    string path = OrderRepo.FolderPath + filename;
 
-            //validate if this is valid path first??
+        //    //validate if this is valid path first??
 
-            string OrderAsString = OrderToEdit.OrderToLineInFile();
+        //    string OrderAsString = OrderToEdit.OrderToLineInFile();
 
-            if (File.Exists(path))
-            {
-
-
-                using (StreamWriter writer = File.AppendText(path))
-                {
-                    writer.WriteLine(OrderAsString);
-                }
-            }
-
-            else
-            {
-
-                var myFile = File.Create(path);
-                myFile.Close();
-
-                using (StreamWriter writer = new StreamWriter(path))
-                {
-                    writer.WriteLine("OrderNumber,CustomerName,State,TaxRate,ProductType,Area,CostPerSquareFoot,LaborCostPerSquareFoot,MaterialCost,LaborCost,Tax,Total");
-                    writer.WriteLine(OrderAsString);
-                }
-            }
-
-            //after order is written Read from the file to load it to the OrderRepository
-            //places orderin OrderRepo - orderlist
-            OrderRepo.ReadOrderByDate(filename);
+        //    if (File.Exists(path))
+        //    {
 
 
-        }
+        //        using (StreamWriter writer = File.AppendText(path))
+        //        {
+        //            writer.WriteLine(OrderAsString);
+        //        }
+        //    }
+
+        //    else
+        //    {
+
+        //        var myFile = File.Create(path);
+        //        myFile.Close();
+
+        //        using (StreamWriter writer = new StreamWriter(path))
+        //        {
+        //            writer.WriteLine("OrderNumber,CustomerName,State,TaxRate,ProductType,Area,CostPerSquareFoot,LaborCostPerSquareFoot,MaterialCost,LaborCost,Tax,Total");
+        //            writer.WriteLine(OrderAsString);
+        //        }
+        //    }
+
+        //    //after order is written Read from the file to load it to the OrderRepository
+        //    //places orderin OrderRepo - orderlist
+        //    OrderRepo.ReadOrderByDate(filename);
+
+
+        //}
 
         public string ConvertDateToFileName()
         {
@@ -776,9 +736,6 @@ namespace FlooringMastery.BLL
         }
 
         
-
-        
-
 
         public Order UpdateOrder()
         {
@@ -801,6 +758,15 @@ namespace FlooringMastery.BLL
             return UpdatedOrder;
             
         }
+
+        public void UpdateDataSource()
+        {
+            OrderRepo.RemoveOldOrderFromList();
+            OrderRepo.AddUpdatedOrderToList(UpdateOrder());
+            OrderRepo.WriteListToFile(OrderDate);
+        }
+
+
 
       
     }

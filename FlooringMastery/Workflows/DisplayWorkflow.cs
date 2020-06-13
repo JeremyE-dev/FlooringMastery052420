@@ -33,7 +33,7 @@ namespace FlooringMastery.Workflows
         public void Execute()
         {
             GetDateFromUser();
-            ValidateAndDisplayFile();
+            ValidateAndDisplayOrders();
         }
 
         public void GetDateFromUser()
@@ -78,7 +78,7 @@ namespace FlooringMastery.Workflows
         }
 
         //Move to OrderRepository
-        public void ValidateAndDisplayFile()
+        public void ValidateAndDisplayOrders()
         {
             Response response = Manager.CheckIfOrderExists();
 

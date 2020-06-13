@@ -50,7 +50,7 @@ namespace FlooringMastery.Workflows
                 Manager.RemoveOldOrderFromList();
                 //Manager.AddUpdatedOrderToList(); // Expect List to be in correct state
                 Manager.WriteListToFile();//expect file to match list
-                Console.WriteLine("Your Order Has Been REmoved, Press any Key To Continue");
+                Console.WriteLine("Your Order Has Been Removed, Press any Key To Continue");
                 Console.ReadKey();
                 return;
             }

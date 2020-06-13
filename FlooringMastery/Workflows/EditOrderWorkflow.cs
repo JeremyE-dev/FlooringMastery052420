@@ -25,17 +25,19 @@ namespace FlooringMastery.Workflows
         {
             _manager = new EditOrderManager();
         }
-        //1. Edit will query the user for a date and order number. 
-        // -If the order exists in the file for that date
-
-        //validates That the date is in the correct format
-        //the orderDate is set/stored in the Manager
-
+     
         public void Execute()
         {
+            //1.) get the date and validate format
             GetDateFromUser();
-            
-            if (!CheckIfFileExists())
+            //2.) is there a group of orders for this date
+            //call CheckIfOrderGroupExists - returns a response object
+
+
+            //check if date exists in the file folder, and save filename 
+            //in the order repository claSS
+            //
+            if (!CheckIfOrderGroupExists())
             {
                 return;
             }
@@ -63,9 +65,7 @@ namespace FlooringMastery.Workflows
 
             if (Manager.ConfirmChanges())
             {
-                Manager.RemoveOldOrderFromList();
-                Manager.AddUpdatedOrderToList(); // Expect List to be in correct state
-                Manager.WriteListToFile();//expect file to match list
+                Manager.UpdateDataSource();
                 Console.WriteLine("Your Order Has Been Updated, Press any Key To Cointinue");
                 Console.ReadKey();
                 return;
@@ -77,12 +77,7 @@ namespace FlooringMastery.Workflows
             }
 
 
-            //recalculate all dependent fields
-            // Display new order details
-            //ask to confirm
-            // if yes save to file - print save message
-            //if no do not write to file and return to main men     
-
+          
 
         }
         public void GetDateFromUser()
@@ -165,10 +160,10 @@ namespace FlooringMastery.Workflows
 
         
 
-        public bool CheckIfFileExists()
+        public bool CheckIfOrderGroupExists()
         {
-            Response response = Manager.ValidateFile();
-            //Response orderExistsResponse = Manager.ValidateOrder();
+            Response response = Manager.ValidateOrderGroup();
+            
 
             while (true)
             {
@@ -303,18 +298,6 @@ namespace FlooringMastery.Workflows
 
 
 
-        //2. it will query the user for each piece of order data but display the existing data.
-        //--If the user enters something new, it will replace that data;
-        //--if the user hits Enter without entering data, it will leave the existing data in place.
 
-        //Only (CustomerName, State, ProductType,and Area can be changed)
-        // If state, product type, of area are changes order will need to be recalculated.
-        // OrderDate May not be changed
-
-        //3. After querying for each editable field,
-        //-- display a summary of the new order information
-        //-- prompt for whether the edit should be saved.
-        //-- If yes, replace data in the file
-        //-- if no, do not save and return to main menu
     }
 }

@@ -11,12 +11,12 @@ using FlooringMastery.Models.Responses;
 
 namespace FlooringMastery.Data
 {
-    
+
     //This is a repo that contains all orders in One file Not all orders that exist in the Folder
     public class OrderRepository : IOrderRepository
     {
-         //The FOLDER where all orders are located
-         //The specific file is entered 
+        //The FOLDER where all orders are located
+        //The specific file is entered 
         private string _folderpath = "C:/Users/Jeremy/source/repos/FlooringMastery052420/FlooringMastery.Data/AllOrders/";
         public string FolderPath
         {
@@ -34,19 +34,25 @@ namespace FlooringMastery.Data
 
         public List<Order> SalesDayOrderList { get; set; } = new List<Order>();
 
+        Order _orderToEdit;
 
+        public Order OrderToEdit
+        {
+            get { return _orderToEdit; }
+            set { _orderToEdit = value; }
+        }
         public void ReadOrderByDate(string fileName)
         {
             //ex: Orders_06132020.txt
 
-            ProductRepository p  = new ProductRepository();
+            ProductRepository p = new ProductRepository();
 
             // will need to extract date from filename
-            string s = fileName.Remove(0,7);
+            string s = fileName.Remove(0, 7);
             string[] stringArray = s.Split('.');
             string date = stringArray[0];
-            string formattedDate = date.Substring(0, 2) + "/" + date.Substring(2, 2) + "/" + date.Substring(4); 
-           
+            string formattedDate = date.Substring(0, 2) + "/" + date.Substring(2, 2) + "/" + date.Substring(4);
+
 
             //this will read one file and add the order to the 
             //SalesDayOrderList
@@ -58,7 +64,7 @@ namespace FlooringMastery.Data
                     string[] columns = rows[i].Split(',');
                     Order o = new Order();
                     o.OrderDate = DateTime.Parse(formattedDate);
-                    o.OrderNumber = Int32.Parse(columns[0]);               
+                    o.OrderNumber = Int32.Parse(columns[0]);
                     o.CustomerName = columns[1];
                     o.State = ConvertToStateEnum(columns[2]); //convert to enum
                     o.TaxRate = Decimal.Parse(columns[3]);
@@ -89,7 +95,7 @@ namespace FlooringMastery.Data
 
             }
 
-            
+
         }
 
         public void printOrders()
@@ -121,8 +127,8 @@ namespace FlooringMastery.Data
         public States ConvertToStateEnum(string s)
         {
             States output;
-            
-            if(String.IsNullOrEmpty(s))
+
+            if (String.IsNullOrEmpty(s))
             {
                 Console.WriteLine("Error: the state field was null or empty, please contact IT");
                 Console.WriteLine("Press any key to exit");
@@ -131,7 +137,7 @@ namespace FlooringMastery.Data
 
             }
 
-            if(Enum.TryParse(s, out output))
+            if (Enum.TryParse(s, out output))
             {
                 return output;
             }
@@ -145,14 +151,14 @@ namespace FlooringMastery.Data
             }
 
             return output;
-            
-        
+
+
         }
 
 
-        //***METHODS HERE WERE MOVED FROM ADD ORDERMANAGER
+        //*****ADD METHODS *****
 
-        
+
         public void SaveAddedOrder(Order o)
         {
             //takes in date of "newOrder" and converts it to a filename
@@ -234,7 +240,7 @@ namespace FlooringMastery.Data
             else
             { //if the file does exists load the file to the order repository
                 ReadOrderByDate(filename); //this should load everything in that file to this list, 
-                                                     //hopefully will resolve null issue 
+                                           //hopefully will resolve null issue 
 
 
                 o.OrderNumber = SalesDayOrderList.MaxBy(x => x.OrderNumber).First().OrderNumber + 1;
@@ -246,7 +252,10 @@ namespace FlooringMastery.Data
 
         }
 
-        //Methods Here Have been moved from DisplayOrderManager
+        //*******DISPLAY METHODS*****
+
+        //also used in EditOrderManager
+
         public Response CheckIfOrderGroupExists(DateTime d)
         {
             string fileName = ConvertDateToFileName(d);
@@ -277,14 +286,139 @@ namespace FlooringMastery.Data
         }
 
         public void DisplayExistingFile()
-        {//1. Load the file
+        {//Load the file
             ReadOrderByDate(FileName);
             //print all orders in the file
             printOrders();
             Console.ReadLine();
         }
 
+        //*****EDIT Methods*****
 
+        //public Response ValidateFile(DateTime orderDate)
+        //{
+        //    string fileName = ConvertDateToFileName(orderDate);
+
+
+        //    string path = FolderPath + fileName;
+        //    Response response = new Response();
+
+        //    //string OrderAsString = newOrder.OrderToLineInFile();
+
+        //    if (!File.Exists(path))
+        //    {
+        //        response.Success = false;
+        //        response.Message = String.Format("Error: There were no orders for the date given: {0}", orderDate.ToString("MM/dd/yyyy"));
+        //        return response;
+        //    }
+
+        //    else
+        //    {
+
+        //        response.Success = true;
+        //        FileName = fileName;
+        //        //loads file into OrderRepo/places orders in orderList
+        //        ReadOrderByDate(FileName);
+        //        response.Message = String.Format("An order file for {0} has been found", orderDate);
+
+        //    }
+
+        //    return response;
+        //}
+
+
+
+        public void ValidateDataSource() 
+        { // does file exists
+        
+        }
+
+        public bool DoesOrderExistInList(int number)
+        {
+            var orderToFind = SalesDayOrderList.Where(o => o.OrderNumber == number);
+            if (!orderToFind.Any())
+            {
+                return false;
+            }
+
+            else
+            {
+                OrderToEdit = orderToFind.First();
+                return true;
+
+            }
+
+
+        }
+
+        public Order GetOrderFromList(int orderNumber)
+        {
+            Order result = new Order();
+            result = SalesDayOrderList.Where(o => o.OrderNumber == orderNumber).First();
+            
+            return result;
+        }
+
+       
+
+        public void RemoveOldOrderFromList()
+        {
+            //findit and remobe
+            var orderToFind = SalesDayOrderList.Where(o => o.OrderNumber == OrderToEdit.OrderNumber).First();
+            SalesDayOrderList.Remove(orderToFind);
+            //OrderRepo.SalesDayOrderList.Add(UpdateOrder());
+
+
+            Console.WriteLine("Old data has been removed from list");
+            Console.ReadKey();
+
+
+
+            return;
+        }
+
+        public void AddUpdatedOrderToList(Order updatedOrder)
+        {
+            SalesDayOrderList.Add(updatedOrder);
+            Console.WriteLine("New Data has been added to list");
+            Console.ReadKey();
+
+            return;
+        }
+
+        public void WriteListToFile(DateTime date)
+        {
+            string filename = ConvertDateToFileName(date); //returns a filename
+
+            string path = FolderPath + filename;
+
+
+
+            string OrderAsString;
+
+            if (File.Exists(path))
+            {
+
+
+
+                using (StreamWriter writer = new StreamWriter(path, false))
+                {
+                    writer.WriteLine("OrderNumber,CustomerName,State,TaxRate,ProductType,Area,CostPerSquareFoot,LaborCostPerSquareFoot,MaterialCost,LaborCost,Tax,Total");
+
+                    foreach (var order in SalesDayOrderList)
+                    {
+                        OrderAsString = order.OrderToLineInFile();
+                        writer.WriteLine(OrderAsString);
+                    }
+
+                }
+            }
+
+            //places orderin OrderRepo - orderlist
+            ReadOrderByDate(filename);
+
+
+        }
 
 
     }
