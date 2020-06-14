@@ -1,8 +1,13 @@
 {
   "ExpandedNodes": [
     "",
-    "\\FlooringMastery"
+    "\\FlooringMastery",
+    "\\FlooringMastery.BLL",
+    "\\FlooringMastery.Data",
+    "\\FlooringMastery.Data\\Repositories",
+    "\\FlooringMastery.Models",
+    "\\FlooringMastery.Models\\Interfaces"
   ],
-  "SelectedNode": "\\FlooringMastery\\FlooringMastery.sln",
+  "SelectedNode": "\\FlooringMastery\\Program.cs",
   "PreviewInSolutionExplorer": false
 }

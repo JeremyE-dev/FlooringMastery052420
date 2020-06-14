@@ -14,18 +14,24 @@ namespace FlooringMastery.Data.Repositories
 {
 
 
-    class TestOrderRepositorycs:IOrderRepository
+    public class TestOrderRepositorycs:IOrderRepository
     {
       
 
         //This is a repo that contains all orders in One file Not all orders that exist in the Folder
         
 
-            public List<Order> SalesDayOrderList { get; set; } = new List<Order>();
+        public List<Order> SalesDayOrderList { get; set; } = new List<Order>();
 
+        Order _orderToEdit;
 
+        public Order OrderToEdit
+        {
+            get { return _orderToEdit; }
+            set { _orderToEdit = value; }
+        }
 
-            public void printOrders()
+        public void printOrders()
             {
                 foreach (var item in SalesDayOrderList)
                 {
@@ -105,7 +111,7 @@ namespace FlooringMastery.Data.Repositories
 
         //FROM DisplayOrderManager
 
-        public Response CheckIfOrderGroupExists(DateTime d)
+        public Response CheckIfOrderGroupExists(DateTime d) //also used in edit functions
         {
             Response response = new Response();
             var CheckOrderDates = SalesDayOrderList.Where(x => x.OrderDate == d);
@@ -136,7 +142,59 @@ namespace FlooringMastery.Data.Repositories
             Console.ReadLine();
         }
 
-        
+
+        //*****EDIT Methods*****
+
+        public bool DoesOrderExistInList(int number)
+        {
+            var orderToFind = SalesDayOrderList.Where(o => o.OrderNumber == number);
+            if (!orderToFind.Any())
+            {
+                return false;
+            }
+
+            else
+            {
+                OrderToEdit = orderToFind.First();
+                return true;
+
+            }
+
+
+        }
+
+        public Order GetOrderFromList(int orderNumber)
+        {
+            Order result = new Order();
+            result = SalesDayOrderList.Where(o => o.OrderNumber == orderNumber).First();
+
+            return result;
+        }
+
+
+
+        public void RemoveOldOrderFromList()
+        {
+            //findit and remove
+            var orderToFind = SalesDayOrderList.Where(o => o.OrderNumber == OrderToEdit.OrderNumber).First();
+            SalesDayOrderList.Remove(orderToFind);
+            Console.WriteLine("Old data has been removed from list");
+            Console.ReadKey();
+
+            return;
+        }
+
+        public void AddUpdatedOrderToList(Order updatedOrder)
+        {
+            SalesDayOrderList.Add(updatedOrder);
+            Console.WriteLine("New Data has been added to list");
+            Console.ReadKey();
+
+            return;
+        }
+
+       
+
 
 
     }

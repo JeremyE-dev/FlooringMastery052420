@@ -1,5 +1,3 @@
 OrderNumber,CustomerName,State,TaxRate,ProductType,Area,CostPerSquareFoot,LaborCostPerSquareFoot,MaterialCost,LaborCost,Tax,Total
 1,Robert Onions,OH,6.25,Carpet,200,0,2.10,450.00,420.00,54.375000,924.375000
-2,Robin Picklehorn,OH,6.25,Laminate,200,0,2.10,350.00,420.00,48.125000,818.125000
-3,Patrick T,OH,6.25,Tile,200,0,4.15,700.00,830.00,95.625000,1625.625000
 4,JOn P,OH,6.25,Tile,200,3.50,4.15,700.00,830.00,95.625000,1625.625000

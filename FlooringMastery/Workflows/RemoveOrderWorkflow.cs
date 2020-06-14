@@ -28,11 +28,12 @@ namespace FlooringMastery.Workflows
         {
             GetDateFromUser();
 
-            if (!CheckIfFileExists())
+            if (!ExitIfOrderGroupDoesNotExist())
             {
                 return;
             }
 
+         
             ////checks if valid format
             //// if in wrong format ask until integer
             ////if in correct format - check that it existst
@@ -47,9 +48,7 @@ namespace FlooringMastery.Workflows
 
             if (Manager.ConfirmChanges())
             {
-                Manager.RemoveOldOrderFromList();
-                //Manager.AddUpdatedOrderToList(); // Expect List to be in correct state
-                Manager.WriteListToFile();//expect file to match list
+                Manager.UpdateDataSource();
                 Console.WriteLine("Your Order Has Been Removed, Press any Key To Continue");
                 Console.ReadKey();
                 return;
@@ -106,10 +105,10 @@ namespace FlooringMastery.Workflows
         }
 
 
-        public bool CheckIfFileExists()
+        public bool ExitIfOrderGroupDoesNotExist()
         {
-            Response response = Manager.ValidateFile();
-           
+            Response response = Manager.ValidateOrderGroup();
+
 
             while (true)
             {
@@ -131,7 +130,7 @@ namespace FlooringMastery.Workflows
                     Console.WriteLine(response.Message);
                     Console.WriteLine("Press any key to continue");
                     Console.ReadKey();
-                    //Manager.DisplayOrderInformation();
+                  
                     break;
                 }
             }
@@ -142,6 +141,10 @@ namespace FlooringMastery.Workflows
 
 
         }
+
+
+
+
 
         public bool ValidateOrderNumberFormat()
         {
