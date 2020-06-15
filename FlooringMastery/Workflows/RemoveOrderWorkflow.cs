@@ -1,5 +1,6 @@
 ﻿using FlooringMastery.BLL;
 using FlooringMastery.Models.Responses;
+using Ninject;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,7 +22,7 @@ namespace FlooringMastery.Workflows
 
         public RemoveOrderWorkflow()
         {
-            _manager = new RemoveOrderManager();
+            _manager = DIContainer.Kernel.Get<RemoveOrderManager>();
         }
 
         public void Execute()

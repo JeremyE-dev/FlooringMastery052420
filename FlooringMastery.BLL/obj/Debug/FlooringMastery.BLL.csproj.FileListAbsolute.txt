@@ -14,3 +14,5 @@ C:\Users\Jeremy\source\repos\FlooringMastery052420\FlooringMastery.BLL\bin\Debug
 C:\Users\Jeremy\source\repos\FlooringMastery052420\FlooringMastery.BLL\bin\Debug\MoreLinq.xml
 C:\Users\Jeremy\source\repos\FlooringMastery052420\FlooringMastery.BLL\bin\Debug\System.ValueTuple.xml
 C:\Users\Jeremy\source\repos\FlooringMastery052420\FlooringMastery.BLL\obj\Debug\FlooringMastery.BLL.csproj.CoreCompileInputs.cache
+C:\Users\Jeremy\source\repos\FlooringMastery052420\FlooringMastery.BLL\bin\Debug\Ninject.dll
+C:\Users\Jeremy\source\repos\FlooringMastery052420\FlooringMastery.BLL\bin\Debug\Ninject.xml

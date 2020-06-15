@@ -53,6 +53,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\TaxRateRepository.cs" />
     <Compile Include="Repositories\TestOrderRepositorycs.cs" />
+    <Compile Include="Repositories\TestRepoDataSource.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\FlooringMastery.Models\FlooringMastery.Models.csproj">

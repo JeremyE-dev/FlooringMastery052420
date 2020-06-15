@@ -1,5 +1,6 @@
 ﻿using FlooringMastery.BLL;
 using FlooringMastery.Models.Responses;
+using Ninject;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,7 +24,7 @@ namespace FlooringMastery.Workflows
 
         public EditOrderWorkflow()
         {
-            _manager = new EditOrderManager();
+            _manager = DIContainer.Kernel.Get<EditOrderManager>();
         }
      
         public void Execute()

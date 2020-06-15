@@ -26,3 +26,4 @@ C:\Users\Jeremy\source\repos\FlooringMastery052420\FlooringMastery\bin\Debug\Mor
 C:\Users\Jeremy\source\repos\FlooringMastery052420\FlooringMastery\bin\Debug\MoreLinq.xml
 C:\Users\Jeremy\source\repos\FlooringMastery052420\FlooringMastery\bin\Debug\System.ValueTuple.xml
 C:\Users\Jeremy\source\repos\FlooringMastery052420\FlooringMastery\obj\Debug\FlooringMastery.UI.csproj.CoreCompileInputs.cache
+C:\Users\Jeremy\source\repos\FlooringMastery052420\FlooringMastery\bin\Debug\Ninject.xml

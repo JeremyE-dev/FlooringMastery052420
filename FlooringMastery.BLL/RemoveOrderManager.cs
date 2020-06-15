@@ -1,5 +1,6 @@
 ﻿using FlooringMastery.Data;
 using FlooringMastery.Models;
+using FlooringMastery.Models.Interfaces;
 using FlooringMastery.Models.Responses;
 using System;
 using System.Collections.Generic;
@@ -14,12 +15,12 @@ namespace FlooringMastery.BLL
     {
 
 
-        OrderRepository _orderRepo;
-        public OrderRepository OrderRepo
-        {
-            get { return _orderRepo; }
-            set { _orderRepo = value; }
-        }
+        IOrderRepository _orderRepo;
+        //public OrderRepository OrderRepo
+        //{
+        //    get { return _orderRepo; }
+        //    set { _orderRepo = value; }
+        //}
 
         Order _orderToEdit;
 
@@ -51,10 +52,10 @@ namespace FlooringMastery.BLL
 
 
 
-        public RemoveOrderManager()
+        public RemoveOrderManager(IOrderRepository OrderRepo)
         {
 
-            _orderRepo = new OrderRepository();
+            _orderRepo = OrderRepo;
             _orderToEdit = new Order();
          
 
@@ -116,11 +117,11 @@ namespace FlooringMastery.BLL
         public Response ValidateOrderGroup()
         {
        
-            Response response = (OrderRepo.CheckIfOrderGroupExists(OrderDate));
+            Response response = (_orderRepo.CheckIfOrderGroupExists(OrderDate));
 
             if (response.Success)
             {
-                OrderRepo.ReadOrderByDate(OrderRepo.FileName);
+                _orderRepo.ReadOrderByDate(_orderRepo.FileName);
             }
 
             return response;
@@ -135,10 +136,10 @@ namespace FlooringMastery.BLL
         {
             Response response = new Response();
 
-            if (OrderRepo.DoesOrderExistInList(OrderNumber))
+            if (_orderRepo.DoesOrderExistInList(OrderNumber))
             {
                 response.Success = true;
-                OrderToEdit = OrderRepo.GetOrderFromList(OrderNumber);
+                OrderToEdit = _orderRepo.GetOrderFromList(OrderNumber);
                 response.Message = String.Format("The order you entered {0} has been located", OrderNumber);
                 Console.ReadLine();
                 return response;
@@ -227,7 +228,7 @@ namespace FlooringMastery.BLL
         public void UpdateDataSource()
         {
            
-            OrderRepo.RemoveOldOrderFromList();
+            _orderRepo.RemoveOldOrderFromList();
            
         }
         

@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MoreLinq.Extensions;
+using FlooringMastery.Models.Interfaces;
 
 namespace FlooringMastery.BLL
 {
@@ -16,6 +17,11 @@ namespace FlooringMastery.BLL
 
     public class AddOrderManager
     {
+
+        IOrderRepository _orderRepo;
+
+        
+
         private Order newOrder = new Order();
 
 
@@ -44,22 +50,15 @@ namespace FlooringMastery.BLL
 
         }
 
-        OrderRepository _orderRepo;
 
-        //This will need to be an interface vs a specific repository, wil need to be the same for other "Managers"
-        public OrderRepository OrderRepo 
-        {
-            get { return _orderRepo; }
-            set { _orderRepo = value; } 
-        }
-
-        public AddOrderManager()
+        public AddOrderManager(IOrderRepository OrderRepo)
         {
             _productRepo = new ProductRepository();
             Product = new Product();
 
             _taxRateRepo = new TaxRateRepository();
-            _orderRepo = new OrderRepository();
+            
+            _orderRepo = OrderRepo;
 
 
         }
@@ -356,50 +355,32 @@ namespace FlooringMastery.BLL
         public void GenerateOrderNumber()
         {
 
-            newOrder.OrderNumber = OrderRepo.CalculateOrderNumber(newOrder);
+            newOrder.OrderNumber = _orderRepo.CalculateOrderNumber(newOrder);
             
-            
-            //does a file exist with the date entered
-            //string filename = ConvertDateToFileName(); //returns a filename
-            //string path = OrderRepo.FolderPath + filename;
-
-
-            //if (!File.Exists(path))
-            //{
-            //    newOrder.OrderNumber = 1;
-            //}
-
-            //else
-            //{ //if the file does exists load the file to the order repository
-            //    OrderRepo.ReadOrderByDate(filename); //this should load everything in that file to this list, 
-            //                                         //hopefully will resolve null issue 
-                
-                
-            // newOrder.OrderNumber = OrderRepo.SalesDayOrderList.MaxBy(o => o.OrderNumber).First().OrderNumber + 1;
-              
-            //}
+         
 
         }
         
         //MOVE TO ORDER REPO -- I dont think this is used - 
         //function completed by Calculate OrderNumber
-        public void setOrderNumber()
-        {
-            //finds the order with the highest order number
+        //public void setOrderNumber()
+        //{
+        //    //finds the order with the highest order number
             
-            int newOrderNumber = 
-            OrderRepo.SalesDayOrderList.OrderByDescending(i => i.OrderNumber).Max().OrderNumber + 1;
-            newOrder.OrderNumber = newOrderNumber;
+        //    int newOrderNumber = 
+        //    OrderRepo.SalesDayOrderList.OrderByDescending(i => i.OrderNumber).Max().OrderNumber + 1;
+        //    newOrder.OrderNumber = newOrderNumber;
 
 
-            // thoughts: the order repo for this order
-            //find the highest order number
-            // add 1 to it
+        //    // thoughts: the order repo for this order
+        //    //find the highest order number
+        //    // add 1 to it
 
-        }
+        //}
 
 
         public void DisplayOrderInformation()
+        
         {
             Console.Clear();
             Console.WriteLine("ORDER SUMMARY");
@@ -429,6 +410,7 @@ namespace FlooringMastery.BLL
             {
                 //write order to file
                 Console.WriteLine("Your order has been confirmed, press any key to continue to main menu");
+                
                 Console.ReadKey();
                 return true;
             }
@@ -443,61 +425,8 @@ namespace FlooringMastery.BLL
 
         public void Save()
         {
-            OrderRepo.SaveAddedOrder(newOrder);
+            _orderRepo.SaveAddedOrder(newOrder);
         }
-
-        //MOVE TO ORDER REPO - RENAME TO "SAVE ORDER"
-
-        //public void WriteOrderToFile()
-        //{
-        //    string filename = ConvertDateToFileName(); //returns a filename
-
-        //    string path = OrderRepo.FolderPath + filename;
-
-        //    //validate if this is valid path first??
-
-        //    string OrderAsString = newOrder.OrderToLineInFile();
-
-        //    if (File.Exists(path))
-        //    {
-               
-
-        //        using (StreamWriter writer = File.AppendText(path))
-        //        {
-        //            writer.WriteLine(OrderAsString);
-        //        }
-        //    }
-
-        //    else
-        //    {
-               
-        //        var myFile = File.Create(path);
-        //        myFile.Close();  
-                
-        //        using (StreamWriter writer = new StreamWriter(path))
-        //        {
-        //            writer.WriteLine("OrderNumber,CustomerName,State,TaxRate,ProductType,Area,CostPerSquareFoot,LaborCostPerSquareFoot,MaterialCost,LaborCost,Tax,Total");
-        //            writer.WriteLine(OrderAsString);
-        //        }
-        //    }
-
-        //    //after order is written Read from the file to load it to the OrderRepository
-        //    //places orderin OrderRepo - orderlist
-        //    OrderRepo.ReadOrderByDate(filename);
-
-
-        //}
-
-        // after calling confirm order
-
-        //Move t0 ORDERREPO
-        //public string ConvertDateToFileName()
-        //{
-
-        //    string result = "Orders_" + newOrder.OrderDate.ToString("MMddyyyy") + ".txt";
-        //    Console.WriteLine("result");
-        //    return result;
-        //}
 
         
 

@@ -11,7 +11,7 @@ using FlooringMastery.Data.Repositories;
 
 namespace FlooringMastery.BLL
 {
-    class DIContainer
+    public class DIContainer
     {
         public static IKernel Kernel = new StandardKernel();
 
@@ -22,11 +22,13 @@ namespace FlooringMastery.BLL
             if(chooserType == "File")
             {
                 Kernel.Bind<IOrderRepository>().To<OrderRepository>();
+
             }
 
             else if(chooserType == "Test")
             {
                 Kernel.Bind<IOrderRepository>().To<TestOrderRepositorycs>();
+                
             }
                  
         }

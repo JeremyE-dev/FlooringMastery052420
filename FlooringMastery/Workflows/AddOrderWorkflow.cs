@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using FlooringMastery.BLL;
 using FlooringMastery.Models.Responses;
+using Ninject;
 
 namespace FlooringMastery.Workflows
 {
@@ -28,7 +29,7 @@ namespace FlooringMastery.Workflows
         public AddOrderWorkflow()
         {
             
-            _manager = new AddOrderManager();
+            _manager = DIContainer.Kernel.Get<AddOrderManager>();
 
         }
 

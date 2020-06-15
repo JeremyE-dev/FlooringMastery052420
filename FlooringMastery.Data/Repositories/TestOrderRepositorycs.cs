@@ -20,8 +20,12 @@ namespace FlooringMastery.Data.Repositories
 
         //This is a repo that contains all orders in One file Not all orders that exist in the Folder
         
+        List<Order>_salesDayOrderList;
 
-        public List<Order> SalesDayOrderList { get; set; } = new List<Order>();
+        public List<Order> SalesDayOrderList
+        { 
+            get { return _salesDayOrderList; } 
+            set { _salesDayOrderList = value; } }//} = new List<Order>();
 
         Order _orderToEdit;
 
@@ -31,9 +35,19 @@ namespace FlooringMastery.Data.Repositories
             set { _orderToEdit = value; }
         }
 
+        public TestRepoDataSource TestData;
+
+        public TestOrderRepositorycs()
+        {
+            _salesDayOrderList = new List<Order>();
+            TestData = new TestRepoDataSource();
+
+        }
+
         public void printOrders()
             {
-                foreach (var item in SalesDayOrderList)
+                //foreach (var item in SalesDayOrderList)
+                foreach (var item in TestData.DataSource)
                 {
                     Console.WriteLine("**************************************************************");
                     Console.WriteLine("[{0}] [{1}]", item.OrderNumber, item.OrderDate.ToString("MM/dd/yyyy"));
@@ -105,7 +119,8 @@ namespace FlooringMastery.Data.Repositories
 
             public void SaveAddedOrder(Order o)
             {
-                SalesDayOrderList.Add(o);
+            //SalesDayOrderList.Add(o);
+            TestData.DataSource.Add(o);
             }
 
 
@@ -114,7 +129,8 @@ namespace FlooringMastery.Data.Repositories
         public Response CheckIfOrderGroupExists(DateTime d) //also used in edit functions
         {
             Response response = new Response();
-            var CheckOrderDates = SalesDayOrderList.Where(x => x.OrderDate == d);
+            var CheckOrderDates = TestData.DataSource.Where(x => x.OrderDate == d);
+            //var CheckOrderDates = SalesDayOrderList.Where(x => x.OrderDate == d);
             //string OrderAsString = newOrder.OrderToLineInFile();
 
             if (!CheckOrderDates.Any())
@@ -184,14 +200,15 @@ namespace FlooringMastery.Data.Repositories
             return;
         }
 
-        public void AddUpdatedOrderToList(Order updatedOrder)
-        {
-            SalesDayOrderList.Add(updatedOrder);
-            Console.WriteLine("New Data has been added to list");
-            Console.ReadKey();
+        //public void AddUpdatedOrderToList(Order updatedOrder)
+        //{
+        //    SalesDayOrderList.Add(updatedOrder);
 
-            return;
-        }
+        //    Console.WriteLine("New Data has been added to list");
+        //    Console.ReadKey();
+
+        //    return;
+        //}
 
        
 

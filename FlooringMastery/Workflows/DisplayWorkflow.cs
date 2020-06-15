@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Ninject;
 
 namespace FlooringMastery.Workflows
 {
@@ -27,7 +28,9 @@ namespace FlooringMastery.Workflows
 
         public DisplayWorkflow()
         {
-            _manager = new DisplayOrderManager();
+            //_manager = new DisplayOrderManager();
+
+            _manager = DIContainer.Kernel.Get<DisplayOrderManager>();
         }
 
         public void Execute()

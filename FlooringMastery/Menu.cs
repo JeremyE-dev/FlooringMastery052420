@@ -7,7 +7,8 @@ using FlooringMastery.Workflows;
 
 namespace FlooringMastery
 {
-    public static class Menu
+    public static class 
+        Menu
     {
         public static  void Start()
         {
