@@ -3,13 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using FlooringMastery.Data.Repositories;
 using FlooringMastery.Workflows;
 
 namespace FlooringMastery
 {
-    public static class 
-        Menu
+    public class 
+    Menu
     {
+      
+
         public static  void Start()
         {
 
@@ -36,6 +39,10 @@ namespace FlooringMastery
             WorkflowHelper.MenuInputValidation(userinput, "That was not a valid entry");
 
                
+
+               //put a static list here
+               // List<Order> StaticOrderList
+               // within TestOrder - always save and read from that list
 
                 switch (userinput)
                 {
@@ -70,6 +77,7 @@ namespace FlooringMastery
 
         }
 
+       
 
     }
 }

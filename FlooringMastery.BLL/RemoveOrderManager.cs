@@ -119,11 +119,7 @@ namespace FlooringMastery.BLL
        
             Response response = (_orderRepo.CheckIfOrderGroupExists(OrderDate));
 
-            if (response.Success)
-            {
-                _orderRepo.ReadOrderByDate(_orderRepo.FileName);
-            }
-
+          
             return response;
 
 

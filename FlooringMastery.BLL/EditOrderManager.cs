@@ -264,11 +264,7 @@ namespace FlooringMastery.BLL
             //    return OrderRepo.ValidateFile(OrderDate);
             Response response = (_orderRepo.CheckIfOrderGroupExists(OrderDate));
 
-            if(response.Success)
-            {
-                _orderRepo.ReadOrderByDate(_orderRepo.FileName);
-            }
-
+        
             return response;
 
            
@@ -616,117 +612,6 @@ namespace FlooringMastery.BLL
             NewTotal = result;
         }
 
-        //MOVE To Order REpo
-        //public void RemoveOldOrderFromList()
-        //{
-        //    //findit and remobe
-        //    var orderToFind = OrderRepo.SalesDayOrderList.Where(o => o.OrderNumber == OrderToEdit.OrderNumber).First();
-        //    OrderRepo.SalesDayOrderList.Remove(orderToFind);
-        //    //OrderRepo.SalesDayOrderList.Add(UpdateOrder());
-
-
-        //    Console.WriteLine("Old data has been removed from list");
-        //    Console.ReadKey();    
-            
-            
-            
-        //   return;
-        //}
-
-        //Move to OrderRepo
-        //public void AddUpdatedOrderToList()
-        //{
-        //    OrderRepo.SalesDayOrderList.Add(UpdateOrder());
-        //    Console.WriteLine("New Data has been added to list");
-        //    Console.ReadKey();
-
-        //    return;
-        //}
-
-       
-     
-
-        //Writes updatedOrderList to text file, overwrites existing information
-        //public void WriteListToFile()
-        //{
-        //    string filename = ConvertDateToFileName(); //returns a filename
-
-        //    string path = OrderRepo.FolderPath + filename;
-
-      
-
-        //    string OrderAsString; 
-
-        //    if (File.Exists(path))
-        //    {
-
-      
-
-        //    using (StreamWriter writer = new StreamWriter(path, false))
-        //    {
-        //            writer.WriteLine("OrderNumber,CustomerName,State,TaxRate,ProductType,Area,CostPerSquareFoot,LaborCostPerSquareFoot,MaterialCost,LaborCost,Tax,Total");
-                    
-        //            foreach (var order in OrderRepo.SalesDayOrderList)
-        //            {
-        //                OrderAsString = order.OrderToLineInFile();
-        //                writer.WriteLine(OrderAsString);
-        //            }
-                                   
-        //        }
-        //    }
-
-        //    //places orderin OrderRepo - orderlist
-        //    OrderRepo.ReadOrderByDate(filename);
-
-
-        //}
-
-
-
-
-
-       
-
-            //Replaced with another method - To Be Deleted
-        //public void WriteOrderToFile()
-        //{
-        //    string filename = ConvertDateToFileName(); //returns a filename
-
-        //    string path = OrderRepo.FolderPath + filename;
-
-        //    //validate if this is valid path first??
-
-        //    string OrderAsString = OrderToEdit.OrderToLineInFile();
-
-        //    if (File.Exists(path))
-        //    {
-
-
-        //        using (StreamWriter writer = File.AppendText(path))
-        //        {
-        //            writer.WriteLine(OrderAsString);
-        //        }
-        //    }
-
-        //    else
-        //    {
-
-        //        var myFile = File.Create(path);
-        //        myFile.Close();
-
-        //        using (StreamWriter writer = new StreamWriter(path))
-        //        {
-        //            writer.WriteLine("OrderNumber,CustomerName,State,TaxRate,ProductType,Area,CostPerSquareFoot,LaborCostPerSquareFoot,MaterialCost,LaborCost,Tax,Total");
-        //            writer.WriteLine(OrderAsString);
-        //        }
-        //    }
-
-        //    //after order is written Read from the file to load it to the OrderRepository
-        //    //places orderin OrderRepo - orderlist
-        //    OrderRepo.ReadOrderByDate(filename);
-
-
-        //}
 
         public string ConvertDateToFileName()
         {
@@ -764,7 +649,7 @@ namespace FlooringMastery.BLL
         {
             _orderRepo.RemoveOldOrderFromList();
             _orderRepo.AddUpdatedOrderToList(UpdateOrder());
-            _orderRepo.WriteListToFile(OrderDate);
+           // _orderRepo.WriteListToFile(OrderDate);
         }
 
 

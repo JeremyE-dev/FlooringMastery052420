@@ -26,10 +26,19 @@ namespace FlooringMastery.Data
 
         string _fileName;
 
+        //Note: be sure this is being set to proper date - may be an error since changes
         public string FileName
         {
             get { return _fileName; }
             set { _fileName = value; }
+        }
+
+        public DateTime _orderGroupDate;
+
+        public DateTime OrderGroupDate 
+        {
+            get { return _orderGroupDate; } 
+            set { _orderGroupDate = value; }
         }
 
         public List<Order> SalesDayOrderList { get; set; } = new List<Order>();
@@ -49,14 +58,14 @@ namespace FlooringMastery.Data
             get { return _dateOfOrderToRemove; }
             set { _dateOfOrderToRemove = value; } 
         }
-        public void ReadOrderByDate(string fileName)
+        private void ReadOrderByDate(string filename)
         {
             //ex: Orders_06132020.txt
 
             ProductRepository p = new ProductRepository();
 
             // will need to extract date from filename
-            string s = fileName.Remove(0, 7);
+            string s = filename.Remove(0, 7);
             string[] stringArray = s.Split('.');
             string date = stringArray[0];
             string formattedDate = date.Substring(0, 2) + "/" + date.Substring(2, 2) + "/" + date.Substring(4);
@@ -66,7 +75,7 @@ namespace FlooringMastery.Data
             //SalesDayOrderList
             try
             {
-                string[] rows = File.ReadAllLines(_folderpath + fileName);
+                string[] rows = File.ReadAllLines(_folderpath + FileName);
                 for (int i = 1; i < rows.Length; i++)
                 {
                     string[] columns = rows[i].Split(',');
@@ -106,6 +115,24 @@ namespace FlooringMastery.Data
 
         }
 
+        //public  DateTime ConvertFileNameToDate(string filename)
+        //{
+        //    FileName = FileName;
+
+        //    string s = filename.Remove(0, 7);
+        //    string[] stringArray = s.Split('.');
+        //    string date = stringArray[0];
+        //    string formattedDate = date.Substring(0, 2) + "/" + date.Substring(2, 2) + "/" + date.Substring(4);
+
+        //    OrderGroupDate = DateTime.Parse(formattedDate);
+
+
+        //    return OrderGroupDate;
+
+        //}
+
+     
+
         public void printOrders()
         {
             foreach (var item in SalesDayOrderList)
@@ -126,12 +153,7 @@ namespace FlooringMastery.Data
         }
 
         //
-        public void CreateSalesDayOrderList()
-        {
-            //each time this application is run - get the date from the system
-
-        }
-
+        
         public States ConvertToStateEnum(string s)
         {
             States output;
@@ -288,6 +310,10 @@ namespace FlooringMastery.Data
                 FileName = fileName;
                 response.Message = String.Format("An order file for {0} has been found", d.ToString("MM/dd/yyyy"));
 
+                ReadOrderByDate(FileName);
+
+
+
             }
 
             return response;
@@ -303,7 +329,7 @@ namespace FlooringMastery.Data
 
         //*****EDIT Methods*****
 
-      
+
 
         public bool DoesOrderExistInList(int number)
         {
@@ -331,7 +357,7 @@ namespace FlooringMastery.Data
             return result;
         }
 
-       
+
 
         public void RemoveOldOrderFromList()
         {
@@ -392,7 +418,7 @@ namespace FlooringMastery.Data
 
 
 
-    
+
 
 
 

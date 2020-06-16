@@ -72,6 +72,9 @@ namespace FlooringMastery.Workflows
                 // return the user input
                 else
                 {
+                    Console.WriteLine(response.Message);
+                    Console.WriteLine("Press any key to continue");
+                    Console.ReadKey();
                     return;
                 }
 

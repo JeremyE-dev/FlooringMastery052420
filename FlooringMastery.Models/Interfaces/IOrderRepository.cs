@@ -12,9 +12,13 @@ namespace FlooringMastery.Models.Interfaces
         void SaveAddedOrder(Order o);
         Response CheckIfOrderGroupExists(DateTime orderDate);
         void DisplayExistingFile();
-        //int CalculateOrderNumber(Order newOrder);
+        Order GetOrderFromList(int orderNumber);
+        int CalculateOrderNumber(Order newOrder);
+        //void ReadOrderByDate(DateTime orderDate);
         //void ReadOrderByDate(object fileName);
-        //bool DoesOrderExistInList(int orderNumber);
+        bool DoesOrderExistInList(int orderNumber);
+        void RemoveOldOrderFromList();
+        void AddUpdatedOrderToList(Order order);
         //Order GetOrderFromList(int orderNumber);
         //void WriteListToFile(DateTime orderDate);
         //void AddUpdatedOrderToList(Order order);
