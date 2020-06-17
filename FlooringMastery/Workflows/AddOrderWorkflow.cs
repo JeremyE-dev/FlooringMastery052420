@@ -99,6 +99,8 @@ namespace FlooringMastery.Workflows
                 // return the user input
                 else
                 {
+                    Console.WriteLine("Press any key to continue");
+                    Console.ReadKey();
                     return;
                 }         
 
@@ -129,7 +131,8 @@ namespace FlooringMastery.Workflows
                 else
                 {
                     Console.WriteLine(response.Message);
-                    Console.ReadLine();
+                    Console.WriteLine("Press any key to continue");
+                    Console.ReadKey();
                 }
                 
                 return;

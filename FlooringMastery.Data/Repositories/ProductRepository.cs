@@ -67,8 +67,11 @@ namespace FlooringMastery.Data
             foreach (var item in ProductList)
             {
                 Console.WriteLine("{0}, {1}, {2}", item.ProductType, item.CostPerSquareFoot, item.LaborCostPerSquareFoot);
+               
 
             }
+
+            Console.WriteLine();
         }
 
 

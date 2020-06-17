@@ -489,7 +489,7 @@ namespace FlooringMastery.BLL
             Console.WriteLine("Total : [{0:c}]", OrderToEdit.Total);
             Console.WriteLine("**************************************************************");
             Console.WriteLine();
-            Console.ReadLine();
+            //Console.ReadLine();
         }
 
         public void DisplayOrderEdits()

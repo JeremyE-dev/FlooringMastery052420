@@ -146,7 +146,7 @@ namespace FlooringMastery.Workflows
 
                 else
                 {
-                    Console.WriteLine(response.Message);
+                    //Console.WriteLine(response.Message);
                     Console.WriteLine("Press Any Key To Continue");
                     Console.ReadKey();
                     return response.Success;
@@ -225,7 +225,7 @@ namespace FlooringMastery.Workflows
                     Console.WriteLine("Press any key to continue");
                     Console.ReadKey();
                     Manager.DisplayOrderInformation();
-                    Console.ReadLine();
+                    //Console.ReadLine();
                     return response.Success;
                 }
             }

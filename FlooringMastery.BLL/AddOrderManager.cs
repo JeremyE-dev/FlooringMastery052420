@@ -225,7 +225,7 @@ namespace FlooringMastery.BLL
         {
             //Console.WriteLine("Please confirm {0} as your product (Y/N)", newOrder.ProductType);
             //Console.ReadLine();
-            if(ValidateYesNo(String.Format("Enter Y to confirm  {0}  product or N to choose different product", newOrder.ProductType)))
+            if(ValidateYesNo(String.Format("Enter Y to confirm  product: {0} or N to choose different product", newOrder.ProductType)))
             {
                 return true;
             }

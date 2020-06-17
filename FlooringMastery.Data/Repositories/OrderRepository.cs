@@ -321,7 +321,7 @@ namespace FlooringMastery.Data
 
         public void DisplayExistingFile()
         {//Load the file
-            ReadOrderByDate(FileName);
+            //ReadOrderByDate(FileName);
             //print all orders in the file
             printOrders();
             Console.ReadLine();
