@@ -1,4 +1,5 @@
-﻿using FlooringMastery.BLL;
+﻿
+using FlooringMastery.BLL;
 using FlooringMastery.Models.Responses;
 using Ninject;
 using System;
@@ -128,7 +129,7 @@ namespace FlooringMastery.Workflows
 
                 else
                 {
-                    Console.WriteLine(response.Message);
+                    //Console.WriteLine(response.Message);
                     Console.WriteLine("Press any key to continue");
                     Console.ReadKey();
                   
@@ -170,7 +171,7 @@ namespace FlooringMastery.Workflows
 
                 else
                 {
-                    Console.WriteLine(response.Message);
+                    //Console.WriteLine(response.Message);
                     Console.WriteLine("Press Any Key To Continue");
                     Console.ReadKey();
                     return response.Success;
@@ -195,7 +196,7 @@ namespace FlooringMastery.Workflows
                 if (!response.Success)
                 {
                     Console.WriteLine(response.Message);
-                    Console.WriteLine("Press any key to continue");
+                    Console.WriteLine("Press any key to return to Main Menu");
                     Console.ReadKey();
                     return response.Success;
 
@@ -205,9 +206,9 @@ namespace FlooringMastery.Workflows
 
                 else
                 {
-                    Console.WriteLine(response.Message);
-                    Console.WriteLine("Press any key to continue");
-                    Console.ReadKey();
+                    //Console.WriteLine(response.Message);
+                    //Console.WriteLine("Press any key to continue");
+                    //Console.ReadKey();
                     Manager.DisplayOrderInformation();
                     Console.ReadLine();
                     return response.Success;

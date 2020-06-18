@@ -241,7 +241,7 @@ namespace FlooringMastery.Data
         {
 
             string result = "Orders_" + o.OrderDate.ToString("MMddyyyy") + ".txt";
-            Console.WriteLine("result");
+            //Console.WriteLine("result");
             return result;
         }
 
@@ -249,7 +249,7 @@ namespace FlooringMastery.Data
         {
 
             string result = "Orders_" + d.ToString("MMddyyyy") + ".txt";
-            Console.WriteLine("result");
+            //Console.WriteLine("result");
             return result;
         }
 
@@ -366,8 +366,8 @@ namespace FlooringMastery.Data
             DateOfOrderToRemove = orderToFind.OrderDate;
             SalesDayOrderList.Remove(orderToFind);
             WriteListToFile(DateOfOrderToRemove);
-            Console.WriteLine("Old data has been removed from list");
-            Console.ReadKey();
+            //Console.WriteLine("Old data has been removed from list");
+            //Console.ReadKey();
 
             return;
         }
@@ -376,8 +376,8 @@ namespace FlooringMastery.Data
         {
             SalesDayOrderList.Add(updatedOrder);
             WriteListToFile(updatedOrder.OrderDate);
-            Console.WriteLine("New Data has been added to list");
-            Console.ReadKey();
+            //Console.WriteLine("New Data has been added to list");
+            //Console.ReadKey();
 
             return;
         }

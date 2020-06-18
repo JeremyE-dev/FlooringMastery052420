@@ -146,7 +146,7 @@ namespace FlooringMastery.BLL
             {
                 response.Success = false;
                 response.Message = String.Format("The order number you entered {0} was not found", OrderNumber);
-                Console.ReadLine();
+                Console.WriteLine();
 
                 return response;
             }
@@ -159,6 +159,7 @@ namespace FlooringMastery.BLL
 
         public void DisplayOrderInformation()
         {
+            Console.Clear();
             Console.WriteLine("Order to be Removed");
             Console.WriteLine("**************************************************************");
             Console.WriteLine("[{0}] [{1}]", OrderToEdit.OrderNumber, OrderToEdit.OrderDate.ToString("MM/dd/yyyy"));
@@ -170,8 +171,8 @@ namespace FlooringMastery.BLL
             Console.WriteLine("Tax : [{0:c}]", OrderToEdit.Tax);
             Console.WriteLine("Total : [{0:c}]", OrderToEdit.Total);
             Console.WriteLine("**************************************************************");
-            Console.WriteLine();
-            Console.ReadLine();
+            //Console.WriteLine();
+            //Console.ReadLine();
         }
 
      
@@ -193,8 +194,8 @@ namespace FlooringMastery.BLL
             while (true)
             {
                 Console.Clear();
-                Console.WriteLine("press Y to confirm or N to return to main menu");
-                string YN = Console.ReadLine();
+                //Console.WriteLine("press Y to confirm or N to return to main menu");
+                string YN = userInput;
                 if (YN != "Y" && YN != "y" && YN != "N" && YN != "n")
                 {
                     Console.WriteLine("Invalid entry: press any key to continue");

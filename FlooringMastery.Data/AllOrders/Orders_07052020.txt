@@ -1,5 +1,4 @@
 OrderNumber,CustomerName,State,TaxRate,ProductType,Area,CostPerSquareFoot,LaborCostPerSquareFoot,MaterialCost,LaborCost,Tax,Total
-1,Robert Onions,OH,6.25,Carpet,200,0,2.10,450.00,420.00,54.375000,924.375000
 4,JOn P,OH,6.25,Tile,200,3.50,4.15,700.00,830.00,95.625000,1625.625000
 1,Robert Onions,OH,6.25,Carpet,200,0,2.10,450.00,420.00,54.375000,924.375000
 4,JOn P,OH,6.25,Tile,200,3.50,4.15,700.00,830.00,95.625000,1625.625000

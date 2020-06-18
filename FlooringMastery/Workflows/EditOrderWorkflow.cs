@@ -67,7 +67,7 @@ namespace FlooringMastery.Workflows
             if (Manager.ConfirmChanges())
             {
                 Manager.UpdateDataSource();
-                Console.WriteLine("Your Order Has Been Updated, Press any Key To Cointinue");
+                Console.WriteLine("Your Order Has Been Updated, Press any Key To Continue");
                 Console.ReadKey();
                 return;
             }
@@ -183,7 +183,7 @@ namespace FlooringMastery.Workflows
 
                 else
                 {
-                    Console.WriteLine(response.Message);
+                    //Console.WriteLine(response.Message);
                     Console.WriteLine("Press any key to continue");
                     Console.ReadKey();
                     //Manager.DisplayOrderInformation();
@@ -221,11 +221,11 @@ namespace FlooringMastery.Workflows
 
                 else
                 {
-                    Console.WriteLine(response.Message);
-                    Console.WriteLine("Press any key to continue");
-                    Console.ReadKey();
+                    //Console.WriteLine(response.Message);
+                    //Console.WriteLine("Press any key to continue");
+                    //Console.ReadKey();
                     Manager.DisplayOrderInformation();
-                    //Console.ReadLine();
+                    Console.ReadLine();
                     return response.Success;
                 }
             }
@@ -237,6 +237,7 @@ namespace FlooringMastery.Workflows
 
         public void GetCustomerNameFromUser()
         {
+            Console.Clear();
             Response response = new Response();
             Console.WriteLine("Please Enter The New Customer Name or Press Enter to skip");
             string userInput = Console.ReadLine();
@@ -279,22 +280,67 @@ namespace FlooringMastery.Workflows
 
         public void GetProductTypeFromUser()
         {
-            Response response = new Response();
-            Console.WriteLine("Please Enter The New ProductType or Press Enter to skip");
-            string userInput = Console.ReadLine();
-            response = Manager.ValidateProduct(userInput);
-            Console.WriteLine(response.Message);
-            Console.ReadLine();
+            while (true) 
+            {
+                Console.Clear();
+                Response response = new Response();
+                Console.WriteLine("Please Enter The New ProductType or Press Enter to skip");
+                string userInput = Console.ReadLine();
+                response = Manager.ValidateProduct(userInput);
+                if (!response.Success)
+                {
+                    Console.WriteLine(response.Message);
+                    Console.WriteLine("Press any key to continue");
+                    Console.ReadKey();
+                    continue;
+                }
+
+                else
+                {
+                    Console.WriteLine("Press any key to continue");
+                    Console.ReadKey();
+                    return;
+                }
+
+            }
+
+
+            
         }
 
         public void GetNewAreaFromUser()
         {
-            Response response = new Response();
-            Console.WriteLine("Please Enter The New Area or Press Enter to skip");
-            string userInput = Console.ReadLine();
-            response =  Manager.ValidateArea(userInput);
-            Console.WriteLine(response.Message);
-            Console.ReadLine();
+            
+            while(true)
+            {
+                Console.Clear();
+                Response response = new Response();
+                Console.WriteLine("Please Enter The New Area or Press Enter to skip");
+                string userInput = Console.ReadLine();
+                
+                
+                response = Manager.ValidateArea(userInput);
+
+                if (!response.Success)
+                {
+                    Console.WriteLine(response.Message);
+                    Console.WriteLine("Press any key to continue");
+                    Console.ReadKey();
+                    continue;
+                }
+
+                else
+                {
+                    Console.WriteLine("Press any key to continue");
+                    Console.ReadKey();
+                    return;
+                }
+
+
+               
+
+            }
+           
         }
 
 

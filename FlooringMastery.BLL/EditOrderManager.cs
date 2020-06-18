@@ -285,7 +285,7 @@ namespace FlooringMastery.BLL
                 response.Success = true;
                 OrderToEdit = _orderRepo.GetOrderFromList(OrderNumber);
                 response.Message = String.Format("The order you entered {0} has been located", OrderNumber);
-                Console.ReadLine();
+                //Console.ReadLine();
                 return response;
 
             }
@@ -478,6 +478,7 @@ namespace FlooringMastery.BLL
 
         public void DisplayOrderInformation()
         {
+            Console.Clear();
             Console.WriteLine("**************************************************************");
             Console.WriteLine("[{0}] [{1}]", OrderToEdit.OrderNumber, OrderToEdit.OrderDate.ToString("MM/dd/yyyy"));
             Console.WriteLine("[{0}]", OrderToEdit.CustomerName);
@@ -510,6 +511,7 @@ namespace FlooringMastery.BLL
         
         public bool ConfirmChanges()
         {
+            Console.Clear();
             Console.WriteLine("Summary of Edited Order");
 
             Console.WriteLine("**************************************************************");
@@ -525,7 +527,7 @@ namespace FlooringMastery.BLL
             Console.WriteLine();
             Console.ReadLine();
 
-            Console.WriteLine("Press \"Y\" to save these changes and \"N\" to return to the main menu");
+            Console.WriteLine("Press \"Y\" to save these changes or \"N\" to return to the main menu");
             string userInput = Console.ReadLine();
 
             return ValidateYesNo(userInput);
@@ -538,9 +540,9 @@ namespace FlooringMastery.BLL
 
             while (true)
             {
-                Console.Clear();
-                Console.WriteLine("press Y to confirm or N to return to main menu");
-                string YN = Console.ReadLine();
+                //Console.Clear();
+                //Console.WriteLine("press Y to confirm or N to return to main menu");
+                string YN = userInput;
                 if (YN != "Y" && YN != "y" && YN != "N" && YN != "n")
                 {
                     Console.WriteLine("Invalid entry: press any key to continue");
