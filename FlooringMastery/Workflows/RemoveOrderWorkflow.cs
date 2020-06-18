@@ -75,8 +75,7 @@ namespace FlooringMastery.Workflows
                 Console.WriteLine("Enter an OrderDate : ex \"5/26/2022\"");
                 //Console.WriteLine("Date must be after today: {0}, {1}",
 
-                //TODO: implement using UTC and converting to timeszone
-                //DateTime.Today.DayOfWeek, DateTime.Today.ToString("MM/dd/yyyy"));
+                
 
                 string userInput = Console.ReadLine();
 
@@ -129,7 +128,7 @@ namespace FlooringMastery.Workflows
 
                 else
                 {
-                    //Console.WriteLine(response.Message);
+                   
                     Console.WriteLine("Press any key to continue");
                     Console.ReadKey();
                   
@@ -171,7 +170,7 @@ namespace FlooringMastery.Workflows
 
                 else
                 {
-                    //Console.WriteLine(response.Message);
+                   
                     Console.WriteLine("Press Any Key To Continue");
                     Console.ReadKey();
                     return response.Success;
@@ -206,9 +205,7 @@ namespace FlooringMastery.Workflows
 
                 else
                 {
-                    //Console.WriteLine(response.Message);
-                    //Console.WriteLine("Press any key to continue");
-                    //Console.ReadKey();
+                  
                     Manager.DisplayOrderInformation();
                     Console.ReadLine();
                     return response.Success;

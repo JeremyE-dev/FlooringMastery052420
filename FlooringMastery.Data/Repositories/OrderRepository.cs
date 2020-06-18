@@ -26,7 +26,7 @@ namespace FlooringMastery.Data
 
         string _fileName;
 
-        //Note: be sure this is being set to proper date - may be an error since changes
+       
         public string FileName
         {
             get { return _fileName; }
@@ -75,7 +75,7 @@ namespace FlooringMastery.Data
             //SalesDayOrderList
             try
             {
-                string[] rows = File.ReadAllLines(_folderpath + FileName);
+                string[] rows = File.ReadAllLines(_folderpath + filename);
                 for (int i = 1; i < rows.Length; i++)
                 {
                     string[] columns = rows[i].Split(',');
@@ -108,30 +108,16 @@ namespace FlooringMastery.Data
                 Console.WriteLine(e.Message);
                 Console.WriteLine("Press Any Key to Exit");
                 Console.ReadKey();
-                System.Environment.Exit(0);
+                return;
+                //System.Environment.Exit(0);
 
             }
 
 
         }
 
-        //public  DateTime ConvertFileNameToDate(string filename)
-        //{
-        //    FileName = FileName;
+       
 
-        //    string s = filename.Remove(0, 7);
-        //    string[] stringArray = s.Split('.');
-        //    string date = stringArray[0];
-        //    string formattedDate = date.Substring(0, 2) + "/" + date.Substring(2, 2) + "/" + date.Substring(4);
-
-        //    OrderGroupDate = DateTime.Parse(formattedDate);
-
-
-        //    return OrderGroupDate;
-
-        //}
-
-     
 
         public void printOrders()
         {
@@ -249,7 +235,7 @@ namespace FlooringMastery.Data
         {
 
             string result = "Orders_" + d.ToString("MMddyyyy") + ".txt";
-            //Console.WriteLine("result");
+        
             return result;
         }
 
@@ -269,8 +255,7 @@ namespace FlooringMastery.Data
 
             else
             { //if the file does exists load the file to the order repository
-                ReadOrderByDate(filename); //this should load everything in that file to this list, 
-                                           //hopefully will resolve null issue 
+                ReadOrderByDate(filename); 
 
 
                 o.OrderNumber = SalesDayOrderList.MaxBy(x => x.OrderNumber).First().OrderNumber + 1;
@@ -294,7 +279,7 @@ namespace FlooringMastery.Data
             string path = FolderPath + fileName;
             Response response = new Response();
 
-            //string OrderAsString = newOrder.OrderToLineInFile();
+        
 
             if (!File.Exists(path))
             {
@@ -320,9 +305,7 @@ namespace FlooringMastery.Data
         }
 
         public void DisplayExistingFile()
-        {//Load the file
-            //ReadOrderByDate(FileName);
-            //print all orders in the file
+        {
             printOrders();
             Console.ReadLine();
         }
@@ -357,27 +340,63 @@ namespace FlooringMastery.Data
             return result;
         }
 
-
-
+        //removes and deletes if last one
         public void RemoveOldOrderFromList()
         {
-            //findit and remove
+            //if its the last one
+            //delete the file
+
+
             var orderToFind = SalesDayOrderList.Where(o => o.OrderNumber == OrderToEdit.OrderNumber).First();
             DateOfOrderToRemove = orderToFind.OrderDate;
-            SalesDayOrderList.Remove(orderToFind);
-            WriteListToFile(DateOfOrderToRemove);
-            //Console.WriteLine("Old data has been removed from list");
-            //Console.ReadKey();
+
+            if (SalesDayOrderList.Count() == 1)
+            {
+                string filename = ConvertDateToFileName(SalesDayOrderList[0].OrderDate);
+
+                string path = FolderPath + filename;
+                File.Delete(path);
+                return;
+
+
+            }
+
+
+            else
+            {
+                SalesDayOrderList.Remove(orderToFind);
+                WriteListToFile(DateOfOrderToRemove);
+            }
+
+
+
+
 
             return;
+        }
+
+
+        //Removed doews not delete
+        public void EditRemoveOldOrderFromList()
+        {
+           //if its the last one
+           //delete the file
+
+
+            var orderToFind = SalesDayOrderList.Where(o => o.OrderNumber == OrderToEdit.OrderNumber).First();
+            DateOfOrderToRemove = orderToFind.OrderDate;
+                     
+            SalesDayOrderList.Remove(orderToFind);
+            WriteListToFile(DateOfOrderToRemove);
+
+            
         }
 
         public void AddUpdatedOrderToList(Order updatedOrder)
         {
             SalesDayOrderList.Add(updatedOrder);
             WriteListToFile(updatedOrder.OrderDate);
-            //Console.WriteLine("New Data has been added to list");
-            //Console.ReadKey();
+          
 
             return;
         }
@@ -399,6 +418,9 @@ namespace FlooringMastery.Data
 
                 using (StreamWriter writer = new StreamWriter(path, false))
                 {
+
+                
+
                     writer.WriteLine("OrderNumber,CustomerName,State,TaxRate,ProductType,Area,CostPerSquareFoot,LaborCostPerSquareFoot,MaterialCost,LaborCost,Tax,Total");
 
                     foreach (var order in SalesDayOrderList)
@@ -406,6 +428,8 @@ namespace FlooringMastery.Data
                         OrderAsString = order.OrderToLineInFile();
                         writer.WriteLine(OrderAsString);
                     }
+
+                
 
                 }
             }

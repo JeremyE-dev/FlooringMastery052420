@@ -39,7 +39,7 @@ namespace FlooringMastery.BLL
 
 
 
-        //Returns if date was valid, if it is saces to orderdate field
+        //Returns if date was valid, if it is saves to orderdate field
         public Response ValidateDate(string userInput)
         {
             //add this to the order in order manager if successful

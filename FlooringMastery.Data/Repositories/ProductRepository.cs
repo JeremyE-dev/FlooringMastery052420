@@ -17,7 +17,7 @@ namespace FlooringMastery.Data
             set { _path = value; }
         }
 
-        //should this be public with privat ebacking field?
+      
         public List<Product> ProductList { get; set; } = new List<Product>();
 
         public ProductRepository()

@@ -14,11 +14,11 @@ namespace FlooringMastery.BLL
     public class EditOrderManager
     {
         IOrderRepository _orderRepo;
-        //public OrderRepository OrderRepo
-        //{
-        //    get { return _orderRepo; }
-        //    set { _orderRepo = value; }
-        //}
+        public IOrderRepository OrderRepo
+        {
+            get { return _orderRepo; }
+            set { _orderRepo = value; }
+        }
 
         Order _orderToEdit;
 
@@ -540,8 +540,7 @@ namespace FlooringMastery.BLL
 
             while (true)
             {
-                //Console.Clear();
-                //Console.WriteLine("press Y to confirm or N to return to main menu");
+      
                 string YN = userInput;
                 if (YN != "Y" && YN != "y" && YN != "N" && YN != "n")
                 {
@@ -566,14 +565,7 @@ namespace FlooringMastery.BLL
             }
         }
 
-        //MOVE TO OrderRepo
-        //public void DisplayExistingFile()
-        //{//1. Load the file
-        //    OrderRepo.ReadOrderByDate(FileName);
-        //    //print all orders in the file
-        //    OrderRepo.printOrders();
-        //    Console.ReadLine();
-        //}
+
 
         public void CalculateNewMaterialCost()
         {
@@ -649,9 +641,10 @@ namespace FlooringMastery.BLL
 
         public void UpdateDataSource()
         {
-            _orderRepo.RemoveOldOrderFromList();
+
+            _orderRepo.EditRemoveOldOrderFromList();
             _orderRepo.AddUpdatedOrderToList(UpdateOrder());
-           // _orderRepo.WriteListToFile(OrderDate);
+        
         }
 
 

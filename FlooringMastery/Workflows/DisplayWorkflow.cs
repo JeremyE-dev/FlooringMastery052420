@@ -11,12 +11,7 @@ namespace FlooringMastery.Workflows
 {
     class DisplayWorkflow
     {
-        //Query user for date
-        //load the orders.txt file for that date
-        // if the file does not exist
-        //// error message -- return to main menu
-        ///if it does exist, print all order information
-        ///
+      
         DisplayOrderManager _manager;
         public DisplayOrderManager Manager
 
@@ -28,7 +23,7 @@ namespace FlooringMastery.Workflows
 
         public DisplayWorkflow()
         {
-            //_manager = new DisplayOrderManager();
+       
 
             _manager = DIContainer.Kernel.Get<DisplayOrderManager>();
         }
@@ -72,7 +67,7 @@ namespace FlooringMastery.Workflows
                 // return the user input
                 else
                 {
-                    //Console.WriteLine(response.Message);
+                    
                     Console.WriteLine("Press any key to continue");
                   
                     Console.ReadKey();
@@ -86,7 +81,7 @@ namespace FlooringMastery.Workflows
             
         }
 
-        //Move to OrderRepository
+     
         public void ValidateAndDisplayOrders()
         {
             Response response = Manager.CheckIfOrderExists();

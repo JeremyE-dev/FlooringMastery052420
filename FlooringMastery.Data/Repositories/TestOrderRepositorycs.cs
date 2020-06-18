@@ -61,7 +61,7 @@ namespace FlooringMastery.Data.Repositories
 
             _salesDayOrderList.Add(order1);
 
-            //Menu.TestData.Add(order1);
+           
 
 
 
@@ -72,7 +72,7 @@ namespace FlooringMastery.Data.Repositories
         public void printOrders()
             {
                 foreach (var item in _salesDayOrderList)
-                //foreach (var item in TestData.DataSource)
+               
                 {
                     Console.WriteLine("**************************************************************");
                     Console.WriteLine("[{0}] [{1}]", item.OrderNumber, item.OrderDate.ToString("MM/dd/yyyy"));
@@ -145,7 +145,7 @@ namespace FlooringMastery.Data.Repositories
         public void SaveAddedOrder(Order o)
             {
             SalesDayOrderList.Add(o);
-            //TestData.DataSource.Add(o);
+          
             }
 
 
@@ -154,9 +154,9 @@ namespace FlooringMastery.Data.Repositories
         public Response CheckIfOrderGroupExists(DateTime d) //also used in edit functions
         {
             Response response = new Response();
-            //var CheckOrderDates = TestData.DataSource.Where(x => x.OrderDate == d);
+           
             var CheckOrderDates = SalesDayOrderList.Where(x => x.OrderDate == d);
-            //string OrderAsString = newOrder.OrderToLineInFile();
+           
 
             if (!CheckOrderDates.Any())
             {
@@ -169,7 +169,7 @@ namespace FlooringMastery.Data.Repositories
             {
 
                 response.Success = true;
-                //FileName = fileName;
+                
                 response.Message = String.Format("An order file for {0} has been found", d.ToString("MM/dd/yyyy"));
 
             }
@@ -218,6 +218,23 @@ namespace FlooringMastery.Data.Repositories
             return result;
         }
 
+        //REFACTOR TO
+
+        //This One: edits, but does not delete file 
+        public void EditRemoveOldOrderFromList()
+        {
+            //if its the last one
+            //delete the file
+
+
+            var orderToFind = SalesDayOrderList.Where(o => o.OrderNumber == OrderToEdit.OrderNumber).First();
+            //DateOfOrderToRemove = orderToFind.OrderDate;
+
+            SalesDayOrderList.Remove(orderToFind);
+            //WriteListToFile(DateOfOrderToRemove);
+
+
+        }
 
 
         public void RemoveOldOrderFromList()
@@ -225,8 +242,7 @@ namespace FlooringMastery.Data.Repositories
             //findit and remove
             var orderToFind = SalesDayOrderList.Where(o => o.OrderNumber == OrderToEdit.OrderNumber).First();
             SalesDayOrderList.Remove(orderToFind);
-            Console.WriteLine("Old data has been removed from list");
-            Console.ReadKey();
+         
 
             return;
         }
@@ -235,8 +251,7 @@ namespace FlooringMastery.Data.Repositories
         {
             SalesDayOrderList.Add(updatedOrder);
 
-            Console.WriteLine("New Data has been added to list");
-            Console.ReadKey();
+       
 
             return;
         }

@@ -202,11 +202,7 @@ namespace FlooringMastery.BLL
                 productFromUser = ProductRepo.ProductList.Find(p => p.ProductType == userInput);
                 response.Message = String.Format("The product {0} has been found in the file", userInput);
 
-                //sets the order product name to the order Product field
-                //does this before asking user to confirm, so if user says no, the product they said no to will 
-                //be in that6 order field until it is replaced by the new order
-                // if user says no ( i.e. they want a different product) 
-                //the product will be set to the next product after the method is called again
+               
                 newOrder.ProductType = productFromUser.ProductType;
                 newOrder.Product = productFromUser; //stores product in Order Manger to use 
                 
@@ -223,8 +219,7 @@ namespace FlooringMastery.BLL
         //returns true if customer wants product, false otherwise
         public bool ConfirmProduct()
         {
-            //Console.WriteLine("Please confirm {0} as your product (Y/N)", newOrder.ProductType);
-            //Console.ReadLine();
+           
             if(ValidateYesNo(String.Format("Enter Y to confirm  product: {0} or N to choose different product", newOrder.ProductType)))
             {
                 return true;
@@ -309,7 +304,7 @@ namespace FlooringMastery.BLL
 
 
             
-        //Area * CostPerSquareFoot
+        
         public void CalculateMaterialCost() 
         {
             decimal result;
@@ -319,7 +314,7 @@ namespace FlooringMastery.BLL
 
         }
         
-        //Area * LaborCostPerSquareFoot
+        
         public void CalculateLaborCost() 
         {
             decimal result;
@@ -361,22 +356,8 @@ namespace FlooringMastery.BLL
 
         }
         
-        //MOVE TO ORDER REPO -- I dont think this is used - 
-        //function completed by Calculate OrderNumber
-        //public void setOrderNumber()
-        //{
-        //    //finds the order with the highest order number
-            
-        //    int newOrderNumber = 
-        //    OrderRepo.SalesDayOrderList.OrderByDescending(i => i.OrderNumber).Max().OrderNumber + 1;
-        //    newOrder.OrderNumber = newOrderNumber;
-
-
-        //    // thoughts: the order repo for this order
-        //    //find the highest order number
-        //    // add 1 to it
-
-        //}
+ 
+        
 
 
         public void DisplayOrderInformation()
@@ -408,7 +389,7 @@ namespace FlooringMastery.BLL
         {
             if (ValidateYesNo("Press Y to confirm Your order or N to cancel"))
             {
-                //write order to file
+                
                 Console.WriteLine("Your order has been confirmed, press any key to continue to main menu");
                 
                 Console.ReadKey();

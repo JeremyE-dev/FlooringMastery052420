@@ -16,11 +16,11 @@ namespace FlooringMastery.BLL
 
 
         IOrderRepository _orderRepo;
-        //public OrderRepository OrderRepo
-        //{
-        //    get { return _orderRepo; }
-        //    set { _orderRepo = value; }
-        //}
+        public IOrderRepository OrderRepo
+        {
+            get { return _orderRepo; }
+            set { _orderRepo = value; }
+        }
 
         Order _orderToEdit;
 
@@ -60,7 +60,7 @@ namespace FlooringMastery.BLL
          
 
         }
-        //Returns of date was valid, if it is saces to orderdate field
+        //Returns of date was valid, if it is saves to orderdate field
         
         public Response ValidateDate(string userInput)
         {
@@ -171,8 +171,7 @@ namespace FlooringMastery.BLL
             Console.WriteLine("Tax : [{0:c}]", OrderToEdit.Tax);
             Console.WriteLine("Total : [{0:c}]", OrderToEdit.Total);
             Console.WriteLine("**************************************************************");
-            //Console.WriteLine();
-            //Console.ReadLine();
+         
         }
 
      
@@ -194,7 +193,7 @@ namespace FlooringMastery.BLL
             while (true)
             {
                 Console.Clear();
-                //Console.WriteLine("press Y to confirm or N to return to main menu");
+              
                 string YN = userInput;
                 if (YN != "Y" && YN != "y" && YN != "N" && YN != "n")
                 {

@@ -8,8 +8,7 @@ using FlooringMastery.Workflows;
 
 namespace FlooringMastery
 {
-    public class 
-    Menu
+    public class Menu
     {
       
 
@@ -40,9 +39,7 @@ namespace FlooringMastery
 
                
 
-               //put a static list here
-               // List<Order> StaticOrderList
-               // within TestOrder - always save and read from that list
+           
 
                 switch (userinput)
                 {

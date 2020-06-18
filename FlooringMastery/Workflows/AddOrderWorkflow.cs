@@ -174,13 +174,7 @@ namespace FlooringMastery.Workflows
   
         }
 
-        //TODO - -
-        ////if a product is added to the file it should show up in the application without a code change
-        /// --I beleive that you this information shoudl be read from the file
-        // productType - must enter a product type that is on file
-        
-            
-            // will need to test that this does not return a Null product object
+       
         public void GetProductFromUser()
         {
 
