@@ -1,2 +1,0 @@
-OrderNumber,CustomerName,State,TaxRate,ProductType,Area,CostPerSquareFoot,LaborCostPerSquareFoot,MaterialCost,LaborCost,Tax,Total
-1,yyz,OH,6.25,Tile,300,3.50,3.50,1050.00,1245.00,143.437500,2438.437500

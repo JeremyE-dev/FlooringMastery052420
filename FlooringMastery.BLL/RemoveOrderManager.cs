@@ -177,46 +177,100 @@ namespace FlooringMastery.BLL
      
         public bool ConfirmChanges()
         {
-     
-
-            Console.WriteLine("Press \"Y\" to Remove the order and \"N\" to return to the main menu");
-            string userInput = Console.ReadLine();
-
-            return ValidateYesNo(userInput);
 
 
-        }
+            //Console.WriteLine("Press \"Y\" to Remove the order and \"N\" to return to the main menu");
+            //string userInput = Console.ReadLine();
 
-        public static bool ValidateYesNo(string userInput)
-        {
+            //return ValidateYesNo(userInput);
 
-            while (true)
+
+            if (ValidateYesNo("Press Y to remove your order or N to cancel"))
             {
-                Console.Clear();
-              
-                string YN = userInput;
-                if (YN != "Y" && YN != "y" && YN != "N" && YN != "n")
-                {
-                    Console.WriteLine("Invalid entry: press any key to continue");
-                    Console.ReadKey();
 
-                    continue;
-                }
+                //Console.WriteLine("Your order has been removed, press any key to continue to main menu");
 
-                if (YN == "y" || YN == "Y")
-                {
-                    return true;
-                }
+                //Console.ReadKey();
+                return true;
+            }
 
-                else if (YN == "n" || YN == "N")
-                {
-                    return false;
-                }
-
-
-
+            else
+            {
+                //Console.WriteLine("Your order will NOT be removed, press any key to return to main menu");
+                //Console.ReadKey();
+                return false;
             }
         }
+
+
+    
+    public static bool ValidateYesNo(string message)
+    {
+
+        while (true)
+        {
+            Console.Clear();
+            Console.WriteLine(message);
+            string YN = Console.ReadLine();
+            if (YN != "Y" && YN != "y" && YN != "N" && YN != "n")
+            {
+                Console.WriteLine("Invalid entry: press any key to continue");
+                Console.ReadKey();
+
+                continue;
+            }
+
+            if (YN == "y" || YN == "Y")
+            {
+                return true;
+            }
+
+            else if (YN == "n" || YN == "N")
+            {
+                return false;
+            }
+
+
+
+        }
+    }
+
+
+    //public static bool ValidateYesNo(string userInput)
+    //{
+
+    //while (true)
+    //{
+    //    //Console.Clear();
+
+    //    string YN = userInput;
+    //    if (YN != "Y" && YN != "y" && YN != "N" && YN != "n")
+    //    {
+    //        Console.WriteLine("Invalid entry: press any key to continue");
+    //        Console.ReadKey();
+
+    //        continue;
+    //    }
+
+    //    if (YN == "y" || YN == "Y")
+    //    {
+    //        return true;
+    //    }
+
+    //    else if (YN == "n" || YN == "N")
+    //    {
+    //        return false;
+    //    }
+
+
+
+   
+
+
+
+
+
+
 
 
    
