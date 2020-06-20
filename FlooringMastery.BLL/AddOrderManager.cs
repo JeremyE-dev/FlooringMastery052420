@@ -22,8 +22,13 @@ namespace FlooringMastery.BLL
 
         
 
-        private Order newOrder = new Order();
+        private Order _newOrder = new Order();
 
+        public Order NewOrder
+        {
+            get { return _newOrder; }
+            set { _newOrder = value; }
+        }
 
         Product _product;
 
@@ -85,9 +90,10 @@ namespace FlooringMastery.BLL
                 if((userDate < DateTime.Today))
                 {
                     response.Success = false;
-                    response.Message = string.Format("Error: Date must be in the future \n" +
-                        "Todays Date is: { 0} The Date Entered is: { 1}" 
-                        , DateTime.Today.Date.ToString("MM / dd / yyyy"),  userDate.ToString("MM / dd / yyyy"));
+                    response.Message = "Error: Date must be in the future";
+                    //response.Message = string.Format("Error: Date must be in the future \n" +
+                    //    "Todays Date is: { 0} The Date Entered is: { 1}" 
+                    //    , DateTime.Today.Date.ToString("MM / dd / yyyy"),  userDate.ToString("MM / dd / yyyy"));
                     return response;
                 }
 
@@ -95,7 +101,7 @@ namespace FlooringMastery.BLL
                 {
                     response.Success = true;
                     response.Message = "Date input was in correct fromat and in the future";
-                    newOrder.OrderDate = userDate; //stores userDate (in datetime format) in the new order field
+                    _newOrder.OrderDate = userDate; //stores userDate (in datetime format) in the new order field
                    
                 }
             }
@@ -120,7 +126,7 @@ namespace FlooringMastery.BLL
             else
             {
                 response.Success = true;
-                newOrder.CustomerName = userInput;
+                _newOrder.CustomerName = userInput;
                 response.Message = String.Format("Customer Name: \"{0}\"  was added to the order", userInput);
             }
 
@@ -161,7 +167,7 @@ namespace FlooringMastery.BLL
                 else
                 {
                     response.Success = true;
-                    newOrder.State = state;
+                    _newOrder.State = state;
                     response.Message = String.Format("State \"{0}\" was sucessfully added to order", stateString);
                 }
 
@@ -203,8 +209,8 @@ namespace FlooringMastery.BLL
                 response.Message = String.Format("The product {0} has been found in the file", userInput);
 
                
-                newOrder.ProductType = productFromUser.ProductType;
-                newOrder.Product = productFromUser; //stores product in Order Manger to use 
+                _newOrder.ProductType = productFromUser.ProductType;
+                _newOrder.Product = productFromUser; //stores product in Order Manger to use 
                 
 
             }
@@ -219,8 +225,8 @@ namespace FlooringMastery.BLL
         //returns true if customer wants product, false otherwise
         public bool ConfirmProduct()
         {
-           
-            if(ValidateYesNo(String.Format("Enter Y to confirm  product: {0} or N to choose different product", newOrder.ProductType)))
+            if (ValidateYesNo(String.Format("Enter Y to confirm  product: {0} or N to choose different product", _newOrder.ProductType)))
+                //if (ValidateYesNo("Enter Y to confirm  product: {0} or N to choose different product"))
             {
                 return true;
             }
@@ -232,8 +238,8 @@ namespace FlooringMastery.BLL
             
 
         }
-
-        public static bool ValidateYesNo(string message)
+       
+        public /*static*/ bool ValidateYesNo(string message)
         {
 
             while (true)
@@ -241,6 +247,8 @@ namespace FlooringMastery.BLL
                 Console.Clear();
                 Console.WriteLine(message);
                 string YN = Console.ReadLine();
+
+                
                 if (YN != "Y" && YN != "y" && YN != "N" && YN != "n")
                 {
                     Console.WriteLine("Invalid entry: press any key to continue");
@@ -263,6 +271,41 @@ namespace FlooringMastery.BLL
 
             }
         }
+
+        //METHOD FOR TESTING ONLY -
+        //public /*static*/ bool ValidateYesNo(string message,string input)
+        //{
+
+        //    while (true)
+        //    {
+        //        Console.Clear();
+        //        Console.WriteLine(message);
+        //        string YN = input;
+
+
+        //        if (YN != "Y" && YN != "y" && YN != "N" && YN != "n")
+        //        {
+        //            Console.WriteLine("Invalid entry: press any key to continue");
+        //            Console.ReadKey();
+
+        //            continue;
+        //        }
+
+        //        if (YN == "y" || YN == "Y")
+        //        {
+        //            return true;
+        //        }
+
+        //        else if (YN == "n" || YN == "N")
+        //        {
+        //            return false;
+        //        }
+
+
+
+        //    }
+        //}
+
 
         public Response ValidateArea(string userInput)
         {
@@ -292,8 +335,8 @@ namespace FlooringMastery.BLL
                 else
                 {
                     response.Success = true;
-                    newOrder.Area = output;
-                    response.Message = String.Format("The flooring area: {0} has been added to your order", newOrder.Area);
+                    _newOrder.Area = output;
+                    response.Message = String.Format("The flooring area: {0} has been added to your order", _newOrder.Area);
                 }
 
             }  
@@ -308,9 +351,9 @@ namespace FlooringMastery.BLL
         public void CalculateMaterialCost() 
         {
             decimal result;
-            result = newOrder.Area * newOrder.Product.CostPerSquareFoot;
-            newOrder.MaterialCost = result;
-            newOrder.CostPerSquareFoot = newOrder.Product.CostPerSquareFoot;
+            result = _newOrder.Area * _newOrder.Product.CostPerSquareFoot;
+            _newOrder.MaterialCost = result;
+            _newOrder.CostPerSquareFoot = _newOrder.Product.CostPerSquareFoot;
 
         }
         
@@ -318,27 +361,27 @@ namespace FlooringMastery.BLL
         public void CalculateLaborCost() 
         {
             decimal result;
-            result = newOrder.Area * newOrder.Product.LaborCostPerSquareFoot;
-            newOrder.LaborCost = result;
-            newOrder.LaborCostPerSquareFoot = newOrder.Product.LaborCostPerSquareFoot;
+            result = _newOrder.Area * _newOrder.Product.LaborCostPerSquareFoot;
+            _newOrder.LaborCost = result;
+            _newOrder.LaborCostPerSquareFoot = _newOrder.Product.LaborCostPerSquareFoot;
         }
         public void CalculateTaxRate() 
         {
             decimal result;
-            string state = newOrder.State.ToString();
+            string state = _newOrder.State.ToString();
             TaxRate rate = TaxRateRepo.TaxRateList.Find(x => x.StateAbbreviation.Contains(state));
             result = rate.Rate;
-            newOrder.TaxRate = result;
+            _newOrder.TaxRate = result;
         }
         public void CalculateTax() 
         { 
-            decimal result = (newOrder.MaterialCost + newOrder.LaborCost) * (newOrder.TaxRate / 100);
-            newOrder.Tax = result;
+            decimal result = (_newOrder.MaterialCost + _newOrder.LaborCost) * (_newOrder.TaxRate / 100);
+            _newOrder.Tax = result;
         }
         public void CalculateTotal() 
         {
-            decimal result = newOrder.MaterialCost + newOrder.LaborCost + newOrder.Tax;
-            newOrder.Total = result;
+            decimal result = _newOrder.MaterialCost + _newOrder.LaborCost + _newOrder.Tax;
+            _newOrder.Total = result;
         }
 
         // once calculation are completed
@@ -350,7 +393,7 @@ namespace FlooringMastery.BLL
         public void GenerateOrderNumber()
         {
 
-            newOrder.OrderNumber = _orderRepo.CalculateOrderNumber(newOrder);
+            _newOrder.OrderNumber = _orderRepo.CalculateOrderNumber(_newOrder);
             
          
 
@@ -368,14 +411,14 @@ namespace FlooringMastery.BLL
           
 
             Console.WriteLine("**************************************************************");
-            Console.WriteLine("[{0}] [{1}]", newOrder.OrderNumber, newOrder.OrderDate.ToString("MM/dd/yyyy"));
-            Console.WriteLine("[{0}]", newOrder.CustomerName);
-            Console.WriteLine("[{0}]", newOrder.State);
-            Console.WriteLine("Product : [{0}]", newOrder.ProductType);
-            Console.WriteLine("Materials : [{0:c}]", newOrder.MaterialCost);
-            Console.WriteLine("Labor : [{0:c}]", newOrder.LaborCost);
-            Console.WriteLine("Tax : [{0:c}]", newOrder.Tax);
-            Console.WriteLine("Total : [{0:c}]", newOrder.Total);
+            Console.WriteLine("[{0}] [{1}]", _newOrder.OrderNumber, _newOrder.OrderDate.ToString("MM/dd/yyyy"));
+            Console.WriteLine("[{0}]", _newOrder.CustomerName);
+            Console.WriteLine("[{0}]", _newOrder.State);
+            Console.WriteLine("Product : [{0}]", _newOrder.ProductType);
+            Console.WriteLine("Materials : [{0:c}]", _newOrder.MaterialCost);
+            Console.WriteLine("Labor : [{0:c}]", _newOrder.LaborCost);
+            Console.WriteLine("Tax : [{0:c}]", _newOrder.Tax);
+            Console.WriteLine("Total : [{0:c}]", _newOrder.Total);
             Console.WriteLine("**************************************************************");
             Console.WriteLine();
             Console.ReadLine();
@@ -406,7 +449,7 @@ namespace FlooringMastery.BLL
 
         public void Save()
         {
-            _orderRepo.SaveAddedOrder(newOrder);
+            _orderRepo.SaveAddedOrder(_newOrder);
         }
 
         
