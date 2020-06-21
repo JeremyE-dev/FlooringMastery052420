@@ -152,7 +152,7 @@ namespace FlooringMastery.Tests
             Assert.AreEqual(AddManager.NewOrder.Product.ProductType, product);
         }
 
-        //ConfirmProduct
+        //ConfirmProduct - Skip For Now
         //[Test]
         //[TestCase("Y", true)]
         //[TestCase("N", false)]
@@ -169,8 +169,98 @@ namespace FlooringMastery.Tests
         //ValidateYesNo - SKIP For Now
         //ValidateArea
 
+        [TestCase("100", false)]
+        [TestCase("110",  true)]
+        [TestCase("one", false)]
+        [TestCase("", false)]
+
+        [TestCase("150", true)]
+        [TestCase("200", true)]
+        [TestCase("300", true)]
+        [TestCase("400", true)]
+
+
+
+        public void InValidateAreaResponseIsAccurate(string input, bool expected)
+        {
+            Response response = new Response();
+            OrderRepository OrderRepo = new OrderRepository();
+            BLL.AddOrderManager AddManager = new AddOrderManager(OrderRepo);
+            bool actual = AddManager.ValidateArea(input).Success;
+
+            Assert.AreEqual(expected, actual);     
+
+        }
+
+        [TestCase("150")]
+        [TestCase("200")]
+        [TestCase("300")]
+        [TestCase("400")]
+        public void OrderAreaIsCorrect(string input)
+        {
+            Response response = new Response();
+            OrderRepository OrderRepo = new OrderRepository();
+            BLL.AddOrderManager AddManager = new AddOrderManager(OrderRepo);
+           
+
+            AddManager.ValidateArea(input);
+            Decimal actual = AddManager.NewOrder.Area;
+            decimal expected = Decimal.Parse(input);
+
+            Assert.AreEqual(expected, actual);
+        }
+
+
         //CalculateMaterialCost
+        [TestCase("Carpet", "200", 450)]
+        [TestCase("Laminate", "200", 350)]
+        [TestCase("Tile", "200", 700)]
+        [TestCase("Wood", "200", 1030)]
+
+        public void MaterialCostCalculatesCorrectly(string product, string area, decimal expectedMaterialCost)
+        {   //area always 200
+            //CarpetMaterial Cost = 200 * 2.25 = 450
+            //Laminate Material Cost = 200 * 1.75 = 350
+            //Tile Material Cost = 200 *3.5 = 700
+            //Wood Material Cost = 200 * 5.15 = 1030
+            
+            OrderRepository OrderRepo = new OrderRepository();
+            BLL.AddOrderManager AddManager = new AddOrderManager(OrderRepo);
+            
+            AddManager.ValidateProduct(product);
+            AddManager.ValidateArea(area);
+            AddManager.CalculateMaterialCost();
+            decimal actual = AddManager.NewOrder.MaterialCost;
+            Assert.AreEqual(expectedMaterialCost, actual);
+
+        }
+
+
         //CalculateLaborCost
+        [TestCase("Carpet", "200", 420)]
+        [TestCase("Laminate", "200", 420)]
+        [TestCase("Tile", "200", 830)]
+        [TestCase("Wood", "200", 950)]
+
+        public void LaborCostCalculatesCorrectly(string product, string area, decimal expectedLaborCost)
+        {   //area always 200
+            //CarpetLabor Cost = 200 * 2.10 = 420
+            //Laminate Labor Cost = 200 * 2.10 = 420
+            //Tile Labor Cost = 200 *4.15 = 830
+            //Wood Labor Cost = 200 * 4.75 = 950
+
+            OrderRepository OrderRepo = new OrderRepository();
+            BLL.AddOrderManager AddManager = new AddOrderManager(OrderRepo);
+
+            AddManager.ValidateProduct(product);
+            AddManager.ValidateArea(area);
+            AddManager.CalculateLaborCost();
+            decimal actual = AddManager.NewOrder.LaborCost;
+            Assert.AreEqual(expectedLaborCost, actual);
+
+        }
+
+
         //CalculateTaxRate
         //CalculateTax
         //CalculateTotal

@@ -317,7 +317,7 @@ namespace FlooringMastery.BLL
             {
 
                 response.Success = false;
-                response.Message="Invalid Entry: Area must be a decimal";
+                response.Message="Invalid Entry: Area must be a number and not blank";
                 return response;
 
             }
