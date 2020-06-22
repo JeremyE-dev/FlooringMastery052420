@@ -48,7 +48,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AddOrderManagerTests.cs" />
+    <Compile Include="DisplayOrderManagerTests.cs" />
+    <Compile Include="EditOrderManagerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RemoveOrderManagerTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

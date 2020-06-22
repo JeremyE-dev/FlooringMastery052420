@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using FlooringMastery.BLL;
 using FlooringMastery.Data;
+using FlooringMastery.Models;
 using FlooringMastery.Models.Responses;
 using NUnit.Framework;
 
@@ -152,22 +153,7 @@ namespace FlooringMastery.Tests
             Assert.AreEqual(AddManager.NewOrder.Product.ProductType, product);
         }
 
-        //ConfirmProduct - Skip For Now
-        //[Test]
-        //[TestCase("Y", true)]
-        //[TestCase("N", false)]
-        //public void ValidateYesNoReturnsCorrectResponse(string YN, bool expected)
-        //{
-        //    OrderRepository OrderRepo = new OrderRepository();
-        //    BLL.AddOrderManager AddManager = new AddOrderManager(OrderRepo);
-
-
-        //    bool actual = AddManager.ValidateYesNo("message", YN);
-        //    Assert.AreEqual(expected, actual);
-
-        //}
-        //ValidateYesNo - SKIP For Now
-        //ValidateArea
+  
 
         [TestCase("100", false)]
         [TestCase("110",  true)]
@@ -178,8 +164,6 @@ namespace FlooringMastery.Tests
         [TestCase("200", true)]
         [TestCase("300", true)]
         [TestCase("400", true)]
-
-
 
         public void InValidateAreaResponseIsAccurate(string input, bool expected)
         {
@@ -235,7 +219,6 @@ namespace FlooringMastery.Tests
 
         }
 
-
         //CalculateLaborCost
         [TestCase("Carpet", "200", 420)]
         [TestCase("Laminate", "200", 420)]
@@ -262,12 +245,51 @@ namespace FlooringMastery.Tests
 
 
         //CalculateTaxRate
+        [TestCase("OH", 6.25)]
+        [TestCase("PA", 6.75)]
+        [TestCase("MI", 5.75)]
+        [TestCase("IN", 6.00)]
+        public void TaxRateAndStatMatch(string state, decimal taxrate)
+        {
+            OrderRepository OrderRepo = new OrderRepository();
+            BLL.AddOrderManager AddManager = new AddOrderManager(OrderRepo);
+            AddManager.ValidateState(state);
+            AddManager.CalculateTaxRate();
+
+            Assert.AreEqual(AddManager.NewOrder.TaxRate, taxrate);
+        }
         //CalculateTax
         //CalculateTotal
-        //GenerateOrderNumber
-        //DisplayOrderInformation
-        //ConfirmOrder
-        //Save
+        [TestCase("OH", "Carpet", "200", 54.375, 924.375)]
+        [TestCase("PA", "Carpet", "200", 58.725, 928.725)]
+        [TestCase("MI", "Carpet", "200", 50.025, 920.025)]
+        [TestCase("IN", "Carpet", "200", 52.200, 922.2)]
+        //add test cases fro the other three products
+
+        public void TaxAndTotalCalculatesCorrectly(string state, string product, string area, decimal expectedTax, decimal expectedTotal)
+        {//Calculate Tax:(_newOrder.MaterialCost + _newOrder.LaborCost) * (_newOrder.TaxRate / 100);
+         // state: OH, material:Carpet, Area: 200, materialcost: area * costsqrft, laborcost: area *labor cost/sqrfoot
+         //
+            OrderRepository OrderRepo = new OrderRepository();
+            BLL.AddOrderManager AddManager = new AddOrderManager(OrderRepo);
+            AddManager.ValidateState(state);
+            AddManager.ValidateProduct(product);
+            AddManager.ValidateArea(area);
+            AddManager.CalculateMaterialCost();
+            AddManager.CalculateLaborCost();
+            AddManager.CalculateTaxRate();
+            AddManager.CalculateTax();
+            AddManager.CalculateTotal();
+            Assert.AreEqual(AddManager.NewOrder.Tax, expectedTax);
+            Assert.AreEqual(AddManager.NewOrder.Total, expectedTotal);
+
+        }
+
+        
+        //GenerateOrderNumber - test in order repo
+        //DisplayOrderInformation - no need to test
+        //ConfirmOrder - test in orderrepo
+        //Save - test in order repo
 
 
 
