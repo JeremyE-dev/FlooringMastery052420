@@ -570,7 +570,7 @@ namespace FlooringMastery.BLL
         public void CalculateNewMaterialCost()
         {
             decimal result;
-            result = NewArea * NewProduct.CostPerSquareFoot;//updated in precious calculation
+            result = NewArea * NewProduct.CostPerSquareFoot;//updated in previous calculation
             NewCostPerSquareFoot = NewProduct.CostPerSquareFoot;
             NewMaterialCost = result;
             

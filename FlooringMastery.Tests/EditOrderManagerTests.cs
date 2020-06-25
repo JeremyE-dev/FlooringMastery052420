@@ -5,8 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using FlooringMastery.BLL;
 using FlooringMastery.Data;
+using FlooringMastery.Models;
 using FlooringMastery.Models.Responses;
 using NUnit.Framework;
+
 
 namespace FlooringMastery.Tests
 {
@@ -82,9 +84,87 @@ namespace FlooringMastery.Tests
 
         //ValidateState
         //*can be empty
-        //*updates if not null
+        [Test]
+        public void StateDoesNotChangeIfNull()
+        {
+            string input = "";
+            Response response = new Response();
+            OrderRepository OrderRepo = new OrderRepository();
+            EditOrderManager EditManager = new EditOrderManager(OrderRepo);
+            EditManager.OrderToEdit.State= States.OH;
+            response = EditManager.ValidateState(input);
+            Assert.AreEqual(response.Success, true);
+            Assert.AreEqual(EditManager.NewState, States.OH);
+
+        }
+
+
+        [Test]
+        public void StateUpdatesIfNotNull()
+        {
+            string input = "PA";
+            Response response = new Response();
+            OrderRepository OrderRepo = new OrderRepository();
+            EditOrderManager EditManager = new EditOrderManager(OrderRepo);
+            EditManager.OrderToEdit.State = States.OH;
+            response = EditManager.ValidateState(input);
+            Assert.AreEqual(response.Success, true);
+            Assert.AreEqual(EditManager.NewState, States.PA);
+
+        }
+
+
+
+
+
+      
 
         //ValidateProduct
+        //*can be empty
+        [Test]
+        public void ProductDoesNotChangeIfNull()
+        {
+            string input = "";
+            Response response = new Response();
+            OrderRepository OrderRepo = new OrderRepository();
+            EditOrderManager EditManager = new EditOrderManager(OrderRepo);
+            EditManager.OrderToEdit.Product = new Product();
+            EditManager.OrderToEdit.Product.ProductType = "Carpet";
+            EditManager.OrderToEdit.Product.CostPerSquareFoot = 2.25M;
+            EditManager.OrderToEdit.Product.LaborCostPerSquareFoot = 2.10M;
+            EditManager.OrderToEdit.ProductType = "Carpet";
+            response = EditManager.ValidateProduct(input);
+            Assert.AreEqual(response.Success, true);
+            Assert.AreEqual(EditManager.NewProduct.ProductType, "Carpet" );
+            Assert.AreEqual(EditManager.NewProduct.CostPerSquareFoot, 2.25M);
+            Assert.AreEqual(EditManager.NewProduct.LaborCostPerSquareFoot, 2.10M);
+            Assert.AreEqual(EditManager.NewProductType, "Carpet");
+
+        }
+
+        [Test]
+        public void ProductUpdatesIfNotNull()
+        {
+            string input = "Wood";
+            Response response = new Response();
+            OrderRepository OrderRepo = new OrderRepository();
+            EditOrderManager EditManager = new EditOrderManager(OrderRepo);
+            EditManager.OrderToEdit.Product = new Product();
+            EditManager.OrderToEdit.Product.ProductType = "Carpet";
+            EditManager.OrderToEdit.Product.CostPerSquareFoot = 2.25M;
+            EditManager.OrderToEdit.Product.LaborCostPerSquareFoot = 2.10M;
+            EditManager.OrderToEdit.ProductType = "Carpet";
+            response = EditManager.ValidateProduct(input);
+            Assert.AreEqual(response.Success, true);
+            Assert.AreEqual(EditManager.NewProduct.ProductType, "Wood");
+            Assert.AreEqual(EditManager.NewProduct.CostPerSquareFoot, 5.15M);
+            Assert.AreEqual(EditManager.NewProduct.LaborCostPerSquareFoot, 4.75M);
+            Assert.AreEqual(EditManager.NewProductType, "Wood");
+
+        }
+
+
+
         //*can be empty
         //*updates if not null
 
@@ -95,7 +175,7 @@ namespace FlooringMastery.Tests
         //DisplayOrderInformation - Test??
         //DisplayOrderEdits - Test??
 
-        
+
         //ValidateYesNo
         //CalculateNewMaterialCost
         //CalculateNewLaborCost
