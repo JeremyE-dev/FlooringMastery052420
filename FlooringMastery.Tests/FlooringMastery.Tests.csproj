@@ -51,6 +51,7 @@
     <Compile Include="AddOrderManagerTests.cs" />
     <Compile Include="DisplayOrderManagerTests.cs" />
     <Compile Include="EditOrderManagerTests.cs" />
+    <Compile Include="OrderRepositoryTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RemoveOrderManagerTests.cs" />
   </ItemGroup>

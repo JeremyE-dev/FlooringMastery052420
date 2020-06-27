@@ -296,9 +296,9 @@ namespace FlooringMastery.Tests
             OrderRepository OrderRepo = new OrderRepository();
             EditOrderManager EditManager = new EditOrderManager(OrderRepo);
             TaxRateRepository TaxRateRepo = new TaxRateRepository();
-            
 
-            
+
+
             //this will update the "new state" field after called
             EditManager.ValidateState(newState);
             EditManager.OrderToEdit.TaxRate = 1;
@@ -316,20 +316,58 @@ namespace FlooringMastery.Tests
         //Start Here 6/27/2020
         //CalculateNewTax
         //CalculateNewTotal
+        [TestCase("PA")]
+        [TestCase("MI")]
+        [TestCase("IN")]
+        [TestCase("OH")]
+
+        public static void TaxAndTotalUpdatesCorrectly(string testState)
+        {
+            OrderRepository OrderRepo = new OrderRepository();
+            EditOrderManager EditManager = new EditOrderManager(OrderRepo);
+            TaxRateRepository TaxRateRepo = new TaxRateRepository();
+
+            EditManager.OrderToEdit.Product = new Product();
+            EditManager.OrderToEdit.Product.ProductType = "Carpet";
+            EditManager.OrderToEdit.Product.CostPerSquareFoot = 2.25M;
+            EditManager.OrderToEdit.Product.LaborCostPerSquareFoot = 2.10M;
+            EditManager.OrderToEdit.Area = 200M;
+            EditManager.OrderToEdit.ProductType = "Carpet";
+            EditManager.OrderToEdit.State = States.OH;
+            EditManager.NewArea = 200M;
+            //sets new state
+            EditManager.ValidateState(testState);
+            //sets Taxrate
+            EditManager.CalculateNewTaxRate();
+            EditManager.ValidateProduct("");
+            EditManager.CalculateNewLaborCost();
+            EditManager.CalculateNewMaterialCost();
+            EditManager.CalculateNewTax();
+            TaxRate testRate = TaxRateRepo.TaxRateList.Find(x => x.StateAbbreviation.Contains(testState));
+            decimal rate = testRate.Rate;
+            decimal expectedTax = (EditManager.NewMaterialCost + EditManager.NewLaborCost) * (rate/100);
+
+            Assert.AreEqual(expectedTax, EditManager.NewTax);
+
+            EditManager.CalculateNewTotal();
+
+            decimal expectedTotal = EditManager.NewMaterialCost + EditManager.NewLaborCost + expectedTax;
+
+            Assert.AreEqual(expectedTotal, EditManager.NewTotal);
 
 
+            //what was the old tax, what is the new Tax
+
+        }
+
+
+
+        //**Did not Test Yet - saved for second Layer of Testing
         //ConvertDateToFileName
         //UpdateOrder
-
-
-
-
-
-
         //DisplayOrderInformation - Test??
         //DisplayOrderEdits - Test??
         //ValidateYesNo - Had issue - recvd erroe message
-
         //ConfirmChanges - Test in Repo
         //UpdateDataSource --Test in Order Repo
         //ValidateOrderNumber - Test in Order Repo
