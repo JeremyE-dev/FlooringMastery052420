@@ -58,7 +58,20 @@ namespace FlooringMastery.Data
             get { return _dateOfOrderToRemove; }
             set { _dateOfOrderToRemove = value; } 
         }
-        private void ReadOrderByDate(string filename)
+
+        //** method param is a filename that has previously been
+        //verified to exist in the file system.
+        //method extracts a date from file format "Orders_06132020.txt"
+        // and converts it to a useable format "06/13/2020"
+        //this allows a dateTime object to be parsed from the 
+        //string input and later saved to the OrderDate
+        //field in the target object
+
+        //will take the orders from the file
+        // create a local copy and add it to SalesDayOrderList
+
+        //changed to public for testing
+        public void ReadOrderByDate(string filename)
         {
             //ex: Orders_06132020.txt
 
@@ -71,7 +84,7 @@ namespace FlooringMastery.Data
             string formattedDate = date.Substring(0, 2) + "/" + date.Substring(2, 2) + "/" + date.Substring(4);
 
 
-            //this will read one file and add the order to the 
+            //this will read one file and add all orders in the file to the 
             //SalesDayOrderList
             try
             {
