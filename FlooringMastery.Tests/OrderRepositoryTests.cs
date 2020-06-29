@@ -133,8 +133,6 @@ namespace FlooringMastery.Tests
         }
 
 
-       
-        //CalculateOrderNumber
 
         //DisplayMethods
         //CheckIfOrderGroupExists

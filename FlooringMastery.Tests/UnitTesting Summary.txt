@@ -1,0 +1,30 @@
+Flooring Mastery Unit Testing Summary – Jeremy Eudaly - 6/29/2020
+
+--Current Code Coverage--
+The current code coverage percentage for this application is 45%, which is below the standard 80 – 100% which is recommended for real-world applications. 
+
+--Rationale--
+This assignment was my first experience applying the concept of code coverage and the first step was to identify and install a code coverage tool. Since I currently have the Community Edition of Visual Studio and the code coverage tool.  I was expecting to use is only included in the Enterprise edition, which I do not have access to due to cost. 
+After discussing the different tools with my program mentor and my own research I explored three different tools (codecov.io, OpenCover, and ReSharper). I chose ReSharper because it integrated most comprehensively with Visual Studio. Open Cover was available through Visual Studio, but appeared to run through scripts, which I have not learned about yet at this point in the program. Codecov.io ran via GitHub repositories versus directly. through Visual Studio.
+The code coverage for my Unit Tests began ay 26%, therefore I was able to improve that number. Now that I am familiar with this concept and I am able to easily see what is covered and what is not, I have a better sense as to what I would do to improve the coverage of my UnitTests in the future.
+
+--Steps to Improve Code Coverage--
+1.)	Have code coverage tool available at very beginning of development project:
+	a.	Simply having awareness of what is covered and what is not helped me to think differently about my code as well as software testing in 		general. I believe that if I would have had this tool at the beginning of this project, I would have a had a stronger code coverage and a 		testing plan at the start.
+
+2.)	Test Early and Often:
+	a.	When beginning this application, I focused on the design and application and implemented the testing last. I am still acclimating to unit 		testing in general, In the future I plan to at least test every method as I write it or shortly after I complete it. This program (Software 			Guild) 	does not require a time to unit test (i.e. first or last). After this experience, I would at least test  each method after I write 		it if not take a TDD approach.
+
+3.)	Review and Imlement Unit Test Best Practices (i.e. Arrange, Act,  Assert):
+	a.	Right now my tests are verifying output that I expect or a calculation returns what I think it should or the “Happy Path” In the future I 			intent to consider more robust testing including greater emphasis on boundary conditions, very large, small, or negative numbers (if 				applicable), as well as forcing error conditions (i.e. making sure an exception is thrown when an error condition is met). I will also 				continue to learn about common testing strategies to include testing for other occurrences not mentioned here.
+
+4.)	Implement Integration Testing:
+	a.	I am just learning about the difference between unit and integration testing, I intend to continue that learning and implement integration 			testing at my next opportunity (assignment or project).
+
+5.)	Improving test coverage for this project
+	a.	For this project to continue unit testing, I would focus on the data layer, specifically the TestOrderRepositoy and the OrderRepository. 			These repositories either read from a file or from an in-memory list, but implement an IOrderRepository interface. At minimum I would look 			more closely at the following methods because they are critical to the functioning of the program and they have the most statements within 			them that are not covered (within the repository):
+		i.	EditRemoveOldOrderFromList()
+		ii.	DoesOrderExistInList()
+		iii.	RemoveOldOrderFromList()
+		iv.	CheckIfOrderGroupExists(DateTime)
+		v.	WriteToFile(DateTime)
