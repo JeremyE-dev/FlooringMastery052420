@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using FlooringMastery.Data;
 using FlooringMastery.Models;
+using FlooringMastery.Models.Responses;
 using NUnit.Framework;
 using NUnit.Framework.Constraints;
 
@@ -133,6 +134,52 @@ namespace FlooringMastery.Tests
         }
 
 
+        [Test]
+        //DisplayMethods
+        //CheckIfOrderGroupExists
+
+        [TestCase("09 / 01 / 2022", false)]
+        [TestCase("09 / 01 / 2020", true)]
+        public void OrderGroupExistsReturnsExpectedBoolean(string testDate, bool expected)
+        {
+            DateTime date = DateTime.Parse(testDate);
+            OrderRepository OrderRepo = new OrderRepository();
+            Response response = OrderRepo.CheckIfOrderGroupExists(date);
+
+            bool actual = response.Success;
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        //ConvertStateToEnumTests - some staements skipped
+        //  //skipped some statements in this method in code coverage. Need to learn
+        //how to write test that deals with console input from user
+        //--see isNull or Empty and else statement
+
+
+        //DisplayExistingFile
+        [Test]
+        public void DoesOrderExistReturnsTrue()
+        {
+            OrderRepository OrderRepo = new OrderRepository();
+            OrderRepo.ReadOrderByDate("Orders_09012020.txt");
+
+            Assert.IsTrue(OrderRepo.DoesOrderExistInList(1));
+            Assert.IsTrue(OrderRepo.DoesOrderExistInList(2));
+        }
+
+        [Test]
+
+        public void DoesOrderExistReturnsFalse()
+        {
+            OrderRepository OrderRepo = new OrderRepository();
+            OrderRepo.ReadOrderByDate("Orders_09012020.txt");
+
+            Assert.IsFalse(OrderRepo.DoesOrderExistInList(3));
+            Assert.IsFalse(OrderRepo.DoesOrderExistInList(4));
+
+
+        }
 
         //DisplayMethods
         //CheckIfOrderGroupExists
